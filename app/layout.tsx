@@ -4,6 +4,7 @@ import './globals.css';
 import { Inter } from 'next/font/google';
 import Header from './components/Header'; 
 import styles from './styles/ButtonStyles.module.css'; 
+import OurServices from './components/OurServices';
 
 
 const inter = Inter({ subsets: ['latin'] });
@@ -53,6 +54,8 @@ export default function RootLayout({
   </div>
 </div>
         </section>
+        <OurServices />
+
 
      
 
