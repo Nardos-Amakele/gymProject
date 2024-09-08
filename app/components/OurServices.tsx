@@ -1,11 +1,14 @@
 import React from 'react';
 import ServiceCard from './ServiceCard';
+import Service1 from '../../assets/images/image 4.png'
+import Service2 from '../../assets/images/image 8.png'
+import Service3 from '../../assets/images/image 7.png'
 
 
 const services = [
-  { title: "Weight Lifting", description: "Train with the best equipment.", icon: "barbell" },
-  { title: "Aerobics", description: "Improve your cardio with our aerobic classes.", icon: "aerobics" },
-  { title: "Personal Training", description: "Get one-on-one training sessions.", icon: "trainer" },
+  { title: "Weight Lifting", description: "Train with the best equipment.", icon: "barbell", imageSrc: Service1 },
+  { title: "Aerobics", description: "Improve your cardio with our aerobic classes.", icon: "aerobics", imageSrc: Service2 },
+  { title: "Personal Training", description: "Get one-on-one training sessions.", icon: "trainer", imageSrc: Service3 },
 ];
 
 const OurServices = () => {
@@ -21,7 +24,7 @@ const OurServices = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <ServiceCard key={index} title={service.title} description={service.description} icon={service.icon} />
+            <ServiceCard key={index} title={service.title} description={service.description} icon={service.icon} imageSrc={service.imageSrc} />
           ))}
         </div>
       </div>
