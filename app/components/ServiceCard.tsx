@@ -11,7 +11,7 @@ type ServiceCardProps = {
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, imageSrc }) => {
   return (
-    <div className="relative bg-gray-800 p-6 rounded-lg shadow-lg h-96 flex flex-col justify-end transition-transform transform hover:scale-105 hover:border-2 hover:border-[#2596BE]">
+    <div className="relative bg-gray-800 p-6 rounded-lg shadow-lg h-96 flex flex-col justify-end transition-transform transform hover:scale-105 hover:border-2 hover:border-none">
       <div className="absolute inset-0 bg-black opacity-90 rounded-lg ">
         <Image  src={imageSrc} alt='title' layout='fill' objectFit='cover' className=" opacity-90 object-cover" />
       </div>

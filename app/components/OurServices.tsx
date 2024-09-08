@@ -1,6 +1,6 @@
 import React from 'react';
 import ServiceCard from './ServiceCard';
-import Service1 from '../../assets/images/image 4.png'
+import Service1 from '../../assets/images/service_image1.png'
 import Service2 from '../../assets/images/image 8.png'
 import Service3 from '../../assets/images/image 7.png'
 
