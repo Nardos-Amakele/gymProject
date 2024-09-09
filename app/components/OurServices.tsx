@@ -13,9 +13,9 @@ const services = [
 
 const OurServices = () => {
   return (
-    <section id="services" className="py-16 bg-black text-white px-[13rem]">
+    <section id="services" className="py-16 bg-black text-white px-[9rem] font-jost">
       <div className="container mx-auto">
-        <h2 className='text-xl font-bold text-[#2596BE] mb-4'>
+        <h2 className='text-2xl font-bold text-[#2596BE] mb-4'>
           Our Services
         </h2>
         <p className="text-sm text-gray-300 mb-12 max-w-sm">
