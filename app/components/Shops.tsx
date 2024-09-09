@@ -4,6 +4,7 @@ import shopItem2 from '../../assets/images/shop_item1.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
+
 const Shop = () => {
   return (
     <section className="bg-black text-white py-16 px-[9rem] font-jost" id="shop">
