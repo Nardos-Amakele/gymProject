@@ -7,6 +7,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        jost: ['Jost', 'sans-serif'],
+      },
       colors: {
         customBlue: '#2596BE', // Add your custom color here
       },
