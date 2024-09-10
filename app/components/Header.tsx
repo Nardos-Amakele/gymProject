@@ -2,6 +2,7 @@
 
 import React from 'react';
 import styles from '../styles/ButtonStyles.module.css'; 
+import Link from 'next/link';
 
 const Header: React.FC = () => {
   return (
@@ -34,7 +35,7 @@ const Header: React.FC = () => {
 </nav>
 
         <button className={styles.customButton}>
-          Sign up
+          <Link href="/pages">Sign up</Link>
         </button>
       </div>
     </header>
