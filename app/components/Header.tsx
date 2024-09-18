@@ -2,6 +2,7 @@
 
 import React from 'react';
 import styles from '../styles/ButtonStyles.module.css'; 
+import Link from 'next/link';
 
 const Header: React.FC = () => {
   return (
@@ -11,11 +12,11 @@ const Header: React.FC = () => {
         <nav>
   <ul className="flex sm:space-x-6 md:space-x-10 lg:space-x-14">
     <li className="cursor-pointer relative group">
-      Home
+    <Link href="/">Home</Link>
       <span className="absolute left-1/2 bottom-0 transform -translate-x-1/2 h-[2px] w-0 bg-[#2596BE] transition-all duration-300 group-hover:w-8"></span>
     </li>
     <li className="cursor-pointer relative group">
-      About Us
+      <Link href='/about'>About Us</Link>
       <span className="absolute left-1/2 bottom-0 transform -translate-x-1/2 h-[2px] w-0 bg-[#2596BE] transition-all duration-300 group-hover:w-8"></span>
     </li>
     <li className="cursor-pointer relative group">
