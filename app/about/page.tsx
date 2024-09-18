@@ -47,7 +47,7 @@ const AboutUsPage: React.FC = () => {
                 </section>
 
                 {/* Section 2 - Our Philosophy */}
-                <section className="flex flex-col md:flex-row items-center gap-10">
+                <section className="flex flex-col md:flex-row items-center gap-10 pt-40">
                     <div className="md:w-1/2 relative h-60">
                         <Image
                             src={aboutUsHero}
@@ -62,8 +62,9 @@ const AboutUsPage: React.FC = () => {
                     <div className="h-60 w-1 bg-[#2596BE] neon-glow mx-10"></div>
 
                     <div className="md:w-1/2 px-6">
-                        <div>
-                            
+                        <div className='relative'>
+                        <h2 className="text-[10rem] font-bold text-gray-800 tracking-tight">02</h2>
+                        <h2 className="text-3xl font-semibold mb-6 text-[#2596BE] absolute top-1/2 left-0 transform -translate-y-1/2 ">Our Philosophy</h2>
                         </div>
                         <p className="text-lg leading-relaxed text-gray-400">
                             At Robi Fitness, we believe in a holistic approach to health and wellness.
@@ -75,10 +76,12 @@ const AboutUsPage: React.FC = () => {
                 </section>
 
                 {/* Section 3 - Our Facilities & Trainers */}
-                <section className="flex flex-col md:flex-row items-center py-12 gap-10">
+                <section className="flex flex-col md:flex-row items-center py-40 gap-10">
                     <div className="md:w-1/2 px-6">
+                        <div className='relative'>
                         <h2 className="text-[10rem] font-bold text-gray-800 tracking-tight">03</h2>
-                        <h2 className="text-3xl font-semibold mb-6 text-[#2596BE]">Our Facilities & Trainers</h2>
+                        <h2 className="text-3xl font-semibold mb-6 text-[#2596BE] absolute top-1/2 left-0 transform -translate-y-1/2 ">Our Facilities & Trainers</h2>
+                        </div> 
                         <p className="text-lg leading-relaxed text-gray-400">
                             Robi Fitness is equipped with the latest fitness technology and an inspiring space designed for every fitness level.
                         </p>
