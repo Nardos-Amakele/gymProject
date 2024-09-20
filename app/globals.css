@@ -29,3 +29,22 @@ body {
 .neon-glow {
   box-shadow: 0 0 10px #2596BE, 0 0 20px #2596BE, 0 0 30px #2596BE;
 }
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%); 
+  }
+
+}
+
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+.pause-scroll {
+  animation-play-state: paused;
+}

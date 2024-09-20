@@ -1,40 +1,35 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import ServiceCard from './ServicesCards';
 import servicesHero from '../../assets/images/services_hero.jpg';
 
-const page = () => {
-  return (
-    <div className="bg-black text-white space-y-6">
-      {/* Hero Section */}
-      <div
-        className="relative w-full h-[80vh] bg-fixed bg-center bg-cover"
-        style={{
-          backgroundImage: `url(${servicesHero.src})`,
-          backgroundAttachment: 'fixed',
-        }}
-      >
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-          <h1 className="text-6xl font-bold text-white">Services</h1>
-        </div>
-      </div>
+const Page = () => {
+  const [activeTab, setActiveTab] = useState('Body Building');
 
-      <section className="px-[3rem]">
-        {/* Body Building Section */}
-        <section className="py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-[#2596BE] py-10">Body Building</h2>
-            <div className="flex flex-wrap gap-6 justify-center">
-              <ServiceCard
-                title="Monthly"
-                price="1,100 Birr"
-                benefits={[
-                  'Unlimited gym access with personalized bodybuilding coaching.',
-                  'Includes two 1:1 coaching sessions per week.',
-                  'Free access to one special bodybuilding event each month.',
-                ]}
-              />
-           
-              <ServiceCard
+  const tabs = ['Body Building', 'Exercise', 'Group Fitness', 'Personal Training'];
+  const descriptions: Record<string, string> = {
+    'Body Building': 'Achieve your fitness goals with our dedicated bodybuilding packages.',
+    'Exercise': 'Stay fit and energized with various exercise options for all levels.',
+    'Group Fitness': 'Join our group fitness classes for a fun and dynamic workout experience.',
+    'Personal Training': 'Get personalized attention with our 1-on-1 coaching and tailored plans.',
+  };
+
+  const renderCards = () => {
+    switch (activeTab) {
+      case 'Body Building':
+        return (
+          <>
+            <ServiceCard
+              title="Monthly"
+              price="1,100 Birr"
+              benefits={[
+                'Unlimited gym access with personalized bodybuilding coaching.',
+                'Includes two 1:1 coaching sessions per week.',
+                'Free access to one special bodybuilding event each month.',
+              ]}
+            />
+            <ServiceCard
                 title="6 Months"
                 price="6,000 Birr"
                 benefits={[
@@ -62,27 +57,21 @@ const page = () => {
                   'Exclusive discounts on supplements and apparel.',
                 ]}
               />
-            </div>
-          </div>
-        </section>
-
-        {/* Exercise Section */}
-        <section className="py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-[#2596BE] pb-10">Exercise</h2>
-            <div className="flex flex-wrap gap-6 justify-center">
-          
-       
-              <ServiceCard
-                title="20 Days (With Coupon)"
-                price="1,000 Birr"
-                benefits={[
-                  '20 days of gym and class access with optional fitness tracking.',
-                  'Eligible for a discount on future memberships.',
-                  'Access to one free group fitness class.',
-                ]}
-              />
-              <ServiceCard
+          </>
+        );
+      case 'Exercise':
+        return (
+          <>
+            <ServiceCard
+              title="20 Days (With Coupon)"
+              price="1,000 Birr"
+              benefits={[
+                '20 days of gym and class access with optional fitness tracking.',
+                'Eligible for a discount on future memberships.',
+                'Access to one free group fitness class.',
+              ]}
+            />
+            <ServiceCard
                 title="Monthly"
                 price="1,300 Birr"
                 benefits={[
@@ -119,26 +108,22 @@ const page = () => {
                   'Access to members-only events and special sessions.',
                 ]}
               />
-            </div>
-          </div>
-        </section>
-
-        {/* Group Fitness Section */}
-        <section className="py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-[#2596BE] pb-10">Group Fitness</h2>
-            <div className="flex flex-wrap gap-6 justify-center">
-              <ServiceCard
-                isPremium={true}
-                title="Group Fitness Only"
-                price="1,800 Birr"
-                benefits={[
-                  'Access to all group fitness classes, including yoga, Zumba, and pilates.',
-                  'Discounts on fitness gear and supplements.',
-                  'Weekly fitness tracking and optional dietary consultations.',
-                ]}
-              />
-              <ServiceCard
+          </>
+        );
+      case 'Group Fitness':
+        return (
+          <>
+            <ServiceCard
+              isPremium={true}
+              title="Group Fitness Only"
+              price="1,800 Birr"
+              benefits={[
+                'Access to all group fitness classes, including yoga, Zumba, and pilates.',
+                'Discounts on fitness gear and supplements.',
+                'Weekly fitness tracking and optional dietary consultations.',
+              ]}
+            />
+            <ServiceCard
                 title="Group Fitness + Exercise"
                 price="1,200 Birr"
                 benefits={[
@@ -147,24 +132,21 @@ const page = () => {
                   'Includes two special events per month.',
                 ]}
               />
-            </div>
-          </div>
-        </section>
 
-        {/* Personal Training Section */}
-        <section className="py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-bold text-[#2596BE] pb-10">Personal Training</h2>
-            <div className="flex flex-wrap gap-6 justify-center">
-              <ServiceCard
-                title="1-on-1 Coaching"
-                price="2,000 Birr / session"
-                benefits={[
-                  'Includes post-session progress analysis and fitness tracking.',
-                  'Custom workout plans and nutrition advice.',
-                ]}
-              />
-              <ServiceCard
+          </>
+        );
+      case 'Personal Training':
+        return (
+          <>
+            <ServiceCard
+              title="1-on-1 Coaching"
+              price="2,000 Birr / session"
+              benefits={[
+                'Includes post-session progress analysis and fitness tracking.',
+                'Custom workout plans and nutrition advice.',
+              ]}
+            />
+            <ServiceCard
                 isPremium={true}
                 title="Monthly Personal Training Package"
                 price="7,500 Birr / month"
@@ -173,12 +155,54 @@ const page = () => {
                   'Access to all fitness classes and gym equipment.',
                 ]}
               />
-            </div>
-          </div>
-        </section>
-      </section>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="bg-black text-white space-y-6">
+      {/* Hero Section */}
+      <div
+        className="relative w-full h-[80vh] bg-fixed bg-center bg-cover"
+        style={{
+          backgroundImage: `url(${servicesHero.src})`,
+          backgroundAttachment: 'fixed',
+        }}
+      >
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <h1 className="text-6xl font-bold text-white">Services</h1>
+        </div>
+      </div>
+
+      {/* Tab Section */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex justify-center space-x-4">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`px-4 py-2 font-bold ${
+                activeTab === tab ? 'text-[#2596BE]' : 'text-gray-400'
+              }`}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        {/* Description */}
+        <p className="text-center text-gray-400 mt-4">{descriptions[activeTab]}</p>
+
+        {/* Cards Section */}
+        <div className="flex flex-wrap gap-6 justify-center mt-8">
+          {renderCards()}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default page;
+export default Page;
