@@ -1,10 +1,10 @@
 import Image from 'next/image';
 import aboutUsHero from '../../assets/images/aboutus_hero.jpg';
 
-const AboutUsPage: React.FC = () => {
+const AboutUsPage = () => {
     return (
         <div className="bg-black text-white space-y-6">
-            {/* Hero Section with Parallax */}
+            {/* Hero Section*/}
             <div className="relative w-full h-[80vh] bg-fixed bg-center bg-cover"
                 style={{ backgroundImage: `url(${aboutUsHero.src})`, backgroundAttachment: 'fixed' }}>
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">

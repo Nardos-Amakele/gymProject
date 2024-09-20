@@ -20,7 +20,7 @@ const Header: React.FC = () => {
       <span className="absolute left-1/2 bottom-0 transform -translate-x-1/2 h-[2px] w-0 bg-[#2596BE] transition-all duration-300 group-hover:w-8"></span>
     </li>
     <li className="cursor-pointer relative group">
-      Service
+      <Link href="/services">Service</Link>
       <span className="absolute left-1/2 bottom-0 transform -translate-x-1/2 h-[2px] w-0 bg-[#2596BE] transition-all duration-300 group-hover:w-8"></span>
     </li>
     <li className="cursor-pointer relative group">
