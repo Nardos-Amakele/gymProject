@@ -1,41 +1,90 @@
+'use client'
+import { useRef } from 'react';
 import Image from 'next/image';
 import aboutUsHero from '../../assets/images/aboutus_hero.jpg';
+import { motion } from 'framer-motion';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const AboutUsPage = () => {
+    const nextSectionRef = useRef<HTMLDivElement | null>(null);
+    const scrollToNextSection = () => {
+        if (nextSectionRef.current) {
+          nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+      };
     return (
-        <div className="bg-black text-white space-y-6">
+        <div className="bg-black text-white space-y-6 scroll-container ">
             {/* Hero Section*/}
             <div className="relative w-full h-[80vh] bg-fixed bg-center bg-cover"
                 style={{ backgroundImage: `url(${aboutUsHero.src})`, backgroundAttachment: 'fixed' }}>
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                    <h1 className="text-6xl font-bold text-white">About Us</h1>
+                    <motion.h1
+                        initial={{ opacity: 0, y: -50 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-6xl font-bold text-white"
+                    >
+                        About Us
+                    </motion.h1>
+                    <div
+          onClick={scrollToNextSection}
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 border border-white rounded-full p-4 cursor-pointer text-white"
+        >
+                      <FontAwesomeIcon icon={faArrowUp} className='text-2xl' />
+
+                </div>
                 </div>
             </div>
 
             {/* Section 1 - About Robi Fitness */}
-            <section className="px-[9rem] py-20">
+            <section className="scroll-section px-[9rem] py-20" ref={nextSectionRef}>
                 <section className="flex flex-col md:flex-row items-center py-12 gap-10">
                     <div className="md:w-1/2 px-6">
-                    <div className="relative">
-                        <h2 className="text-[10rem] font-bold text-gray-800 tracking-tight">01</h2>
-                        <h2 className="absolute top-1/2 left-0 text-3xl font-semibold mb-6 text-[#2596BE] transform -translate-y-1/2">
-                             About Robi Fitness
-                        </h2>
-                    </div>
+                        <div className="relative">
+                            <motion.h2
+                                className="text-[10rem] font-bold text-gray-800 tracking-tight"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 0.8, x: 0  }}
+                                transition={{ duration: 1 }}
+                            >
+                                01
+                            </motion.h2>
+                            <motion.h2
+                                className="absolute top-1/2 left-0 text-3xl font-semibold mb-6 text-[#2596BE] transform -translate-y-1/2"
+                                initial={{ opacity: 0, x: -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.8 }}
+                            >
+                                About Robi Fitness
+                            </motion.h2>
+                        </div>
 
-                        <p className="text-lg leading-relaxed text-gray-400">
+                        <motion.p
+                            className="text-lg leading-relaxed text-gray-400"
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
                             Robi Fitness is dedicated to fostering a supportive environment where individuals of all fitness levels can thrive.
                             Our gym offers state-of-the-art equipment and expert trainers who are passionate about helping you achieve your fitness goals.
-                        </p>
-                        <p className="text-lg leading-relaxed mt-4 text-gray-400">
-                            From personal training to group classes, we are here to motivate, inspire, and guide you on your fitness journey.
-                        </p>
+                        </motion.p>
                     </div>
 
                     {/* Neon Line */}
-                    <div className="h-60 w-1 bg-[#2596BE] neon-glow mx-10"></div>
+                    <motion.div
+                        className="h-60 w-1 bg-[#2596BE] neon-glow mx-10"
+                        initial={{ scaleY: 0 }}
+                        whileInView={{ scaleY: 1 }}
+                        transition={{ duration: 0.8 }}
+                    ></motion.div>
 
-                    <div className="md:w-1/2 relative h-60">
+                    <motion.div
+                        className="md:w-1/2 relative h-60"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8 }}
+                    >
                         <Image
                             src={aboutUsHero}
                             alt="About Robi Fitness"
@@ -43,12 +92,17 @@ const AboutUsPage = () => {
                             className="rounded-lg"
                             layout="fill"
                         />
-                    </div>
+                    </motion.div>
                 </section>
 
                 {/* Section 2 - Our Philosophy */}
-                <section className="flex flex-col md:flex-row items-center gap-10 pt-40">
-                    <div className="md:w-1/2 relative h-60">
+                <section className="scroll-section flex flex-col md:flex-row items-center gap-10 pt-40">
+                    <motion.div
+                        className="md:w-1/2 relative h-60"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8 }}
+                    >
                         <Image
                             src={aboutUsHero}
                             alt="Our Philosophy"
@@ -56,44 +110,93 @@ const AboutUsPage = () => {
                             objectFit="cover"
                             className="rounded-lg"
                         />
-                    </div>
+                    </motion.div>
 
                     {/* Neon Line */}
-                    <div className="h-60 w-1 bg-[#2596BE] neon-glow mx-10"></div>
+                    <motion.div
+                        className="h-60 w-1 bg-[#2596BE] neon-glow mx-10"
+                        initial={{ scaleY: 0 }}
+                        whileInView={{ scaleY: 1 }}
+                        transition={{ duration: 0.8 }}
+                    ></motion.div>
 
                     <div className="md:w-1/2 px-6">
                         <div className='relative'>
-                        <h2 className="text-[10rem] font-bold text-gray-800 tracking-tight">02</h2>
-                        <h2 className="text-3xl font-semibold mb-6 text-[#2596BE] absolute top-1/2 left-0 transform -translate-y-1/2 ">Our Philosophy</h2>
+                            <motion.h2
+                                className="text-[10rem] font-bold text-gray-800 tracking-tight"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 0.8 }}
+                                transition={{ duration: 1 }}
+                            >
+                                02
+                            </motion.h2>
+                            <motion.h2
+                                className="text-3xl font-semibold mb-6 text-[#2596BE] absolute top-1/2 left-0 transform -translate-y-1/2"
+                                initial={{ opacity: 0, x: -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.8 }}
+                            >
+                                Our Philosophy
+                            </motion.h2>
                         </div>
-                        <p className="text-lg leading-relaxed text-gray-400">
-                            At Robi Fitness, we believe in a holistic approach to health and wellness.
-                        </p>
-                        <p className="text-lg leading-relaxed mt-4 text-gray-400">
-                            Fitness isn't just about physical strength — it's about building mental resilience, confidence, and overall well-being.
-                        </p>
+                        <motion.p
+                            className="text-lg leading-relaxed text-gray-400"
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            At Robi Fitness, we believe in a holistic approach to health and wellness.  Fitness isn't just about physical strength — it's about building mental resilience, confidence, and overall well-being.
+                        </motion.p>
+                     
+                           
                     </div>
                 </section>
 
                 {/* Section 3 - Our Facilities & Trainers */}
-                <section className="flex flex-col md:flex-row items-center py-40 gap-10">
+                <section className=" scroll-section flex flex-col md:flex-row items-center py-40 gap-10">
                     <div className="md:w-1/2 px-6">
                         <div className='relative'>
-                        <h2 className="text-[10rem] font-bold text-gray-800 tracking-tight">03</h2>
-                        <h2 className="text-3xl font-semibold mb-6 text-[#2596BE] absolute top-1/2 left-0 transform -translate-y-1/2 ">Our Facilities & Trainers</h2>
-                        </div> 
-                        <p className="text-lg leading-relaxed text-gray-400">
-                            Robi Fitness is equipped with the latest fitness technology and an inspiring space designed for every fitness level.
-                        </p>
-                        <p className="text-lg leading-relaxed mt-4 text-gray-400">
-                            Our experienced trainers are here to support your growth, offering personalized guidance to help you maximize your potential.
-                        </p>
+                            <motion.h2
+                                className="text-[10rem] font-bold text-gray-800 tracking-tight"
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 0.8 }}
+                                transition={{ duration: 1 }}
+                            >
+                                03
+                            </motion.h2>
+                            <motion.h2
+                                className="text-3xl font-semibold mb-6 text-[#2596BE] absolute top-1/2 left-0 transform -translate-y-1/2"
+                                initial={{ opacity: 0, x: -50 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ duration: 0.8 }}
+                            >
+                                Our Facilities & Trainers
+                            </motion.h2>
+                        </div>
+                        <motion.p
+                            className="text-lg leading-relaxed text-gray-400"
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                        >
+                            Robi Fitness is equipped with the latest fitness technology and an inspiring space designed for every fitness level. Our experienced trainers are here to support your growth, offering personalized guidance to help you maximize your potential.
+                        </motion.p>
                     </div>
 
                     {/* Neon Line */}
-                    <div className="h-60 w-1 bg-[#2596BE] neon-glow mx-10"></div>
+                    <motion.div
+                        className="h-60 w-1 bg-[#2596BE] neon-glow mx-10"
+                        initial={{ scaleY: 0 }}
+                        whileInView={{ scaleY: 1 }}
+                        transition={{ duration: 0.8 }}
+                    ></motion.div>
 
-                    <div className="md:w-1/2 relative h-60">
+                    <motion.div
+                        className="md:w-1/2 relative h-60"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8 }}
+                    >
                         <Image
                             src={aboutUsHero}
                             alt="Our Facilities"
@@ -101,19 +204,30 @@ const AboutUsPage = () => {
                             className="rounded-lg"
                             layout="fill"
                         />
-                    </div>
+
+
+                    </motion.div>
                 </section>
 
                 {/* Join Us Section */}
-                <section className="py-16 text-center">
+                <motion.section
+                    className="py-16 text-center"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8 }}
+                >
                     <h2 className="text-3xl font-semibold mb-6 text-[#2596BE]">Ready to Transform Your Life?</h2>
                     <p className="text-lg mb-8 text-gray-400">
                         Step into Robi Fitness today and discover a new way to work out. Together, we’ll achieve your fitness goals and empower you to live your best life.
                     </p>
-                    <button className="px-8 py-4 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-all duration-300">
+                    <motion.button
+                        className="px-8 py-4 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-all duration-300"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
                         Join Robi Fitness Now
-                    </button>
-                </section>
+                    </motion.button>
+                </motion.section>
             </section>
         </div>
     );

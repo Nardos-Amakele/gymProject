@@ -48,3 +48,16 @@ body {
 .pause-scroll {
   animation-play-state: paused;
 }
+
+html, body {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain; 
+}
+
+.scroll-container {
+  scroll-snap-type: y mandatory; 
+}
+
+.scroll-section {
+  scroll-snap-align: start; 
+}

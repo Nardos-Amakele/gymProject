@@ -30,6 +30,7 @@ const Page = () => {
       case 'Body Building':
         return (
           <>
+          
             <ServiceCard
               title="Monthly"
               price="1,100 Birr"
