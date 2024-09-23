@@ -4,7 +4,7 @@ import { faMapMarkerAlt, faPhoneAlt, faEnvelope } from '@fortawesome/free-solid-
 
 const Contact = () => {
   return (
-    <section className="bg-black text-white py-3 px-[9rem] mb-16 font-jost">
+    <section className="bg-black text-white py-3 px-[9rem] pb-16 font-jost">
       <div className="container mx-auto flex items-center justify-between gap-80">
         {/* Contact Information */}
         <div className="flex-1 ">

@@ -13,24 +13,25 @@ import Hero from './components/Hero';
 import About from './components/About';
 
 
+import Testimonials from './components/Testimonials';
 export default function Home() {
   return (
   
     <body>
-      <main>
-              <Header /> 
-              <>
+    <main>
+      <Header /> 
+    <>
+
       <Hero/>
       <About/>
       <OurServices />
       <Shop />
       <Supporting />
       <Contact />
+      <Testimonials />
+      
     </>
-
- 
-
-<Footer/> 
+      <Footer/> 
     </main>
     </body>
   )

@@ -1,6 +1,6 @@
 const Supporting = () => {
     return (
-      <section className="bg-black text-white py-16 px-[9rem] mb-16 font-jost"> 
+      <section className="bg-black text-white py-16 px-[9rem] pb-20 font-jost"> 
         <div className="container mx-auto flex items-center justify-between gap-24">
           {/* Left text section */}
           <div className="flex-1">
