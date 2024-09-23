@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faPhoneAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
+
 const Contact = () => {
   return (
     <section className="bg-black text-white py-3 px-[9rem] mb-16 font-jost">
