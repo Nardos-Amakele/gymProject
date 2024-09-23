@@ -5,6 +5,8 @@ import ServiceCard from './ServicesCards';
 import servicesHero from '../../assets/images/services_hero.jpg';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const Page = () => {
   const [activeTab, setActiveTab] = useState('Body Building');
@@ -172,6 +174,9 @@ const Page = () => {
   };
 
   return (
+    <>
+          <Header/>
+
     <div className="bg-black text-white space-y-6">
       {/* Hero Section */}
       <div
@@ -220,6 +225,9 @@ const Page = () => {
         </div>
       </div>
     </div>
+    <Footer/> 
+
+    </>
   );
 };
 

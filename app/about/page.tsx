@@ -5,6 +5,8 @@ import aboutUsHero from '../../assets/images/aboutus_hero.jpg';
 import { motion } from 'framer-motion';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const AboutUsPage = () => {
     const nextSectionRef = useRef<HTMLDivElement | null>(null);
@@ -14,6 +16,9 @@ const AboutUsPage = () => {
         }
       };
     return (
+        <>
+              <Header/>
+
         <div className="bg-black text-white space-y-6 scroll-container ">
             {/* Hero Section*/}
             <div className="relative w-full h-[80vh] bg-fixed bg-center bg-cover"
@@ -230,6 +235,8 @@ const AboutUsPage = () => {
                 </motion.section>
             </section>
         </div>
+        <Footer/>
+        </>
     );
 }
 
