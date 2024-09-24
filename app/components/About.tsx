@@ -1,6 +1,6 @@
 import React from 'react'
 //images
-import aboutImage1 from '../../assets/images/image 1.png';
+import aboutImage1 from '../../assets/images/aboutus_hero.jpg';
 import aboutImage2 from '../../assets/images/image 2.png';
 import aboutImage3 from '../../assets/images/image 3.png';
 import Image from 'next/image'
@@ -12,13 +12,13 @@ const About = () => {
       
 <section className="text-white mb-24 px-8">
   <div className="container mx-auto flex flex-col lg:flex-row items-stretch">
-    <div className="lg:w-1/2 mb-10 ml-16 flex items-stretch">
-      <div className="rounded-xl overflow-hidden h-full w-full transform transition-transform duration-300 hover:scale-105">
+    <div className="lg:w-1/2 ml-16 flex items-stretch">
+      <div className="rounded-tl-[164px] rounded-br-[6px] rounded-bl-[6px] bg-black rounded-xl overflow-hidden h-full w-full transform transition-transform duration-300 hover:scale-105">
         <Image
           src={aboutImage1}
           alt="Water Bottle"
-          className="rounded-tl-[164px] rounded-br-[6px] rounded-bl-[6px] w-full h-full object-cover"
-          layout="responsive"
+          className=" w-full h-full object-cover opacity-80"
+          layout="fill"
         />
       </div>
     </div>

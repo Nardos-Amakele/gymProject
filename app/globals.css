@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;
   --background-end-rgb: 255, 255, 255;
@@ -15,17 +15,12 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
 body {
   font-family: 'Jost', sans-serif;
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-color: #000000; /* Change to a different color */
 }
 
 .neon-glow {
@@ -62,4 +57,31 @@ html, body {
 
 .scroll-section {
   scroll-snap-align: start; 
+}
+
+/* For Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #00aaff; /* Your thumb color */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #007acc; /* Darker on hover */
+}
+
+::-webkit-scrollbar-track {
+  background: none; /* Set no background */
+  background-color: transparent; /* Ensure transparency */
+  border: none; /* Remove any default border */
+  box-shadow: none; /* Remove any shadow that may appear */
+}
+
+/* For Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #00aaff transparent; /* Transparent track with colored thumb */
 }
