@@ -21,7 +21,7 @@ const AboutUsPage = () => {
 
         <div className="bg-black text-white space-y-6 scroll-container ">
             {/* Hero Section*/}
-            <div className="relative w-full h-[80vh] bg-fixed bg-center bg-cover"
+            <div className="relative w-full h-[100vh] bg-fixed bg-center bg-cover"
                 style={{ backgroundImage: `url(${aboutUsHero.src})`, backgroundAttachment: 'fixed' }}>
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
                     <motion.h1
