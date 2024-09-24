@@ -1,9 +1,12 @@
 // app/layout.tsx
+//import '@fortawesome/fontawesome-svg-core/styles.css';
+//import { config, Config } from '@fortawesome/fontawesome-svg-core';
+//config.autoAddCss =false;
 
+import Header from './components/Header';
 import './globals.css';
 import { Inter } from 'next/font/google';
-import Header from './components/Header'; 
-import styles from './styles/ButtonStyles.module.css'; 
+
 
 
 
@@ -22,7 +25,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Header /> 
 
         {children}
       </body>

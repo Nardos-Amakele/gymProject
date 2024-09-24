@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-regular-svg-icons": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@nextui-org/skeleton": "^2.0.32",
@@ -21,7 +23,7 @@
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.8",
     "framer-motion": "^11.5.6",
-    "next": "14.2.8",
+    "next": "^14.2.12",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "typescript": "5.5.4"
