@@ -12,8 +12,7 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-black text-white p-6">
-      <div className="flex justify-between items-center px-8 max-w-screen-xl mx-auto">
+    <header className="bg-transparent text-white p-6 flex items-center justify-between px-8 max-w-screen-xl mx-auto absolute top-0 left-0 right-0 z-10">
         <div className="text-lg">ROBI LOGO</div>
 
         {/* Mobile Menu Icon */}
@@ -34,7 +33,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Navigation Menu */}
-        <nav className={`md:flex ${menuOpen ? 'block' : 'hidden'} absolute md:static bg-black w-full md:w-auto top-12 right-0 md:right-auto z-10`}>
+        <nav className={`md:flex ${menuOpen ? 'block' : 'hidden'} absolute md:static bg-transparent w-full md:w-auto top-12 right-0 md:right-auto z-10`}>
           <ul className="flex flex-col items-center md:flex-row text-base space-y-4 md:space-y-0 md:space-x-10 lg:space-x-14 p-6 md:p-0 ml-auto md:ml-0">
             <li className="cursor-pointer relative group">
             <Link href="/">Home</Link>
@@ -70,7 +69,6 @@ const Header: React.FC = () => {
         <button className={`${styles.customButton} hidden md:inline-block`}>
           <Link href="/Register">Sign up</Link>
         </button>
-      </div>
     </header>
   );
 };

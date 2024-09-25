@@ -180,7 +180,7 @@ const Page = () => {
     <div className="bg-black text-white space-y-6">
       {/* Hero Section */}
       <div
-        className="relative w-full h-[80vh] bg-fixed bg-center bg-cover"
+        className="relative w-full h-[100vh] bg-fixed bg-center bg-cover"
         style={{
           backgroundImage: `url(${servicesHero.src})`,
           backgroundAttachment: 'fixed',

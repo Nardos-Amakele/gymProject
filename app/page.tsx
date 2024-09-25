@@ -31,8 +31,9 @@ export default function Home() {
       <BMICalculator/>
       <Shop />
       <Supporting />
-      <Contact />
       <Testimonials />
+      <Contact />
+      
       
     </>
       <Footer/> 
