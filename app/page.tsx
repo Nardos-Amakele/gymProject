@@ -28,8 +28,8 @@ export default function Home() {
       <Hero/>
       <About/>
       <OurServices />
-      <BMICalculator/>
       <Shop />
+      <BMICalculator/>
       <Supporting />
       <Testimonials />
       <Contact />
