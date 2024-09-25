@@ -8,7 +8,7 @@ const BMIComponent = () => {
   const [bmi, setBmi] = useState<number | null>(null);
   const [message, setMessage] = useState('');
 
-  // Function to reset the calculator
+
   const resetCalculator = () => {
     setWeight('');
     setHeight('');
@@ -18,11 +18,11 @@ const BMIComponent = () => {
 
   const calculateBMI = () => {
     if (weight && height) {
-      // Directly use height in meters
+
       const bmiValue = parseFloat(weight) / (parseFloat(height) * parseFloat(height));
       setBmi(bmiValue);
 
-      // Set message based on BMI value
+
       if (bmiValue < 18.5) {
         setMessage('You are underweight, nutritional tracking and frquent exercises might be good for you.');
       } else if (bmiValue >= 18.5 && bmiValue <= 24.9) {
@@ -39,7 +39,7 @@ const BMIComponent = () => {
     <div className="bg-black text-white p-8 rounded-lg shadow-lg max-w-4xl mx-auto mt-10">
       <h1 className="text-2xl font-bold text-customBlue mb-4">Check your BMI?</h1>
 
-      {/* Conditional Rendering */}
+
       {bmi === null ? (
         <div className="flex space-x-4">
           <div className="flex-1">
