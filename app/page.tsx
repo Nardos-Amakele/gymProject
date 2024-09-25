@@ -27,8 +27,9 @@ export default function Home() {
       <OurServices />
       <Shop />
       <Supporting />
-      <Contact />
       <Testimonials />
+      <Contact />
+      
       
     </>
       <Footer/> 

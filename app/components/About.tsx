@@ -1,23 +1,13 @@
-'use client'
+
 import React from 'react'
 // images
 import aboutImage1 from '../../assets/images/aboutus_hero.jpg';
 import aboutImage2 from '../../assets/images/image 2.png';
 import aboutImage3 from '../../assets/images/image 3.png';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import NeonLine from './NeonLine';
 
 const About = () => {
-  // Define animation variants
-  const imageVariant = {
-    hidden: { opacity: 0, scale: 0.9 },
-    visible: { opacity: 1, scale: 1, transition: { duration: 1, ease: 'easeOut' } },
-  };
-
-  const textVariant = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 1.2, ease: 'easeOut' } }
-  };
 
   return (
     <div>
@@ -25,12 +15,9 @@ const About = () => {
         <div className="container mx-auto flex flex-col lg:flex-row items-stretch">
 
           {/* Left Image Section */}
-          <motion.div
+          
+          <div
             className="lg:w-1/2 ml-16 flex items-stretch"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.5 }}
-            variants={imageVariant}
           >
             <div className="relative w-full rounded-tl-[164px] rounded-br-[6px] rounded-bl-[6px] bg-black rounded-xl overflow-hidden">
               <Image
@@ -40,15 +27,12 @@ const About = () => {
                 layout="fill"
               />
             </div>
-          </motion.div>
+          </div>
 
           {/* Text and Smaller Images Section */}
-          <motion.div
+
+          <div
             className="lg:w-1/2 lg:pl-12 mr-16 lg:text-start sm:text-center flex flex-col justify-between"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.5 }}
-            variants={textVariant}
           >
             <div>
               <h2 className="text-xl font-bold mb-5 text-customBlue">About Us</h2>
@@ -58,12 +42,8 @@ const About = () => {
             </div>
 
             <div className="flex space-x-6 h-full">
-              <motion.div
+              <div
                 className="w-1/2 h-full flex items-center"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.5 }}
-                variants={imageVariant}
               >
                 <Image
                   src={aboutImage2}
@@ -71,13 +51,9 @@ const About = () => {
                   className="rounded-[6px] w-full h-full object-cover"
                   layout="responsive"
                 />
-              </motion.div>
-              <motion.div
+              </div>
+              <div
                 className="w-1/2 h-full flex items-center"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.5 }}
-                variants={imageVariant}
               >
                 <Image
                   src={aboutImage3}
@@ -85,21 +61,12 @@ const About = () => {
                   className="rounded-[6px] w-full h-full object-cover"
                   layout="responsive"
                 />
-              </motion.div>
+              </div>
             </div>
-          </motion.div>
+          </div>
         </div>
 
-        {/* Divider Line Animation */}
-        <motion.div
-          className="mt-8 lg:px-10 mx-auto container"
-          initial={{ width: 0 }}
-          whileInView={{ width: '100%' }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 1, ease: 'easeInOut' }}
-        >
-          <hr className="border-t-8 border-customBlue" />
-        </motion.div>
+        <NeonLine />
       </section>
     </div>
   );
