@@ -8,23 +8,26 @@ const Testimonials = () => {
   const duplicateTestimonials = [...testimonials, ...testimonials];
 
   return (
-<div className="relative overflow-hidden w-full h-full bg-black font-jost">
+    <div className="relative overflow-hidden w-full h-full bg-black font-jost pb-16 ">
+      {/* Shadow effect on both sides */}
+      <div className="absolute top-0 left-0 w-36 h-full z-10 pointer-events-none shadow-left-gradient"></div>
+      <div className="absolute top-0 right-0 w-36 h-full z-10 pointer-events-none shadow-right-gradient"></div>
+
       <div
-        className={`flex animate-scroll gap-10 ${isHovered ? 'pause-scroll' : ''}`}
+        className={`flex animate-scroll gap-10  ${isHovered ? 'pause-scroll' : ''}`}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {duplicateTestimonials.map((testimonial, index) => (
           <div
             key={index}
-            className="flex-shrink-0 w-80 bg-gray-800 p-6 rounded-xl shadow-lg text-white"
+            className="flex-shrink-0 w-80 bg-[#141416] p-6 rounded-xl shadow-lg text-gray-300 border-[0.5px] b-gray-300 "
           >
-            <p className="text-lg leading-relaxed mb-4">
-              <span className="text-[#2596BE] text-2xl">&ldquo; </span>
-              {testimonial.text}
-              <span className="text-[#2596BE] text-2xl"> &rdquo;</span>
-            </p>
-            <p className="text-right text-[#2596BE] font-bold">- {testimonial.name}</p>
+            <h3 className="text-lg font-bold mb-2">{testimonial.name}</h3>
+            <p className="text-sm mb-4">{testimonial.text}</p>
+            <div className="flex justify-start items-center space-x-2">
+            
+            </div>
           </div>
         ))}
       </div>

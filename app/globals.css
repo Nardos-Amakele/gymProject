@@ -2,64 +2,41 @@
 @tailwind components;
 @tailwind utilities;
 
-
-/* :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-} */
-
 body {
   font-family: 'Jost', sans-serif;
   color: rgb(var(--foreground-rgb));
-  background-color: #000000; /* Change to a different color */
+  background-color: #000000; 
 }
 
-.neon-glow {
-  box-shadow: 0 0 10px #2596BE, 0 0 20px #2596BE, 0 0 30px #2596BE;
+
+.shadow-left-gradient {
+  background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+.shadow-right-gradient {
+  background: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
 
+/* Scrolling animation for testimonial cards */
 @keyframes scroll {
   0% {
-    transform: translateX(0);
+    transform: translateX(-50%);
   }
   100% {
-    transform: translateX(-50%); 
+    transform: translateX(0); 
   }
-
 }
 
-
+/* Animate the scroll of the testimonials */
 .animate-scroll {
   animation: scroll 30s linear infinite;
 }
 
+/* Pause scrolling when hovered */
 .pause-scroll {
   animation-play-state: paused;
 }
 
-html, body {
-  scroll-behavior: smooth;
-  overscroll-behavior-y: contain; 
-}
-
-.scroll-container {
-  scroll-snap-type: y mandatory; 
-}
-
-.scroll-section {
-  scroll-snap-align: start; 
-}
-
-/* For Webkit browsers (Chrome, Safari) */
+/* Customize scrollbar for Webkit browsers (optional, if needed) */
 ::-webkit-scrollbar {
   width: 4px;
 }
@@ -69,5 +46,5 @@ html, body {
 ::-webkit-scrollbar-thumb {
   background-color: #2596BE; /* Scrollbar thumb color */
   border-radius: 20px;
-  border: 3px solid transparent ; /* Adds some padding */
+  border: 3px solid transparent; /* Adds some padding */
 }

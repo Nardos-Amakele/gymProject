@@ -1,38 +1,69 @@
+'use client';
+
 import Image from 'next/image';
 import shopItem1 from '../../assets/images/shop_item2.png';
 import shopItem2 from '../../assets/images/shop_item1.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
-
+import { motion } from 'framer-motion';
 
 const Shop = () => {
+  const textAnimation = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  const imageAnimation = {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: { opacity: 1, scale: 1 },
+  };
+
   return (
-    <section className="bg-black text-white py-16 px-[9rem] font-jost" id="shop">
+    <motion.section
+      className="bg-black text-white py-16 px-[9rem] font-jost"
+      id="shop"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 1, ease: 'easeOut' }}
+    >
       <div className="flex space-x-16">
-        {/* First column*/}
+        {/* First column */}
         <div className="flex flex-col justify-between">
-          <div className="container mx-auto">
+          <motion.div
+            className="container mx-auto"
+            variants={textAnimation}
+            transition={{ delay: 0.2, duration: 0.8 }}
+          >
             <h2 className="text-2xl font-bold mb-4 text-[#2596BE]">Shop</h2>
             <p className="mb-12 text-gray-300 max-w-sm text-sm font-thin">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Discover our premium fitness products and accessories at unbeatable prices.
             </p>
-          </div>
+          </motion.div>
 
           {/* Left and right arrows */}
-          <div className="flex space-x-8 font-bold">
+          <motion.div
+            className="flex space-x-8 font-bold"
+            variants={textAnimation}
+            transition={{ delay: 0.4, duration: 0.8 }}
+          >
             {/* Left arrow */}
             <button className="text-[#2596BE] hover:text-gray-400">
               <FontAwesomeIcon icon={faArrowLeft} />
             </button>
 
             {/* Right arrow */}
-            <button className="text-[#2596BE] hover:text-gray-400 ">
+            <button className="text-[#2596BE] hover:text-gray-400">
               <FontAwesomeIcon icon={faArrowRight} />
             </button>
-          </div>
+          </motion.div>
 
           {/* Shop Item 1 */}
-          <div className="relative mt-6 transition-transform transform hover:scale-105 hover:border-2 hover:border-none">
+          <motion.div
+            className="relative mt-6 transition-transform transform hover:scale-105 hover:border-2 hover:border-none"
+            variants={imageAnimation}
+            transition={{ delay: 0.6, duration: 1 }}
+          >
             <Image
               src={shopItem1}
               alt="Kings Gym Belt"
@@ -50,13 +81,17 @@ const Shop = () => {
                 Explore more
               </a>
             </div>
-          </div>
+          </motion.div>
         </div>
 
-        {/* Second column*/}
+        {/* Second column */}
         <div className="flex flex-col justify-between">
           {/* Shop Item 2 */}
-          <div className="relative transition-transform transform hover:scale-105 hover:border-2 hover:border-none">
+          <motion.div
+            className="relative transition-transform transform hover:scale-105 hover:border-2 hover:border-none"
+            variants={imageAnimation}
+            transition={{ delay: 0.8, duration: 1 }}
+          >
             <Image
               src={shopItem2}
               alt="Water Bottle"
@@ -66,21 +101,29 @@ const Shop = () => {
               <p className="text-red-500 line-through text-lg font-bold">300 Birr</p>
               <p className="text-white text-lg font-bold">150 Birr</p>
             </div>
-          </div>
+          </motion.div>
 
           {/* New Arrival and Discount */}
-          <div className="flex justify-between mt-4">
+          <motion.div
+            className="flex justify-between mt-4"
+            variants={textAnimation}
+            transition={{ delay: 1, duration: 0.8 }}
+          >
             <p className="text-2xl text-white">New Arrival</p>
             <p className="text-sm text-gray-400 font-thin">
               50% Discount for the first 10 sales
             </p>
-          </div>
+          </motion.div>
         </div>
       </div>
 
       {/* Blue Line at the Bottom */}
-      <div className="mt-8 border-t-8 border-[#2596BE]"></div>
-    </section>
+      <motion.div
+        className="mt-8 border-t-8 border-[#2596BE]"
+        variants={textAnimation}
+        transition={{ delay: 1.2, duration: 0.8 }}
+      />
+    </motion.section>
   );
 };
 
