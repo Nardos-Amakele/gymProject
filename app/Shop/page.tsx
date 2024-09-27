@@ -8,7 +8,7 @@ import {
   faBottleWater,
   faBoxOpen,
   faShoppingCart,
-  faChevronDown,
+  faArrowUp
 } from "@fortawesome/free-solid-svg-icons";
 import Cart from "../components/Cart"; 
 import Footer from "../components/Footer"
@@ -28,58 +28,60 @@ const HeroSection: React.FC = () => {
 
 
   return (
+    <>
+   
     <div className="relative h-screen bg-black flex justify-center items-center overflow-hidden pt-8">
 
-      <div className="absolute w-full h-full flex flex-col justify-center items-center space-y-6 z-0">
+<div className="absolute w-full h-full flex flex-col justify-center items-center space-y-6 z-0">
 
-        <div className="w-full flex space-x-6 animate-slideRight">
-          {[...images, ...images].map((image, idx) => (
-            <img
-              key={idx}
-              src={image}
-              alt={`Image ${idx}`}
-              className="w-50 h-auto rounded-xl"
-            />
-          ))}
-        </div>
+  <div className="w-full flex space-x-6 animate-slideRight">
+    {[...images, ...images].map((image, idx) => (
+      <img
+        key={idx}
+        src={image}
+        alt={`Image ${idx}`}
+        className="w-50 h-auto rounded-xl"
+      />
+    ))}
+  </div>
+
+  <div className="w-[calc(100%+50rem)] flex space-x-6">
+    {[...images, ...images].map((image, idx) => (
+      <img
+        key={idx}
+        src={image}
+        alt={`Image ${idx}`}
+        className="w-50 h-auto rounded-xl"
+      />
+    ))}
+  </div>
+
+  <div className="w-full flex space-x-6 animate-slideRight">
+    {[...images, ...images].map((image, idx) => (
+      <img
+        key={idx}
+        src={image}
+        alt={`Image ${idx}`}
+        className="w-50 h-auto rounded-xl"
+      />
+    ))}
+  </div>
+</div>
+
+<div className="relative z-10 text-center text-white">
+  <h1 className="text-5xl font-bold mb-4">Shop</h1>
+  <p className="text-lg"></p>
   
-        <div className="w-[calc(100%+50rem)] flex space-x-6">
-          {[...images, ...images].map((image, idx) => (
-            <img
-              key={idx}
-              src={image}
-              alt={`Image ${idx}`}
-              className="w-50 h-auto rounded-xl"
-            />
-          ))}
-        </div>
-  
-        <div className="w-full flex space-x-6 animate-slideRight">
-          {[...images, ...images].map((image, idx) => (
-            <img
-              key={idx}
-              src={image}
-              alt={`Image ${idx}`}
-              className="w-50 h-auto rounded-xl"
-            />
-          ))}
-        </div>
-      </div>
-  
-      <div className="relative z-10 text-center text-white">
-        <h1 className="text-5xl font-bold mb-4 text-customBlue">Shop</h1>
-        <p className="text-lg">Discover the best products for your lifestyle.</p>
-        
-        {/* Downward Icon with Circular Background  add animation to this icon make it jumpy I guess lol*/}
-        <div className="mt-6">
-          <div className="flex justify-center">
-            <div className="w-12 h-12 flex items-center justify-center rounded-full bg-customBlue shadow-lg">
-              <FontAwesomeIcon icon={faChevronDown} className="text-white text-xl" />
-            </div>
-          </div>
-        </div>
-      </div>
+  {/* Downward Icon with Circular Background  add animation to this icon make it jumpy I guess lol*/}
+  <div className="mt-6">
+    <div
+      className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4 border border-white rounded-full p-4 cursor-pointer text-white"
+    >
+      <FontAwesomeIcon icon={faArrowUp} className="text-2xl" />
     </div>
+  </div>
+</div>
+</div></>
   );
 };
 
@@ -179,9 +181,8 @@ const ShopPage: React.FC = () => {
 
   return (
     <>
-      {/*how to add the header?*/}
+       
       <HeroSection />
-
       <header className="fixed top-0 left-0 w-full flex justify-between items-center p-4 bg-black text-white z-10">
   <h1 className="text-xl font-bold">Shop</h1>
   <button onClick={toggleCart} className="relative">
