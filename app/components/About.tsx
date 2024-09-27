@@ -12,7 +12,7 @@ const About = () => {
   return (
     <div>
       <section className="text-white mb-24 px-8">
-        <div className="container mx-auto flex flex-col lg:flex-row items-stretch">
+        <div className="container mx-auto flex md:flex-col lg:flex-row items-stretch">
 
           {/* Left Image Section */}
           
@@ -32,7 +32,7 @@ const About = () => {
           {/* Text and Smaller Images Section */}
 
           <div
-            className="lg:w-1/2 lg:pl-12 mr-16 lg:text-start sm:text-center flex flex-col justify-between"
+            className="lg:w-1/2 lg:pl-12 mr-16 lg:text-start sm:text-start flex flex-col justify-between"
           >
             <div>
               <h2 className="text-xl font-bold mb-5 text-customBlue">About Us</h2>

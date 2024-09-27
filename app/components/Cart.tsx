@@ -20,7 +20,7 @@ interface CartProps {
 const Cart: React.FC<CartProps> = ({ cartItems, isOpen, onClose, onRemoveItem, onSubmit }) => {
   return (
     <div
-      className={`fixed top-0 right-0 h-full w-1/3 bg-black shadow-lg z-50 transition-transform ${
+      className={`fixed top-0 right-0 h-full lg:w-1/3 md:w-1/2 sm:w-1/2 bg-black shadow-lg z-50 transition-transform ${
         isOpen ? "transform translate-x-0" : "transform translate-x-full"
       }`}
     >
