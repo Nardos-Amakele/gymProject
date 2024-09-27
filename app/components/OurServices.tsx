@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import Link from 'next/link';
 import ServiceCard from './ServiceCard';
 import Service1 from '../../assets/images/service_image1.png';
 import Service2 from '../../assets/images/image 8.png';
@@ -27,9 +28,12 @@ const OurServices = () => {
       transition={{ duration: 1 }}
     >
       <div className="container mx-auto">
-        <h2 className='text-2xl font-bold text-[#2596BE] mb-4'>
-          Our Services
-        </h2>
+        {/* Link the header to /services */}
+        <Link href="/services">
+          <h2 className='text-2xl font-bold text-[#2596BE] mb-4'>
+            Our Services
+          </h2>
+        </Link>
         <p className="text-sm text-gray-300 mb-12 max-w-sm">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.
         </p>
@@ -50,12 +54,15 @@ const OurServices = () => {
         >
           {services.map((service, index) => (
             <div className="w-full sm:w-auto p-4 sm:p-0" key={index}> {/* Ensure full width on small screens */}
-              <ServiceCard
-                title={service.title}
-                description={service.description}
-                icon={service.icon}
-                imageSrc={service.imageSrc}
-              />
+              {/* Link the service images to /services */}
+              <Link href="/services">
+                <ServiceCard
+                  title={service.title}
+                  description={service.description}
+                  icon={service.icon}
+                  imageSrc={service.imageSrc}
+                />
+              </Link>
             </div>
           ))}
         </motion.div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 // images
 import aboutImage1 from '../../assets/images/aboutus_hero.jpg';
 import aboutImage2 from '../../assets/images/image 2.png';
@@ -9,47 +10,49 @@ import NeonLine from './NeonLine';
 const About = () => {
   return (
     <div>
-      <section className="text-white mb-24 px-8">
+      <section className="text-white mb-24 px-[7rem]">
         <div className="container mx-auto flex flex-col lg:flex-row items-stretch">
 
           {/* Left Image Section */}
-          <div className="w-full lg:w-1/2 flex items-stretch mb-8 lg:mb-0">
-            <div className="relative w-full rounded-tl-[164px] rounded-br-[6px] rounded-bl-[6px] bg-black rounded-xl overflow-hidden min-h-[300px]"> {/* Set a min-height */}
+          <div className="w-full lg:w-1/2 flex items-stretch mb-8 lg:mb-0 transition-transform transform hover:scale-105">
+            <Link href="./about" className="relative w-full rounded-tl-[164px] rounded-br-[6px] rounded-bl-[6px] bg-black rounded-xl overflow-hidden min-h-[300px]"> {/* Set a min-height */}
               <Image
                 src={aboutImage1}
                 alt="About Us Hero"
-                className="object-cover opacity-80"
+                className="object-cover opacity-80 "
                 layout="fill"
               />
-            </div>
+            </Link>
           </div>
 
           {/* Text and Smaller Images Section */}
           <div className="lg:w-1/2 lg:pl-12 mr-0 lg:text-start sm:text-start lg:mr-16 flex flex-col justify-between">
             <div>
-              <h2 className="text-xl font-bold mb-5 text-customBlue">About Us</h2>
+              <Link href="./about">
+                <h2 className="text-3xl font-bold mb-5 text-customBlue block font ">About Us</h2>
+              </Link>
               <p className="mb-6 leading-relaxed text-sm text-gray-300 max-w-full">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
               </p>
             </div>
 
-            <div className="flex space-x-6 h-full">
-              <div className="w-1/2 h-full flex items-center">
+            <div className="flex space-x-6 h-full ">
+              <Link href="./about" className="w-1/2 h-full flex items-center">
                 <Image
                   src={aboutImage2}
                   alt="About Image 2"
-                  className="rounded-[6px] w-full h-full object-cover"
+                  className="rounded-[6px] w-full h-full object-cover transition-transform transform hover:scale-105"
                   layout="responsive"
                 />
-              </div>
-              <div className="w-1/2 h-full flex items-center">
+              </Link>
+              <Link href="./about" className="w-1/2 h-full flex items-center">
                 <Image
                   src={aboutImage3}
                   alt="About Image 3"
-                  className="rounded-[6px] w-full h-full object-cover"
+                  className="rounded-[6px] w-full h-full object-cover transition-transform transform hover:scale-105"
                   layout="responsive"
                 />
-              </div>
+              </Link>
             </div>
           </div>
         </div>
