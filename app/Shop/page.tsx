@@ -218,7 +218,7 @@ const ShopPage: React.FC = () => {
         {/* Product Grid */}
         <div className="w-full">
           <div className="my-8">
-            <h2 className="text-2xl font-bold mb-16">
+            <h2 className="text-2xl font-bold mb-16 text-white">
               {selectedCategory
                 ? `Showing ${selectedCategory} Products`
                 : "All Products For You!"}
@@ -244,7 +244,7 @@ const ShopPage: React.FC = () => {
                       {/* Price and Product Title */}
                       <div>
                         <div className="flex justify-between items-center mb-4">
-                          <h3 className="text-lg font-semibold">
+                          <h3 className="text-lg font-semibold text-white">
                             {product.title}
                           </h3>
                           <p className="text-customBlue font-bold mr-4">

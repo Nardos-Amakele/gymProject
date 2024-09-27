@@ -1,3 +1,5 @@
+'use client'
+
 import Header from './components/Header'; 
 import styles from './styles/ButtonStyles.module.css'; 
 import Footer from './components/Footer'
@@ -14,6 +16,7 @@ import About from './components/About';
 
 
 import Testimonials from './components/Testimonials';
+import BMICalculator from './components/BMIcalculator';
 export default function Home() {
   return (
   
@@ -26,6 +29,7 @@ export default function Home() {
       <About/>
       <OurServices />
       <Shop />
+      <BMICalculator/>
       <Supporting />
       <Testimonials />
       <Contact />

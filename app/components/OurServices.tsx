@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import React from 'react';
 import ServiceCard from './ServiceCard';
 import Service1 from '../../assets/images/service_image1.png';
@@ -21,7 +21,7 @@ const OurServices = () => {
     <motion.section
       ref={ref}
       id="services"
-      className="py-16 bg-black text-white px-[9rem] font-jost"
+      className="py-16 bg-black text-white px-4 sm:px-8 md:px-16 lg:px-[9rem] font-jost" // Adjusted padding
       initial={{ opacity: 0 }} // Initially hidden
       animate={isInView ? { opacity: 1 } : {}} // Animate when in view
       transition={{ duration: 1 }}
@@ -49,13 +49,14 @@ const OurServices = () => {
           }}
         >
           {services.map((service, index) => (
-            <ServiceCard
-              key={index}
-              title={service.title}
-              description={service.description}
-              icon={service.icon}
-              imageSrc={service.imageSrc}
-            />
+            <div className="w-full sm:w-auto p-4 sm:p-0" key={index}> {/* Ensure full width on small screens */}
+              <ServiceCard
+                title={service.title}
+                description={service.description}
+                icon={service.icon}
+                imageSrc={service.imageSrc}
+              />
+            </div>
           ))}
         </motion.div>
       </div>
