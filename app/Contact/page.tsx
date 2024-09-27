@@ -14,7 +14,7 @@ const Contact = () => {
       <Header />
 
       {/* Contact Us Section */}
-      <section className="min-h-screen my-10 flex flex-col items-center justify-center bg-black text-white">
+      <section className="min-h-screen py-36 flex flex-col items-center justify-center bg-black text-white">
         <div className="text-center mb-10">
           <h2 className="text-4xl font-bold mb-4">Contact Us</h2>
           <p className="text-gray-400 max-w-3xl mx-auto">
@@ -60,31 +60,32 @@ const Contact = () => {
           </div>
 
           {/* Right Side - Contact Form */}
-          <div className="bg-white text-gray-900 p-8 shadow-lg  w-full md:w-1/3">
-            <h3 className="text-2xl font-semibold mb-6">Send Message</h3>
-            <form className="space-y-4">
-              <input
-                type="text"
-                className="w-full p-2 border-b-2 border-gray-300 focus:outline-none focus:border-customBlue"
-                placeholder="Full Name"
-              />
-              <input
-                type="email"
-                className="w-full p-2 border-b-2 border-gray-300 focus:outline-none focus:border-customBlue"
-                placeholder="Email"
-              />
-              <textarea
-                className="w-full p-2 border-b-2 border-gray-300 focus:outline-none focus:border-customBlue"
-                placeholder="Type your Message..."
-              />
-              <button
-                type="submit"
-                className="hover:bg-customBlue bg-customHoverBlue text-white p-2 w-1/3 transition"
-              >
-                Send
-              </button>
-            </form>
-          </div>
+          <div className="bg-[#141416] text-gray-100 p-8 shadow-lg rounded-lg w-full md:w-1/3 border-[0.5px] border-customBlue">
+  <h3 className="text-3xl text-center font-semibold text-customBlue mb-6 ">Send Feedback</h3>
+  <form className="space-y-6">
+    <input
+      type="text"
+      className="w-full p-3 border-b-2 border-gray-500 bg-[#141416] text-white focus:outline-none focus:border-customBlue rounded-md"
+      placeholder="Full Name"
+    />
+    <input
+      type="email"
+      className="w-full p-3 border-b-2 border-gray-500 bg-[#141416] text-white focus:outline-none focus:border-customBlue rounded-md"
+      placeholder="Email"
+    />
+    <textarea
+      className="w-full p-3 border-b-2 border-gray-500 bg-[#141416] text-white focus:outline-none focus:border-customBlue resize-none rounded-md"
+      placeholder="Type your Message..."
+    />
+    <button
+      type="submit"
+      className="hover:bg-customHoverBlue bg-customBlue text-white p-3 w-full rounded-md transition"
+    >
+      Send
+    </button>
+  </form>
+</div>
+
         </div>
       </section>
       <Footer/>
@@ -93,3 +94,4 @@ const Contact = () => {
 };
 
 export default Contact;
+ 
