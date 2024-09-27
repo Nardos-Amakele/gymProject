@@ -50,7 +50,7 @@ const Cart: React.FC<CartProps> = ({ cartItems, isOpen, onClose, onRemoveItem, o
             </div>
           ))
         ) : (
-          <p className="text-center">Your cart is empty.</p>
+          <p className="text-center text-gray-500">Your cart is empty.</p>
         )}
       </div>
 
