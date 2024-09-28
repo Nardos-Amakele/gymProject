@@ -6,7 +6,7 @@ import React from 'react';
 const NeonLine = () => {
   return (
     <motion.div
-      className="mt-8 lg:px-10 mx-auto container"
+      className="mt-8 mx-auto container"
       initial={{ width: 0 }}
       whileInView={{ width: '100%' }}
       viewport={{ once: true, amount: 0.5 }}

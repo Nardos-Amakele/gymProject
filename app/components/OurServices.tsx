@@ -16,8 +16,7 @@ const services = [
 
 const OurServices = () => {
   const ref = React.useRef(null);
-  const isInView = useInView(ref, { once: true }); // Track when the section comes into view
-
+  const isInView = useInView(ref, { once: true }); 
   return (
     <motion.section
       ref={ref}
@@ -30,7 +29,7 @@ const OurServices = () => {
       <div className="container mx-auto">
         {/* Link the header to /services */}
         <Link href="/services">
-          <h2 className='text-2xl font-bold text-[#2596BE] mb-4'>
+          <h2 className='text-6xl font-bold text-[#2596BE] mb-4'>
             Our Services
           </h2>
         </Link>
@@ -47,7 +46,7 @@ const OurServices = () => {
             show: {
               opacity: 1,
               transition: {
-                staggerChildren: 0.2, // Stagger each card's appearance
+                staggerChildren: 0.2, 
               },
             },
           }}

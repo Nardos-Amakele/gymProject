@@ -29,10 +29,10 @@ const About = () => {
           <div className="lg:w-1/2 lg:pl-12 mr-0 lg:text-start sm:text-start lg:mr-16 flex flex-col justify-between">
             <div>
               <Link href="./about">
-                <h2 className="text-3xl font-bold mb-5 text-customBlue block font ">About Us</h2>
+                <h2 className="text-6xl font-bold py-5 text-customBlue block">About Us</h2>
               </Link>
               <p className="mb-6 leading-relaxed text-sm text-gray-300 max-w-full">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit .
               </p>
             </div>
 

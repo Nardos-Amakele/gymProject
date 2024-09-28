@@ -2,6 +2,8 @@
 import { useRef } from 'react';
 import Image from 'next/image';
 import aboutUsHero from '../../assets/images/aboutus_hero.jpg';
+import ourPhilo from '../../assets/images/philosophy.jpeg';
+import trainers from '../../assets/images/trainers.jpg';
 import { motion } from 'framer-motion';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,11 +16,20 @@ const AboutUsPage = () => {
         if (nextSectionRef.current) {
           nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
         }
-      };
+    };
     return (
         <>
             <Header />
-            <div className="bg-black text-white space-y-6 scroll-container">
+            <div className="bg-black text-white scroll-container relative">
+                {/* Neon Line - Connected and fixed */}
+                <motion.div
+                    className="absolute top-0 left-[50%] h-full w-1 bg-[#2596BE] neon-glow hidden sm:block"
+                    initial={{ scaleY: 0 }}
+                    animate={{ scaleY: 1 }}
+                    transition={{ duration: 1, ease: "easeInOut" }}
+                    style={{ transformOrigin: "top" }}
+                ></motion.div>
+
                 {/* Hero Section */}
                 <div className="relative w-full h-[100vh] bg-fixed bg-center bg-cover"
                     style={{ backgroundImage: `url(${aboutUsHero.src})`, backgroundAttachment: 'fixed' }}>
@@ -42,11 +53,11 @@ const AboutUsPage = () => {
 
                 {/* Section 1 - About Robi Fitness */}
                 <section className="scroll-section sm:px-[5rem] md:px-[9rem] sm:py-2 md:py-20" ref={nextSectionRef}>
-                    <section className="flex flex-col md:flex-row items-center py-12 gap-10">
+                    <section className="flex flex-col md:flex-row items-center pt-12 gap-20">
                         <div className="md:w-1/2 px-6">
                             <div className="relative">
                                 <motion.h2
-                                    className="text-[10rem] font-bold text-gray-800 tracking-tight"
+                                    className="text-[7rem] font-bold text-gray-800 tracking-tight"
                                     initial={{ opacity: 0 }}
                                     whileInView={{ opacity: 0.8, x: 0 }}
                                     transition={{ duration: 1 }}
@@ -54,7 +65,7 @@ const AboutUsPage = () => {
                                     01
                                 </motion.h2>
                                 <motion.h2
-                                    className="absolute top-1/2 left-0 text-3xl font-semibold mb-6 text-[#2596BE] transform -translate-y-1/2"
+                                    className="absolute top-1/2 left-0 text-2xl font-semibold mb-6 text-[#2596BE] transform -translate-y-1/2"
                                     initial={{ opacity: 0, x: -50 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.8 }}
@@ -64,7 +75,7 @@ const AboutUsPage = () => {
                             </div>
 
                             <motion.p
-                                className="text-lg leading-relaxed text-gray-400"
+                                className="text-base leading-relaxed text-gray-400 mt-[-1.5rem]"
                                 initial={{ opacity: 0, y: 50 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8 }}
@@ -74,16 +85,8 @@ const AboutUsPage = () => {
                             </motion.p>
                         </div>
 
-                        {/* Neon Line - Hidden on small screens */}
                         <motion.div
-                            className="w-full h-1 md:block md:h-60 md:w-1 bg-[#2596BE] neon-glow mx-10"
-                            initial={{ scaleY: 0 }}
-                            whileInView={{ scaleY: 1 }}
-                            transition={{ duration: 0.8 }}
-                        ></motion.div>
-
-                        <motion.div
-                            className="w-full lg:w-1/2 relative md:h-80 h-60 lg:h-60"
+                            className="w-full lg:w-1/2 relative md:h-80 h-60 lg:h-60 "
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.8 }}
@@ -99,7 +102,7 @@ const AboutUsPage = () => {
                     </section>
 
                     {/* Section 2 - Our Philosophy */}
-                    <section className="scroll-section flex flex-col md:flex-row items-center gap-10 pt-40">
+                    <section className="scroll-section flex flex-col md:flex-row items-center py-7 gap-10 ">
                         <motion.div
                             className="w-full lg:w-1/2 relative md:h-80 h-60 lg:h-60"
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -107,21 +110,13 @@ const AboutUsPage = () => {
                             transition={{ duration: 0.8 }}
                         >
                             <Image
-                                src={aboutUsHero}
+                                src={ourPhilo}
                                 alt="Our Philosophy"
                                 layout="fill"
                                 objectFit="cover"
                                 className="rounded-lg"
                             />
                         </motion.div>
-
-                        {/* Neon Line - Hidden on small screens */}
-                        <motion.div
-                            className="w-full h-1 md:block md:h-60 md:w-1 bg-[#2596BE] neon-glow mx-10"
-                            initial={{ scaleY: 0 }}
-                            whileInView={{ scaleY: 1 }}
-                            transition={{ duration: 0.8 }}
-                        ></motion.div>
 
                         <div className="md:w-1/2 px-6">
                             <div className='relative'>
@@ -154,7 +149,7 @@ const AboutUsPage = () => {
                     </section>
 
                     {/* Section 3 - Our Facilities & Trainers */}
-                    <section className="scroll-section flex flex-col md:flex-row items-center py-40 gap-10">
+                    <section className="scroll-section flex flex-col md:flex-row items-center  gap-10">
                         <div className="md:w-1/2 sm:w-full sm:px-0 px-6">
                             <div className='relative'>
                                 <motion.h2
@@ -184,14 +179,6 @@ const AboutUsPage = () => {
                             </motion.p>
                         </div>
 
-                        {/* Neon Line - Hidden on small screens */}
-                        <motion.div
-                            className="w-full h-1 md:block md:h-60 md:w-1 bg-[#2596BE] neon-glow mx-10"
-                            initial={{ scaleY: 0 }}
-                            whileInView={{ scaleY: 1 }}
-                            transition={{ duration: 0.8 }}
-                        ></motion.div>
-
                         <motion.div
                             className="w-full lg:w-1/2 relative md:h-80 h-60 lg:h-60"
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -199,7 +186,7 @@ const AboutUsPage = () => {
                             transition={{ duration: 0.8 }}
                         >
                             <Image
-                                src={aboutUsHero}
+                                src={trainers}
                                 alt="Our Facilities"
                                 objectFit="cover"
                                 className="rounded-lg"
@@ -207,31 +194,11 @@ const AboutUsPage = () => {
                             />
                         </motion.div>
                     </section>
-
-                    {/* Join Us Section */}
-                    <motion.section
-                        className="py-16 text-center"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h2 className="text-3xl font-semibold mb-6 text-[#2596BE]">Ready to Transform Your Life?</h2>
-                        <p className="text-lg mb-8 text-gray-400">
-                            Step into Robi Fitness today and discover a new way to work out. Together, we’ll achieve your fitness goals and empower you to live your best life.
-                        </p>
-                        <motion.button
-                            className="px-8 py-4 bg-white text-black font-semibold rounded-full hover:bg-gray-200 transition-all duration-300"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            Join Robi Fitness Now
-                        </motion.button>
-                    </motion.section>
                 </section>
             </div>
             <Footer />
         </>
     );
-}
+};
 
 export default AboutUsPage;

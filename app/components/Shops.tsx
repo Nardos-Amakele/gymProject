@@ -8,32 +8,20 @@ import NeonLine from './NeonLine';
 
 const Shop = () => {
   return (
-    <section className="bg-black text-white py-16 px-4 sm:px-8 md:px-16 lg:px-[9rem] font-jost" id="shop">
+    <section className="bg-black text-white pt-40 py-16 px-4 sm:px-8 md:px-16 lg:px-[9rem] font-jost" id="shop">
       <div className="flex flex-col md:flex-row md:space-x-16">
         {/* First column */}
         <div className="flex flex-col justify-between mb-8 md:mb-0">
           <div className="container mx-auto">
             {/* Link the Shop header */}
             <Link href="/shop">
-              <h2 className="text-2xl font-bold mb-4 text-[#2596BE]">Shop</h2>
+              <h2 className="text-6xl font-bold mb-4 text-[#2596BE]">Shop</h2>
             </Link>
             <p className="mb-12 text-gray-300 max-w-sm text-sm font-thin">
               Discover our premium fitness products and accessories at unbeatable prices.
             </p>
           </div>
 
-          {/* Left and right arrows */}
-          <div className="flex space-x-8 font-bold">
-            {/* Left arrow */}
-            <button className="text-[#2596BE] hover:text-gray-400">
-              <FontAwesomeIcon icon={faArrowLeft} />
-            </button>
-
-            {/* Right arrow */}
-            <button className="text-[#2596BE] hover:text-gray-400">
-              <FontAwesomeIcon icon={faArrowRight} />
-            </button>
-          </div>
 
           {/* Shop Item 1 */}
           <Link href="/shop"> {/* Wrap Shop Item 1 in a link */}
