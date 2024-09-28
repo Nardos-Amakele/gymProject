@@ -8,7 +8,8 @@ import {
   faBottleWater,
   faBoxOpen,
   faShoppingCart,
-  faChevronDown,
+  faArrowUp,
+  faChevronDown
 } from "@fortawesome/free-solid-svg-icons";
 import Cart from "../components/Cart"; 
 import Footer from "../components/Footer"
@@ -216,7 +217,7 @@ const ShopPage: React.FC = () => {
 
   return (
     <>
-      {/*how to add the header?*/}
+       
       <HeroSection />
       <Header />
       <header className="fixed top-0 left-0 w-full flex justify-between items-center p-4 bg-black text-white z-10">

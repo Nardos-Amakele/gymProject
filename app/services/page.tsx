@@ -20,7 +20,6 @@ const Page = () => {
     'Personal Training': 'Get personalized attention with our 1-on-1 coaching and tailored plans.',
   };
 
-  // Scroll to next section function
   const scrollToNextSection = () => {
     if (nextSectionRef.current) {
       nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -204,11 +203,11 @@ const Page = () => {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-4 py-2 font-bold ${
+                className={`px-4 py-2 font-bold  ${
                   activeTab === tab
-                    ? 'text-[#2596BE] bg-gray-700'
+                    ? 'text-[#2596BE]'
                     : 'text-gray-400 bg-gray-800'
-                } hover:bg-gray-600 transition-colors duration-200`}
+                }`}
               >
                 {tab}
               </button>

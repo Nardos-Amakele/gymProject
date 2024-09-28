@@ -38,7 +38,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, description, icon, ima
       animate={isInView ? { opacity: 1, y: 0 } : {}} 
       transition={{ duration: 1, ease: 'easeOut' }}
       whileHover={{ scale: 1.05, transition: {
-        duration: 0.5, 
+        duration: 0.1, 
       }, }}
     >
       <div className="absolute inset-0 bg-black opacity-90 rounded-lg">
