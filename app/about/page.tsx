@@ -40,7 +40,7 @@ const AboutUsPage = () => {
             <div className="bg-black text-white scroll-container relative">
                 {/* Neon Line - Connected and fixed */}
                 <motion.div
-                    className="absolute top-0 left-[50%] h-full w-1 bg-[#2596BE] neon-glow hidden sm:block"
+                    className="absolute top-0 left-[50%] h-full w-1 bg-[#2596BE] neon-glow hidden lg:block"
                     initial={{ scaleY: 0 }}
                     animate={{ scaleY: 1 }}
                     transition={{ duration: 1, ease: "easeInOut" }}
