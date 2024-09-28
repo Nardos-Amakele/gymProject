@@ -19,20 +19,20 @@ const Hero = () => {
     const incrementCounter = (target: number, setter: CounterSetter, delay: number): void => {
       let count = 0;
       const interval = setInterval(() => {
-      count += 1;
-      setter(count);
-      if (count >= target) {
-        clearInterval(interval);
-      }
+        count += 1;
+        setter(count);
+        if (count >= target) {
+          clearInterval(interval);
+        }
       }, delay);
     };
-    incrementCounter(membersTarget, setMembersCount, 10) 
-    incrementCounter(servicesTarget, setServicesCount, 200) 
+    incrementCounter(membersTarget, setMembersCount, 10)
+    incrementCounter(servicesTarget, setServicesCount, 200)
 
   }, [])
 
   return (
-    <div className="pb-28">
+    <div className="pb-0 lg:pb-28">
       <section
         className="bg-cover bg-center h-screen items-center justify-between align-middle flex"
         style={{
@@ -81,7 +81,7 @@ const Hero = () => {
         </div>
 
         <motion.div
-          className="flex justify-end self-end mx-6 mt-16 mr-16 text-center pb-8"
+          className="md:flex hidden md:justify-end md:self-end mx-6 mt-16 mr-16 text-center pb-8"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 1, ease: 'easeOut' }}

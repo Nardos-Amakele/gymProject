@@ -33,7 +33,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Navigation Menu */}
-        <nav className={`md:flex ${menuOpen ? 'block' : 'hidden'} absolute md:static bg-transparent w-full md:w-auto top-12 right-0 md:right-auto z-10`}>
+        <nav className={`md:flex ${menuOpen ? 'block' : 'hidden'} absolute md:static bg-black md:bg-transparent w-full md:w-auto top-12 right-0 md:right-auto z-10`}>
           <ul className="flex flex-col items-center md:flex-row text-base space-y-4 md:space-y-0 md:space-x-10 lg:space-x-14 p-6 md:p-0 ml-auto md:ml-0">
             <li className="cursor-pointer relative group">
               <Link href="/">Home</Link>

@@ -10,16 +10,16 @@ import NeonLine from './NeonLine';
 const About = () => {
   return (
     <div>
-      <section className="text-white mb-24 px-[7rem]">
+      <section className="text-white mb-24 px-4 sm:px-6 lg:px-[7rem]">
         <div className="container mx-auto flex flex-col lg:flex-row items-stretch">
 
           {/* Left Image Section */}
-          <div className="w-full lg:w-1/2 flex items-stretch mb-8 lg:mb-0 transition-transform transform hover:scale-105">
-            <Link href="./about" className="relative w-full rounded-tl-[164px] rounded-br-[6px] rounded-bl-[6px] bg-black rounded-xl overflow-hidden min-h-[300px]"> {/* Set a min-height */}
+          <div className="sm:w-full lg:w-1/2 flex items-stretch mb-8 lg:mb-0 transition-transform transform hover:scale-105 relative">
+            <Link href="./about" className="relative w-full h-[50vh] lg:h-auto rounded-tl-[164px] rounded-br-[6px] rounded-bl-[6px] bg-black rounded-xl overflow-hidden"> {/* Adjust height here */}
               <Image
                 src={aboutImage1}
                 alt="About Us Hero"
-                className="object-cover opacity-80 "
+                className="object-cover opacity-80"
                 layout="fill"
               />
             </Link>
