@@ -1,5 +1,5 @@
 'use client'
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import aboutUsHero from '../../assets/images/aboutus_hero.jpg';
 import ourPhilo from '../../assets/images/philosophy.jpeg';
@@ -13,12 +13,26 @@ import style from '../styles/ButtonStyles.module.css'
 import Link from 'next/link';
 
 const AboutUsPage = () => {
+    const [isJumping, setIsJumping] = useState(true);
     const nextSectionRef = useRef<HTMLDivElement | null>(null);
     const scrollToNextSection = () => {
         if (nextSectionRef.current) {
           nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
+    useEffect(() => {
+        let timeoutId: NodeJS.Timeout;
+        if (isJumping) {
+          timeoutId = setTimeout(() => {
+            setIsJumping(false);
+          }, 1200);
+        } else {
+          timeoutId = setTimeout(() => {
+            setIsJumping(true);
+          }, 3000);
+        }
+        return () => clearTimeout(timeoutId);
+      }, [isJumping]);
     return (
         <>
             <Header />
@@ -33,23 +47,33 @@ const AboutUsPage = () => {
                 ></motion.div>
 
                 {/* Hero Section */}
-                <div className="relative w-full h-[100vh] bg-fixed bg-center bg-cover"
+                <div className=" relative w-full h-[100vh] bg-fixed bg-center bg-cover"
                     style={{ backgroundImage: `url(${aboutUsHero.src})`, backgroundAttachment: 'fixed' }}>
-                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col   items-center justify-center">
                         <motion.h1
                             initial={{ opacity: 0, y: -50 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="text-6xl font-bold text-white"
+                            className="text-6xl font-bold text-white "
                         >
                             About Us
                         </motion.h1>
-                        <div
-                            onClick={scrollToNextSection}
-                            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 border border-white rounded-full p-4 cursor-pointer text-white"
-                        >
-                            <FontAwesomeIcon icon={faArrowUp} className='text-2xl' />
-                        </div>
+                        <div className="flex justify-center pt-4">
+        <motion.div
+          onClick={scrollToNextSection}
+          className="bottom-4 justify-center border border-white rounded-full p-4 cursor-pointer text-white"
+          whileHover={{ scale: 1.1 }}  // Hover effect for smoother interaction
+          whileTap={{ scale: 0.9 }}    // Tap effect for feedback
+          animate={isJumping ? { y: [0, -10, 0] } : {}}
+          transition={{ 
+            duration: 0.6, 
+            ease: "easeInOut", 
+            repeat: isJumping ? 1 : 0, // Jump twice
+          }}  
+        >
+          <FontAwesomeIcon icon={faArrowUp} className="text-white text-xl" />
+        </motion.div>
+      </div>
                     </div>
                 </div>
 

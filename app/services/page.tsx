@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import ServiceCard from './ServicesCards';
 import servicesHero from '../../assets/images/services_hero.jpg';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { motion } from 'framer-motion';
 
 const Page = () => {
   const [activeTab, setActiveTab] = useState('Body Building');
@@ -25,6 +26,22 @@ const Page = () => {
       nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const [isJumping, setIsJumping] = useState(true);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    if (isJumping) {
+      timeoutId = setTimeout(() => {
+        setIsJumping(false);
+      }, 1200);
+    } else {
+      timeoutId = setTimeout(() => {
+        setIsJumping(true);
+      }, 3000);
+    }
+    return () => clearTimeout(timeoutId);
+  }, [isJumping]);
 
   const renderCards = () => {
     switch (activeTab) {
@@ -177,23 +194,36 @@ const Page = () => {
 
       <div className="bg-black text-white space-y-6">
         {/* Hero Section */}
-        <div
-          className="relative w-full h-[100vh] bg-fixed bg-center bg-cover"
-          style={{
-            backgroundImage: `url(${servicesHero.src})`,
-            backgroundAttachment: 'fixed',
-          }}
+        <div className=" relative w-full h-[100vh] bg-fixed bg-center bg-cover"
+                    style={{ backgroundImage: `url(${servicesHero.src})`, backgroundAttachment: 'fixed' }}>
+                    <div className="absolute inset-0 bg-black bg-opacity-50 flex flex-col   items-center justify-center">
+                        <motion.h1
+                            initial={{ opacity: 0, y: -50 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
+                            className="text-6xl font-bold text-white "
+                        >
+                            Services
+                        </motion.h1>
+                        <div className="flex justify-center pt-4">
+        <motion.div
+          onClick={scrollToNextSection}
+          className="bottom-4 justify-center border border-white rounded-full p-4 cursor-pointer text-white"
+          whileHover={{ scale: 1.1 }}  // Hover effect for smoother interaction
+          whileTap={{ scale: 0.9 }}    // Tap effect for feedback
+          animate={isJumping ? { y: [0, -10, 0] } : {}}
+          transition={{ 
+            duration: 0.6, 
+            ease: "easeInOut", 
+            repeat: isJumping ? 1 : 0, // Jump twice
+          }}  
         >
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <h1 className="text-6xl font-bold text-white">Services</h1>
-          </div>
-          {/* Upward Arrow */}
-          <div
-            onClick={scrollToNextSection}
-            className="absolute bottom-4 left-1/2 transform -translate-x-1/2 border border-white rounded-full p-4 cursor-pointer text-white"
-          >
-            <FontAwesomeIcon icon={faArrowUp} className='text-2xl' />
-          </div>
+          <FontAwesomeIcon icon={faArrowUp} className="text-white text-xl" />
+        </motion.div>
+      </div>
+                    </div>
+                </div>
+        
         </div>
 
         {/* Tab Section */}
@@ -222,7 +252,7 @@ const Page = () => {
             {renderCards()}
           </div>
         </div>
-      </div>
+      
       <Footer/> 
     </>
   );
