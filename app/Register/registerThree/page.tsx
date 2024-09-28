@@ -9,10 +9,10 @@ const RegisterTwo = () => {
   return (
     <div className="flex h-screen">
       {/* Form Section */}
-      <div className="w-2/5 flex justify-center items-center bg-black">
+      <div className="md:w-2/5 w-full flex justify-center items-center bg-black">
         <div className="text-white bg-black bg-opacity-75 p-8 rounded-md">
           <h2 className="text-2xl mb-8 text-center">Personal info and fitness goal</h2>
-          <form className="flex flex-col items-center w-full"> 
+          <form className="flex flex-col items-center w-full">
             <div className="mb-4 w-4/5 flex gap-4">
               <input
                 type="text"
@@ -101,28 +101,28 @@ const RegisterTwo = () => {
                 </label>
               </div>
               <button type="submit" className="w-full p-2 mt-6 font-semibold text-customBlue rounded-lg bg-zinc-800 hover:bg-customBlue hover:text-black">
-              <Link href="/">Register</Link>
-    </button>
+                <Link href="/">Register</Link>
+              </button>
             </div>
-            
+
           </form>
         </div>
       </div>
 
       {/* Image Section */}
-      <div className="w-3/5 h-full relative">
-      <Image
-        src={registerImage}
-        alt="Register Background"
-        layout="fill"
-        objectFit="cover"
-        className="rounded-none p-12"
-      />
-      <div className="absolute top-20 right-20 text-white text-right text-2xl font-bold leading-snug">
-        No Hidden Fees. Cancel Anytime.<br/> 
-        Sign up now and get your first week<br/>
-        FREE!
-      </div>
+      <div className="md:w-3/5 hidden md:block h-full md:relative">
+        <Image
+          src={registerImage}
+          alt="Register Background"
+          layout="fill"
+          objectFit="cover"
+          className="rounded-none p-12"
+        />
+        <div className="absolute top-20 right-20 text-white text-right text-2xl font-bold leading-snug">
+          No Hidden Fees. Cancel Anytime.<br />
+          Sign up now and get your first week<br />
+          FREE!
+        </div>
       </div>
     </div>
   );

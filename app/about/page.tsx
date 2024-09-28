@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
+
 const AboutUsPage = () => {
     const nextSectionRef = useRef<HTMLDivElement | null>(null);
     const scrollToNextSection = () => {

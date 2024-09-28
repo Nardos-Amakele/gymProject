@@ -52,7 +52,7 @@ const HeroSection: React.FC = () => {
     }, [isJumping]);
 
   return (
-    <div className="relative h-screen bg-black flex justify-center items-center overflow-hidden pt-8">
+    <div className="relative h-screen bg-black flex justify-center items-center overflow-hidden pt-2 lg:pt-8">
       <div className="absolute w-full h-full flex flex-col justify-center items-center space-y-6 z-0">
         <div className="w-full flex space-x-6 animate-slideRight">
           {[...images, ...images].map((image, idx) => (
