@@ -68,14 +68,14 @@ const HeroSection: React.FC = () => {
   </div>
 </div>
 
-<div className="relative z-10 text-center text-white">
+<div className="relative z-10  text-white">
   <h1 className="text-5xl font-bold mb-4">Shop</h1>
   <p className="text-lg"></p>
   
   {/* Downward Icon with Circular Background  add animation to this icon make it jumpy I guess lol*/}
   <div className="mt-6">
     <div
-      className="absolute bottom-0 left-1/2 transform -translate-x-1/2 mb-4 border border-white rounded-full p-4 cursor-pointer text-white"
+      className="  left-1/2 transform -translate-x-1/2 mb-4 border border-white rounded-full p-4 cursor-pointer text-white"
     >
       <FontAwesomeIcon icon={faArrowUp} className="text-2xl" />
     </div>

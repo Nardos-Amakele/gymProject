@@ -9,6 +9,8 @@ import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import style from '../styles/ButtonStyles.module.css'
+import Link from 'next/link';
 
 const AboutUsPage = () => {
     const nextSectionRef = useRef<HTMLDivElement | null>(null);
@@ -102,7 +104,7 @@ const AboutUsPage = () => {
                     </section>
 
                     {/* Section 2 - Our Philosophy */}
-                    <section className="scroll-section flex flex-col md:flex-row items-center py-7 gap-10 ">
+                    <section className="scroll-section flex flex-col md:flex-row items-center py-14 gap-20 ">
                         <motion.div
                             className="w-full lg:w-1/2 relative md:h-80 h-60 lg:h-60"
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -121,7 +123,7 @@ const AboutUsPage = () => {
                         <div className="md:w-1/2 px-6">
                             <div className='relative'>
                                 <motion.h2
-                                    className="text-[10rem] font-bold text-gray-800 tracking-tight"
+                                    className="text-[7rem]  font-bold text-gray-800 tracking-tight"
                                     initial={{ opacity: 0 }}
                                     whileInView={{ opacity: 0.8 }}
                                     transition={{ duration: 1 }}
@@ -129,7 +131,7 @@ const AboutUsPage = () => {
                                     02
                                 </motion.h2>
                                 <motion.h2
-                                    className="text-3xl font-semibold mb-6 text-[#2596BE] absolute top-1/2 left-0 transform -translate-y-1/2"
+                                    className="text-2xl font-semibold mb-6 text-[#2596BE] absolute top-1/2 left-0 transform -translate-y-1/2"
                                     initial={{ opacity: 0, x: -50 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.8 }}
@@ -138,7 +140,7 @@ const AboutUsPage = () => {
                                 </motion.h2>
                             </div>
                             <motion.p
-                                className="text-lg leading-relaxed text-gray-400"
+                                className="text-base leading-relaxed text-gray-400 mt-[-1.5rem]"
                                 initial={{ opacity: 0, y: 50 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8 }}
@@ -149,11 +151,11 @@ const AboutUsPage = () => {
                     </section>
 
                     {/* Section 3 - Our Facilities & Trainers */}
-                    <section className="scroll-section flex flex-col md:flex-row items-center  gap-10">
+                    <section className="scroll-section flex flex-col md:flex-row items-center  gap-20">
                         <div className="md:w-1/2 sm:w-full sm:px-0 px-6">
                             <div className='relative'>
                                 <motion.h2
-                                    className="text-[10rem] font-bold text-gray-800 tracking-tight"
+                                    className="text-[7rem] font-bold text-gray-800 tracking-tight"
                                     initial={{ opacity: 0 }}
                                     whileInView={{ opacity: 0.8 }}
                                     transition={{ duration: 1 }}
@@ -161,7 +163,7 @@ const AboutUsPage = () => {
                                     03
                                 </motion.h2>
                                 <motion.h2
-                                    className="text-3xl font-semibold mb-6 text-[#2596BE] absolute top-1/2 left-0 transform -translate-y-1/2"
+                                    className="text-2xl font-semibold mb-6 text-[#2596BE] absolute top-1/2 left-0 transform -translate-y-1/2"
                                     initial={{ opacity: 0, x: -50 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.8 }}
@@ -170,7 +172,7 @@ const AboutUsPage = () => {
                                 </motion.h2>
                             </div>
                             <motion.p
-                                className="text-lg leading-relaxed text-gray-400"
+                                className="text-base leading-relaxed text-gray-400 mt-[-1.5rem]"
                                 initial={{ opacity: 0, y: 50 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8 }}
@@ -194,6 +196,31 @@ const AboutUsPage = () => {
                             />
                         </motion.div>
                     </section>
+                </section>
+            </div>
+            {/* Join Us Section */}
+            <div>
+                <section className='py-10'>
+            <motion.section
+                        className="py-16 text-center"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        <h2 className="text-3xl font-semibold mb-6 text-[#2596BE]">Step into Robi Fitness today and discover a new way to work out.</h2>
+                        <p className="text-lg mb-8 text-gray-400">
+                             Together, we’ll achieve your fitness goals and empower you to live your best life.
+                        </p>
+                        <Link href='/Signup'>
+                        <motion.button
+                            className={style.customButton}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
+                            Join Robi Fitness Now
+                        </motion.button>
+                        </Link>
+                    </motion.section>
                 </section>
             </div>
             <Footer />
