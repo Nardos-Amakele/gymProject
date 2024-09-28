@@ -12,6 +12,7 @@ import Footer from '../components/Footer';
 import style from '../styles/ButtonStyles.module.css'
 import Link from 'next/link';
 
+
 const AboutUsPage = () => {
     const [isJumping, setIsJumping] = useState(true);
     const nextSectionRef = useRef<HTMLDivElement | null>(null);
