@@ -40,7 +40,7 @@ const Cart: React.FC<CartProps> = ({ cartItems, isOpen, onClose, onRemoveItem, o
               <div className="flex items-center space-x-4">
                 <img src={item.image} alt={item.title} className="w-16 h-16 object-cover rounded-md" />
                 <div>
-                  <h3 className="font-bold">{item.title}</h3>
+                  <h3 className="font-bold text-white">{item.title}</h3>
                   <p className="text-gray-500">${item.price.toFixed(2)}</p>
                 </div>
               </div>
