@@ -1,4 +1,4 @@
-"use client"; // Add this line to indicate a Client Component
+"use client"; 
 
 import React, { useState } from 'react';
 import styles from '../styles/ButtonStyles.module.css'; 

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
+
+
 body {
   font-family: 'Jost', sans-serif;
   color: rgb(var(--foreground-rgb));
@@ -52,3 +56,11 @@ body {
 }
 
 
+/* Styling for the arrow buttons */
+test-button {
+  cursor: pointer;
+}
+
+test-button:hover {
+  background-color: #1c82a5; /* Slight hover effect */
+}

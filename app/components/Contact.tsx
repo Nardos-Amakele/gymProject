@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMapMarkerAlt, faPhoneAlt, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import Header from './Header';
+
 
 const Contact = () => {
   return (
-    <section className="bg-black text-white py-3 px-6 md:px-[5rem] lg:px-[9rem] pb-16 font-jost">
+    <section className="bg-black text-white py-3 px-6 md:px-[5rem] lg:px-[9rem] pb-16 pt-48 md:pt-16  font-jost">
       <div className="container mx-auto flex flex-col items-center md:flex-row md:items-start lg:items-center justify-between gap-10 lg:gap-80">
         {/* Contact Information */}
         <div className="flex-1 mb-8 md:mb-0 text-center md:text-left">
