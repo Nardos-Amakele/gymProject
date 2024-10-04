@@ -17,6 +17,7 @@ import About from './components/About';
 
 import Testimonials from './components/Testimonials';
 import BMICalculator from './components/BMIcalculator';
+import React from 'react';
 export default function Home() {
   return (
   

@@ -2,7 +2,7 @@
 import { useRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import aboutUsHero from '../../assets/images/aboutus_hero.jpg';
-import ourPhilo from '../../assets/images/philosophy.jpeg';
+import ourPhilo from '../../assets/images/ourPhilosophy.jpg';
 import trainers from '../../assets/images/trainers.jpg';
 import { motion } from 'framer-motion';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import style from '../styles/ButtonStyles.module.css'
 import Link from 'next/link';
+import Staff from './componenets/ourStaff'
+import React from 'react';
 
 
 const AboutUsPage = () => {
@@ -92,7 +94,7 @@ const AboutUsPage = () => {
                                     01
                                 </motion.h2>
                                 <motion.h2
-                                    className="absolute top-1/2 left-0 text-2xl font-semibold mb-6 text-[#2596BE] transform -translate-y-1/2"
+                                    className="absolute top-1/2 left-0 text-2xl font-semibold mb-6 text-customBlue transform -translate-y-1/2"
                                     initial={{ opacity: 0, x: -50 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     transition={{ duration: 0.8 }}
@@ -223,6 +225,8 @@ const AboutUsPage = () => {
                     </section>
                 </section>
             </div>
+            <Staff />
+
             {/* Join Us Section */}
             <div>
                 <section className='py-10'>
