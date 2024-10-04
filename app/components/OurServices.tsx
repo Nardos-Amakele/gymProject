@@ -3,8 +3,8 @@ import React from 'react';
 import Link from 'next/link';
 import ServiceCard from './ServiceCard';
 import Service1 from '../../assets/images/service_image1.png';
-import Service2 from '../../assets/images/image 8.png';
-import Service3 from '../../assets/images/image 7.png';
+import Service2 from '../../assets/images/aerobics.jpg';
+import Service3 from '../../assets/images/personal.jpg';
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion'; // Import useInView
 
@@ -40,7 +40,7 @@ const OurServices = () => {
         <motion.div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
           initial="hidden"
-          animate={isInView ? "show" : "hidden"} // Animate cards when in view
+          animate={isInView ? "show" : "hidden"} 
           variants={{
             hidden: { opacity: 0 },
             show: {
@@ -52,7 +52,7 @@ const OurServices = () => {
           }}
         >
           {services.map((service, index) => (
-            <div className="w-full sm:w-auto p-4 sm:p-0" key={index}> {/* Ensure full width on small screens */}
+            <div className="w-full sm:w-auto p-4 sm:p-0" key={index}> 
               {/* Link the service images to /services */}
               <Link href="/services">
                 <ServiceCard

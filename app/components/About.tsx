@@ -1,8 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 // images
-import aboutImage1 from '../../assets/images/aboutus_hero.jpg';
-import aboutImage2 from '../../assets/images/image 2.png';
+import aboutImage1 from '../../assets/images/owner.jpg';
+import aboutImage2 from '../../assets/images/cycling.jpg';
 import aboutImage3 from '../../assets/images/image 3.png';
 import Image from 'next/image';
 import NeonLine from './NeonLine';
@@ -21,6 +21,7 @@ const About = () => {
                 alt="About Us Hero"
                 className="object-cover opacity-80"
                 layout="fill"
+                style={{ backgroundSize: '75%' }}
               />
             </Link>
           </div>
@@ -41,8 +42,7 @@ const About = () => {
                 <Image
                   src={aboutImage2}
                   alt="About Image 2"
-                  className="rounded-[6px] w-full h-full object-cover transition-transform transform hover:scale-105"
-                  layout="responsive"
+                  className="opacity-80 rounded-[6px] w-full h-full object-cover transition-transform transform hover:scale-105"
                 />
               </Link>
               <Link href="./about" className="w-1/2 h-full flex items-center">

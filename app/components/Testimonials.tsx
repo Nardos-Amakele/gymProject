@@ -3,22 +3,33 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faArrowRight, faQuoteRight, faQuoteLeft } from '@fortawesome/free-solid-svg-icons';
-import before1 from '../../assets/images/before.jpeg';
-import after1 from '../../assets/images/after.jpeg';
+import { motion } from 'framer-motion'; 
+import before1 from '../../assets/images/before.jpg';
+import after1 from '../../assets/images/after.jpg';
+import before2 from '../../assets/images/before2.jpg';
+import after2 from '../../assets/images/after2.jpg';
+import before3 from '../../assets/images/before3.jpg';
+import after3 from '../../assets/images/after3.jpg';
 
 const Testimonials: React.FC = () => {
   const testimonials = [
     {
-      description: `Before working with Andres I struggled with back pain and gaining strength for powerlifting. After hiring him, I was able to hit lifetime PR's at my powerlifting meet, drop 30 pounds of fat, and eliminate my back pain completely while celebrating the birth of my baby daughter. I couldn't be happier with the results I've had. Andres is the absolute best coach out there!`,
-      name: 'TAYLOR MOORMAN',
+      description: `Before working with Andres, I struggled with back pain and gaining strength for powerlifting. After hiring him, I was able to drop 30 pounds, eliminate my back pain, and hit lifetime PRs at my powerlifting meet—all while celebrating the birth of my daughter. Andres is the best coach out there!`,
+      name: 'Eden Gebreselassie',
+      beforeImage: before1,
+      afterImage: after1,
     },
     {
-      description: `Andres helped me fix my diet and workout routine, which allowed me to lose 20 pounds and build muscle. I'm in the best shape of my life!`,
-      name: 'JORDAN SMITH',
+      description: `I had been overweight for years and struggled to stay consistent with workouts. With Andres' guidance, I lost 25 pounds, improved my overall fitness, and gained more muscle than I ever thought possible. I'm stronger and more confident now.`,
+      name: 'Bereket Tesfaye',
+      beforeImage: before2,
+      afterImage: after2,
     },
     {
-      description: `After training with Andres, I improved my endurance and finished my first marathon. His coaching has changed my life for the better!`,
-      name: 'EMILY DAVIS',
+      description: `I wanted to lose weight after giving birth, but I wasn’t sure where to start. Andres helped me create a plan that fit my lifestyle, and I ended up losing 20 pounds while feeling more energetic and healthy. His coaching has made a huge impact on my life!`,
+      name: 'Meheret Alemu',
+      beforeImage: before3,
+      afterImage: after3,
     },
   ];
 
@@ -39,25 +50,33 @@ const Testimonials: React.FC = () => {
   return (
     <div className="relative max-w-6xl mx-auto px-[3rem] py-10 mb-10">
       {/* Testimonials */}
-      <div className="flex flex-col md:flex-row justify-between bg-black text-white p-5 rounded-lg transition-all duration-500 ease-in-out" style={{ height: '400px' }}>
+      <motion.div 
+        className="flex flex-col md:flex-row justify-between bg-black text-white p-5 rounded-lg transition-all duration-500 ease-in-out" 
+        style={{ height: '400px' }}
+        key={currentIndex}
+        initial={{ opacity: 0, x: 50, scale: 0.95 }}  
+        animate={{ opacity: 1, x: 0, scale: 1 }} 
+        exit={{ opacity: 0, x: -50, scale: 0.95 }} 
+        transition={{ ease: "easeInOut" }}  
+      >
         {/* Before and After Images */}
-        <div className="w-full md:w-1/2  flex space-x-5">
-          <div className="before-img text-center h-full">
-            <h3 className=" text-black bg-customBlue text-lg font-bold mb-2">BEFORE</h3>
+        <div className="w-full md:w-1/2 flex space-x-5">
+          <div className="before-img text-center h-full w-full">
+            <h3 className="text-black bg-customBlue text-lg font-bold mb-2 w-[100%]">BEFORE</h3> 
             <Image
-              src={before1}
+              src={testimonials[currentIndex].beforeImage}
               alt="Before"
               className="rounded-lg h-5/6"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'contain' }}
             />
           </div>
           <div className="after-img text-center">
-            <h3 className="text-black bg-customBlue text-lg font-bold mb-2">AFTER</h3>
+            <h3 className="text-black bg-customBlue text-lg font-bold mb-2 w-[100%]">AFTER</h3> 
             <Image
-              src={after1}
+              src={testimonials[currentIndex].afterImage}
               alt="After"
               className="rounded-lg h-5/6"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: 'contain' }}
             />
           </div>
         </div>
@@ -69,7 +88,7 @@ const Testimonials: React.FC = () => {
           <FontAwesomeIcon icon={faQuoteRight} size="2x" className="text-customBlue md:absolute right-5" />
           <p className="mt-12 font-bold text-2xl">{testimonials[currentIndex].name}</p>
         </div>
-      </div>
+      </motion.div>
 
       {/* Arrows for navigation */}
       <button
@@ -82,7 +101,7 @@ const Testimonials: React.FC = () => {
       <button
         className="absolute top-1/2 right-0 transform -translate-y-1/2 text-white bg-customBlue p-2 rounded-full"
         onClick={nextTestimonial}
-        style={{ transform: 'translateY(-50%)' }} 
+        style={{ transform: 'translateY(-50%)' }}
       >
         <FontAwesomeIcon icon={faArrowRight} size="lg" />
       </button>
