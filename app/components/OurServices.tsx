@@ -6,7 +6,7 @@ import Service1 from '../../assets/images/service_image1.png';
 import Service2 from '../../assets/images/aerobics.jpg';
 import Service3 from '../../assets/images/personal.jpg';
 import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion'; // Import useInView
+import { useInView } from 'framer-motion'; 
 
 const services = [
   { title: "Weight Lifting", description: "Train with the best equipment.", icon: "dumbbell", imageSrc: Service1 },
@@ -21,9 +21,9 @@ const OurServices = () => {
     <motion.section
       ref={ref}
       id="services"
-      className="py-16 bg-black text-white px-4 sm:px-8 md:px-16 lg:px-[9rem] font-jost" // Adjusted padding
-      initial={{ opacity: 0 }} // Initially hidden
-      animate={isInView ? { opacity: 1 } : {}} // Animate when in view
+      className="py-16 bg-black text-white px-4 sm:px-8 md:px-16 lg:px-[9rem] font-jost" 
+      initial={{ opacity: 0 }} 
+      animate={isInView ? { opacity: 1 } : {}}
       transition={{ duration: 1 }}
     >
       <div className="container mx-auto">
