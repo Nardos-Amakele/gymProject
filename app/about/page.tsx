@@ -20,22 +20,22 @@ const AboutUsPage = () => {
     const nextSectionRef = useRef<HTMLDivElement | null>(null);
     const scrollToNextSection = () => {
         if (nextSectionRef.current) {
-          nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
+            nextSectionRef.current.scrollIntoView({ behavior: 'smooth' });
         }
     };
     useEffect(() => {
         let timeoutId: NodeJS.Timeout;
         if (isJumping) {
-          timeoutId = setTimeout(() => {
-            setIsJumping(false);
-          }, 1200);
+            timeoutId = setTimeout(() => {
+                setIsJumping(false);
+            }, 1200);
         } else {
-          timeoutId = setTimeout(() => {
-            setIsJumping(true);
-          }, 3000);
+            timeoutId = setTimeout(() => {
+                setIsJumping(true);
+            }, 3000);
         }
         return () => clearTimeout(timeoutId);
-      }, [isJumping]);
+    }, [isJumping]);
     return (
         <>
             <Header />
@@ -62,27 +62,29 @@ const AboutUsPage = () => {
                             About Us
                         </motion.h1>
                         <div className="flex justify-center pt-4">
-        <motion.div
-          onClick={scrollToNextSection}
-          className="bottom-4 justify-center border border-white rounded-full p-4 cursor-pointer text-white"
-          whileHover={{ scale: 1.1 }}  // Hover effect for smoother interaction
-          whileTap={{ scale: 0.9 }}    // Tap effect for feedback
-          animate={isJumping ? { y: [0, -10, 0] } : {}}
-          transition={{ 
-            duration: 0.6, 
-            ease: "easeInOut", 
-            repeat: isJumping ? 1 : 0, // Jump twice
-          }}  
-        >
-          <FontAwesomeIcon icon={faArrowUp} className="text-white text-xl" />
-        </motion.div>
-      </div>
+                            <motion.div
+                                onClick={scrollToNextSection}
+                                className="bottom-4 justify-center border border-white rounded-full p-4 cursor-pointer text-white"
+                                whileHover={{ scale: 1.1 }}  // Hover effect for smoother interaction
+                                whileTap={{ scale: 0.9 }}    // Tap effect for feedback
+                                animate={isJumping ? { y: [0, -10, 0] } : {}}
+                                transition={{
+                                    duration: 0.6,
+                                    ease: "easeInOut",
+                                    repeat: isJumping ? 1 : 0, // Jump twice
+                                }}
+                            >
+                                <FontAwesomeIcon icon={faArrowUp} className="text-white text-xl" />
+                            </motion.div>
+                        </div>
                     </div>
                 </div>
 
                 {/* Section 1 - About Robi Fitness */}
                 <section className="scroll-section sm:px-[5rem] md:px-[9rem] sm:py-2 md:py-20" ref={nextSectionRef}>
-                    <section className="flex flex-col md:flex-row items-center pt-12 gap-20">
+                    <section className="flex flex-col md:flex-row items-center pt-12 gap-20"
+                        id="about"
+                        >
                         <div className="md:w-1/2 px-6">
                             <div className="relative">
                                 <motion.h2
@@ -230,7 +232,7 @@ const AboutUsPage = () => {
             {/* Join Us Section */}
             <div>
                 <section className='py-10'>
-            <motion.section
+                    <motion.section
                         className="py-16 text-center"
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
@@ -238,16 +240,16 @@ const AboutUsPage = () => {
                     >
                         <h2 className="text-3xl font-semibold mb-6 text-[#2596BE]">Step into Robi Fitness today and discover a new way to work out.</h2>
                         <p className="text-lg mb-8 text-gray-400">
-                             Together, we’ll achieve your fitness goals and empower you to live your best life.
+                            Together, we’ll achieve your fitness goals and empower you to live your best life.
                         </p>
                         <Link href='/Signup'>
-                        <motion.button
-                            className={style.customButton}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            Join Robi Fitness Now
-                        </motion.button>
+                            <motion.button
+                                className={style.customButton}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                Join Robi Fitness Now
+                            </motion.button>
                         </Link>
                     </motion.section>
                 </section>
