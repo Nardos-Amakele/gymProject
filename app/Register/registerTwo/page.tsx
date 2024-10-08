@@ -16,32 +16,32 @@ const registerTwo
             <form className="flex flex-col items-center w-[110%]">
               <div className="mb-4 w-full">
                 <input
-                  type="email"
-                  id="email"
+                  type="text"
+                  id="medical-condition"
                   className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
                   placeholder="Medical Condition"
                 />
               </div>
               <div className="mb-6 w-full">
                 <input
-                  type="password"
-                  id="password"
+                  type="text"
+                  id="allergies"
                   className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
                   placeholder="Allergies"
                 />
               </div>
               <div className="mb-6 w-full">
                 <input
-                  type="password"
-                  id="password"
+                  type="text"
+                  id="injuries"
                   className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
                   placeholder="Injuries"
                 />
               </div>
               <div className="mb-6 w-full">
                 <input
-                  type="password"
-                  id="password"
+                  type="text"
+                  id="medication"
                   className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
                   placeholder="Medications you take"
                 />

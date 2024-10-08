@@ -16,8 +16,8 @@ const register = () => {
             <form className="flex flex-col items-center w-[110%]">
               <div className="mb-4 w-full">
                 <input
-                  type="email"
-                  id="email"
+                  type="text" 
+                  id="name"
                   className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
                   placeholder="Full name"
 
@@ -25,8 +25,8 @@ const register = () => {
               </div>
               <div className="mb-4 w-full">
                 <input
-                  type="email"
-                  id="email"
+                  type="tel"
+                  id="phone"
                   className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
                   placeholder="Phone number"
                 />
@@ -41,16 +41,16 @@ const register = () => {
               </div>
               <div className="mb-4 w-full">
                 <input
-                  type="email"
-                  id="email"
+                  type="text" 
+                  id="address" 
                   className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
                   placeholder="Address"
                 />
               </div>
               <div className="mb-4 w-full">
                 <input
-                  type="email"
-                  id="email"
+                  type="date" 
+                  id="dob" 
                   className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
                   placeholder="Date of Birth"
                 />
