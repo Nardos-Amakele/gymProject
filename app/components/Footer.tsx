@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram, faLinkedin, faFacebook, faYoutube } from '@fortawesome/free-brands-svg-icons';
+import { faInstagram, faLinkedin, faFacebook, faYoutube, faTiktok, faTelegram } from '@fortawesome/free-brands-svg-icons';
 import React from 'react';
 
 const Footer: React.FC = () => {
@@ -14,39 +14,36 @@ const Footer: React.FC = () => {
             <div>
               <h2 className="font-bold">Company</h2>
               <ul className="mt-6 space-y-2">
-                <li>Random</li>
-                <li>Company</li>
-                <li>Random</li>
-                <li>Ipsum</li>
+                <li className="cursor-pointer">About</li>
+                <li className="cursor-pointer">Philosophy</li>
+                <li className="cursor-pointer">Facilities</li>
+                <li className="cursor-pointer">Team</li>
               </ul>
             </div>
             <div>
               <h2 className="font-bold">Explore</h2>
               <ul className="mt-6 space-y-2">
-                <li>Random</li>
-                <li>Ipsum</li>
-                <li>Company</li>
-              </ul>
-            </div>
-            <div>
-              <h2 className="font-bold">Support</h2>
-              <ul className="mt-6 space-y-2">
-                <li>Company</li>
-                <li>Random</li>
-                <li>Ipsum</li>
-                <li>Company</li>
+                <li className="cursor-pointer">Services</li>
+                <li className="cursor-pointer">Shop</li>
+                <li className="cursor-pointer">Company</li>
               </ul>
             </div>
             <div>
               <h2 className="font-bold">Product</h2>
               <ul className="mt-6 space-y-2">
-                <li>Random</li>
-                <li>Company</li>
-                <li>Random</li>
-                <li>Ipsum</li>
-                <li>Company</li>
-                <li>Ipsum</li>
-                <li>Company</li>
+                <li className="cursor-pointer">Clothing</li>
+                <li className="cursor-pointer">Supplement</li>
+                <li className="cursor-pointer">Equipment</li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="font-bold">Support</h2>
+              <ul className="mt-6 space-y-2">
+                <li className="cursor-pointer">BMI</li>
+                <li className="cursor-pointer">Address</li>
+                <li className="cursor-pointer">Phone</li>
+                <li className="cursor-pointer">Email</li>
+                <li className="cursor-pointer">Feedback</li>
               </ul>
             </div>
           </div>
@@ -58,17 +55,17 @@ const Footer: React.FC = () => {
             <a href="#" className="hover:underline">Policy</a>
           </div>
           <div className="flex space-x-4">
-            <a href="#" aria-label="Instagram" className="transition-transform duration-200 hover:scale-110">
+            <a href="https://www.instagram.com/robifitnesscentre/" aria-label="Instagram"  target="_blank" className="transition-transform duration-200 hover:scale-110">
               <FontAwesomeIcon icon={faInstagram} size="lg" />
             </a>
-            <a href="#" aria-label="LinkedIn" className="transition-transform duration-200 hover:scale-110">
-              <FontAwesomeIcon icon={faLinkedin} size="lg" />
+            <a href="https://www.tiktok.com/@robi77fitness#:~:text=Robifitness%F0%9F%87%AA%F0%9F%87%B9%F0%9F%92%AAhawass%20(@robi77fitness)" aria-label="TikTok"  target="_blank" className="transition-transform duration-200 hover:scale-110">
+              <FontAwesomeIcon icon={faTiktok} size="lg" />
             </a>
-            <a href="#" aria-label="Facebook" className="transition-transform duration-200 hover:scale-110">
+            <a href="#" aria-label="Facebook"  target="_blank" className="transition-transform duration-200 hover:scale-110">
               <FontAwesomeIcon icon={faFacebook} size="lg" />
             </a>
-            <a href="#" aria-label="YouTube" className="transition-transform duration-200 hover:scale-110">
-              <FontAwesomeIcon icon={faYoutube} size="lg" />
+            <a href="#" aria-label="Telegram"  target="_blank" className="transition-transform duration-200 hover:scale-110">
+              <FontAwesomeIcon icon={faTelegram} size="lg" />
             </a>
           </div>
         </div>
