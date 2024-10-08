@@ -38,9 +38,9 @@ const Shop = () => {
                 </div>
                 <a
                   href="#"
-                  className="text-sm text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-3 py-1"
+                  className="button-custom text-sm text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-3 py-1"
                 >
-                  Explore more
+                  <span>Explore more</span>
                 </a>
               </div>
             </div>

@@ -17,9 +17,9 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, price, benefits, isPre
     }`}
   >
     <div>
-      <h3 className="text-2xl font-bold">{title}</h3>
+      <h3 className="text-xl font-bold">{title}</h3>
       <p className={`text-4xl font-bold ${isPremium ? 'text-black': 'text-[#2596BE]'}`}>{price}</p>
-      <div className="space-y-4">
+      <div className="space-y-4 pt-9">
         {benefits.map((benefit, index) => (
           <div key={index} className="flex items-start space-x-2 text-left">
             <FontAwesomeIcon icon={faCheck} className={`text-[#2596BE] w-5 h-5 ${isPremium ? 'text-black': 'text-[#2596BE]'}`} /> 

@@ -10,6 +10,8 @@ import before2 from '../../assets/images/before2.jpg';
 import after2 from '../../assets/images/after2.jpg';
 import before3 from '../../assets/images/before3.jpg';
 import after3 from '../../assets/images/after3.jpg';
+import before4 from '../../assets/images/before4.jpg';
+import after4 from '../../assets/images/after4.jpg';
 
 const Testimonials: React.FC = () => {
   const testimonials = [
@@ -30,6 +32,12 @@ const Testimonials: React.FC = () => {
       name: 'Meheret Alemu',
       beforeImage: before3,
       afterImage: after3,
+    },
+    {
+      description: `I wanted to lose weight after giving birth, but I wasn’t sure where to start. Andres helped me create a plan that fit my lifestyle, and I ended up losing 20 pounds while feeling more energetic and healthy. His coaching has made a huge impact on my life!`,
+      name: 'Meheret Alemu',
+      beforeImage: before4,
+      afterImage: after4,
     },
   ];
 

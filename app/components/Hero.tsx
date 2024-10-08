@@ -67,16 +67,10 @@ const Hero = () => {
               Where strength meets determination. Your journey to a stronger, better you starts here.
             </motion.p>
 
-            <motion.button
-              className={`${styles.customButton} font-bold leading-snug`}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6, duration: 1, ease: 'easeOut' }}
-              whileHover={{ scale: 1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <Link href="/Login">Join Now</Link>
-            </motion.button>
+
+              <a href="/Register"  className=" button-custom text-xl text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-5 py-1">  
+                  <span>Join Now</span>
+              </a> 
           </motion.div>
         </div>
 

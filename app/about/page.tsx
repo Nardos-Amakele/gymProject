@@ -81,10 +81,8 @@ const AboutUsPage = () => {
                 </div>
 
                 {/* Section 1 - About Robi Fitness */}
-                <section className="scroll-section sm:px-[5rem] md:px-[9rem] sm:py-2 md:py-20" ref={nextSectionRef}>
-                    <section className="flex flex-col md:flex-row items-center pt-12 gap-20"
-                        id="about"
-                        >
+                <section className="scroll-section sm:px-[5rem] md:px-[9rem] sm:pt-2 md:pt-20" ref={nextSectionRef}>
+                    <section className="flex flex-col md:flex-row items-center pt-12 gap-20">
                         <div className="md:w-1/2 px-6">
                             <div className="relative">
                                 <motion.h2
@@ -180,7 +178,7 @@ const AboutUsPage = () => {
                     </section>
 
                     {/* Section 3 - Our Facilities & Trainers */}
-                    <section className="scroll-section flex flex-col md:flex-row items-center  gap-20">
+                    <section className="scroll-section flex flex-col md:flex-row items-center pb-40  gap-20">
                         <div className="md:w-1/2 sm:w-full sm:px-0 px-6">
                             <div className='relative'>
                                 <motion.h2
@@ -225,35 +223,26 @@ const AboutUsPage = () => {
                             />
                         </motion.div>
                     </section>
-                </section>
-            </div>
-            <Staff />
+                    </section>
+             </div>
+                  {/* Join Us Section */}
 
-            {/* Join Us Section */}
-            <div>
-                <section className='py-10'>
-                    <motion.section
-                        className="py-16 text-center"
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        <h2 className="text-3xl font-semibold mb-6 text-[#2596BE]">Step into Robi Fitness today and discover a new way to work out.</h2>
-                        <p className="text-lg mb-8 text-gray-400">
-                            Together, we’ll achieve your fitness goals and empower you to live your best life.
-                        </p>
-                        <Link href='/Signup'>
-                            <motion.button
-                                className={style.customButton}
+                        
+                        <section className='mx-auto text-center'>
+                            <Link href='/Signup' >
+                                <motion.button
+                                className=" button-custom text-xl text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-5 py-1"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                            >
-                                Join Robi Fitness Now
-                            </motion.button>
-                        </Link>
-                    </motion.section>
-                </section>
-            </div>
+                                >
+                                    <span>Join Robi Fitness Now</span>
+                                </motion.button>
+                            </Link>
+                        </section>
+            <Staff />
+
+       
+            
             <Footer />
         </>
     );
