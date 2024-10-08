@@ -57,6 +57,15 @@ const Page = () => {
                 'Free access to one special bodybuilding event each month.',
               ]}
             />
+              <ServiceCard
+              title="3 Months"
+              price="3,100 Birr"
+              benefits={[
+                'Access for three months with regular progress check-ins and assessments.',
+                'Includes access to nutritional workshops and meal plans.',
+                'Monthly performance tracking and progress reports.',
+              ]}
+            />
             <ServiceCard
               title="6 Months"
               price="6,000 Birr"
@@ -66,15 +75,7 @@ const Page = () => {
                 'Discount on fitness and wellness workshops.',
               ]}
             />
-            <ServiceCard
-              title="3 Months"
-              price="3,100 Birr"
-              benefits={[
-                'Access for three months with regular progress check-ins and assessments.',
-                'Includes access to nutritional workshops and meal plans.',
-                'Monthly performance tracking and progress reports.',
-              ]}
-            />
+        
             <ServiceCard
               isPremium={true}
               title="Yearly"
