@@ -64,3 +64,48 @@ test-button {
 test-button:hover {
   background-color: #1c82a5; /* Slight hover effect */
 }
+
+
+
+/* CSS */
+.button-custom {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-custom span {
+  position: relative;
+  transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
+  z-index: 10;
+  color: #2596BE; 
+}
+
+.button-custom:after {
+  content: "";
+  position: absolute;
+  bottom: -50%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #2596BE;
+  transform-origin: bottom center;
+  transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+  transform: skewY(9.3deg) scaleY(0);
+  z-index: 50;
+}
+
+.button-custom:hover:after {
+  transform-origin: bottom center;
+  transform: skewY(9.3deg) scaleY(2);
+}
+
+.button-custom:hover span {
+  color: black;
+  z-index: 60; 
+}
