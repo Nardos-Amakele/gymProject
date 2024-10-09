@@ -92,6 +92,14 @@ const Page = () => {
         return (
           <>
             <ServiceCard
+              title="Per day"
+              price="500 Birr"
+              benefits={[
+                'Come to our gym get access to all exercise equipment and classes.',
+              ]}
+              isPerDay={true}
+            />
+            <ServiceCard
               title="20 Days (With Coupon)"
               price="1,000 Birr"
               benefits={[
@@ -99,6 +107,15 @@ const Page = () => {
                 'Eligible for a discount on future memberships.',
                 'Access to one free group fitness class.',
               ]}
+            />
+            <ServiceCard
+              title="Monthly(12 days)"
+              price='1,300 Birr'
+              benefits={[
+                'One-month access to gym and classes with weekly fitness assessments.',
+                'Access to member-only fitness workshops and discounts on training packages.',
+              ]}
+            
             />
             <ServiceCard
               title="Monthly"
