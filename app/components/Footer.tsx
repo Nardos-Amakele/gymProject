@@ -51,8 +51,7 @@ const Footer: React.FC = () => {
         <hr className="border-t border-black my-6 mt-20" />
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm mb-4 md:mb-0">
-            <a href="#" className="mr-6 hover:underline">Term</a>
-            <a href="#" className="hover:underline">Policy</a>
+            <a href="/terms" className="mr-6 hover:underline">Term & Conditions</a>
           </div>
           <div className="flex space-x-4">
             <a href="https://www.instagram.com/robifitnesscentre/" aria-label="Instagram"  target="_blank" className="transition-transform duration-200 hover:scale-110">
