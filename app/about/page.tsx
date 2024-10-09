@@ -229,7 +229,7 @@ const AboutUsPage = () => {
 
                         
                         <section className='mx-auto text-center'>
-                            <Link href='/Signup' >
+                            <Link href='/Register' >
                                 <motion.button
                                 className=" button-custom text-xl text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-5 py-1"
                                 whileHover={{ scale: 1.05 }}
