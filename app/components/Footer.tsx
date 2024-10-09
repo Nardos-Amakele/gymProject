@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
             <a href="#" aria-label="Facebook"  target="_blank" className="transition-transform duration-200 hover:scale-110">
               <FontAwesomeIcon icon={faFacebook} size="lg" />
             </a>
-            <a href="#" aria-label="Telegram"  target="_blank" className="transition-transform duration-200 hover:scale-110">
+            <a href="https://t.me/robifitness" aria-label="Telegram"  target="_blank" className="transition-transform duration-200 hover:scale-110">
               <FontAwesomeIcon icon={faTelegram} size="lg" />
             </a>
           </div>
