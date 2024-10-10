@@ -1,14 +1,16 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faLinkedin, faFacebook, faYoutube, faTiktok, faTelegram } from '@fortawesome/free-brands-svg-icons';
 import React from 'react';
+import Image from 'next/image';
+import logo from '../../assets/logos/logo-second.svg';
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-customBlue text-black py-10">
       <div className="container mx-auto items-center px-4 sm:px-10 md:px-20 max-w-screen-xl">
         <div className="flex flex-col md:flex-row md:justify-between ">
-          <div className="mb-8 md:mb-0">
-            <h1 className="font-extrabold text-lg">LOGO</h1>
+          <div className="mb-8 md:mb-0 md:mt-[-2rem] h-44 w-56">
+            <Image src={logo} alt='logo'></Image>
           </div>
           <div className="flex flex-wrap justify-center md:justify-between gap-16 text-xs md:text-sm lg:text-sm">
             <div>

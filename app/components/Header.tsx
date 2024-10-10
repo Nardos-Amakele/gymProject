@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import styles from '../styles/ButtonStyles.module.css'; 
 import Link from 'next/link';
 import Image from 'next/image';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/logos/logo.svg';
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
