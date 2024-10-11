@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import styles from '../styles/ButtonStyles.module.css'; 
 import Link from 'next/link';
 import Image from 'next/image';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/logos/logo.svg';
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,8 +14,8 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className="bg-transparent text-white mt-[-1.5rem] flex items-center justify-between px-8 max-w-screen-xl mx-auto absolute top-0 left-0 right-0 z-10">
-        <div className="h-44 w-64"><Image src={logo} alt='logo' className=''></Image></div>
+    <header className="bg-transparent p-6 text-white flex items-center justify-between px-8 max-w-screen-xl mx-auto absolute top-0 left-0 right-0 z-10">
+        <div className="w-40"><Image src={logo} alt='logo' className=''></Image></div>
 
         {/* Mobile Menu Icon */}
         <div className="relative md:hidden">
