@@ -9,7 +9,7 @@ const RegisterSummary = () => {
   const [total, setTotal] = useState<string | null>(null);
 
   useEffect(() => {
-    // Use URLSearchParams to extract the query parameters
+
     const searchParams = new URLSearchParams(window.location.search);
     const packagesQuery = searchParams.get('packages');
     const totalQuery = searchParams.get('total');
@@ -45,7 +45,6 @@ const RegisterSummary = () => {
             <ul className="text-right">
               {selectedPackages.map((pkg: string, index: number) => (
                 <li key={index} className="mb-1">
-                  {/* Example prices, you can adjust based on your logic */}
                   {`ETB ${(1000 + index * 100).toFixed(2)}`}
                 </li>
                 
