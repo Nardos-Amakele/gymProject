@@ -22,45 +22,73 @@ const RegisterSummary = () => {
     return <p>Loading...</p>;
   }
 
+
   return (
-    <div className="flex justify-center items-center h-screen bg-black">
-      <div className="text-white bg-gray-800 p-8 rounded-lg shadow-lg w-1/2">
-        <h2 className="text-3xl mb-6 text-center">Order Summary</h2>
+    <div className="text-white flex justify-center items-center h-screen bg-black">
+      <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-2/3">
+        <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
 
-        {/* Order Summary */}
+        {/* Package Summary */}
         <div className="mb-4">
-          <h3 className="text-xl font-semibold mb-2">Selected Packages:</h3>
-          <ul>
-            {selectedPackages.map((pkg: string, index: number) => (
-              <li key={index} className="mb-1">
-                {pkg}
-              </li>
-            ))}
-          </ul>
+          <h3 className="text-xl font-semibold mb-2">Packages Selected:</h3>
+          <div className="grid grid-cols-2">
+            {/* First column - Packages */}
+            <ul>
+              {selectedPackages.map((pkg: string, index: number) => (
+                <li key={index} className="mb-1">
+                  {pkg}
+                </li>
+              ))}
+            </ul>
+
+            {/* Second column - Prices */}
+            <ul className="text-right">
+              {selectedPackages.map((pkg: string, index: number) => (
+                <li key={index} className="mb-1">
+                  {/* Example prices, you can adjust based on your logic */}
+                  {`ETB ${(1000 + index * 100).toFixed(2)}`}
+                </li>
+                
+              ))}
+              <p className='text-right text-customBlue'></p>
+            </ul>
+          </div>
         </div>
+              
 
-        <div className="mb-4">
-          <h3 className="text-xl font-semibold">Total:</h3>
-          <p>{`ETB ${total}`}</p>
+
+        {/* Total */}
+        <div className="border-t border-customHoverBlue pt-4">
+          <div className="flex justify-between font-semibold text-lg">
+            <p>Total:</p>
+            <p>{`ETB ${total}`}</p>
+          </div>
         </div>
 
         {/* Payment Instructions */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold">Payment Instructions:</h3>
-          <p>
-            Please transfer 50% of the total amount – ETB {total ? (+total / 2).toFixed(2) : '0.00'} – to one of the following accounts:
+        <div className="mt-6">
+          <h3 className="text-xl font-semibold text-customBlue">Payment Instructions</h3>
+          <div className="bg-[#c0ebff] p-4 mt-2 rounded-lg border border-customBlue">
+            <p className="mb-2 text-black">
+              Please transfer 50% of the total amount --- ETB {total ? (+total / 2).toFixed(2) : '0.00'} --- to one of the following accounts:
+            </p>
+            <ul className="list-none text-black">
+              <li><strong>CBE:</strong> Account Number 123456789</li>
+              <li><strong>Bank of Abyssinia:</strong> Account Number 987654321</li>
+              <li><strong>TeleBirr:</strong> Phone Number 0912345678</li>
+            </ul>
+          </div>
+          <p className="text-sm text-gray-400 mt-4">
+            After making the payment, click the button below to confirm your order.
           </p>
-          <ul className="list-disc list-inside">
-            <li>CBE Account Number: 123456789</li>
-            <li>Bank of Abyssinia Account Number: 987654321</li>
-            <li>Telebirr: Phone Number: 0123456789</li>
-          </ul>
         </div>
 
-        {/* Payment Confirmation Button */}
-        <button className="w-full bg-customBlue text-white py-2 px-4 rounded-lg">
-          Place Order – I Have Paid
-        </button>
+        {/* Buttons */}
+        <div className="mt-6 flex justify-center">
+          <button className="bg-customBlue text-white py-2 px-6 rounded-lg font-semibold hover:bg-customHoverBlue">
+            Confirm Payment
+          </button>
+        </div>
       </div>
     </div>
   );
