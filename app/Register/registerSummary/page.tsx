@@ -24,7 +24,7 @@ const RegisterSummary = () => {
 
 
   return (
-    <div className="text-white flex justify-center items-center p-10 bg-black">
+    <div className="text-white flex justify-center items-center p-10 h-lvh bg-black">
       <div className="bg-gray-800 p-8 rounded-lg shadow-lg w-2/3">
         <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
 

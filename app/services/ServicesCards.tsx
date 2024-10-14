@@ -8,9 +8,10 @@ interface ServiceCardProps {
   benefits: string[];
   isPremium?: boolean;
   isPerDay?: boolean; 
+  onClick: () => void; 
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ title, price, benefits, isPremium, isPerDay }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ title, price, benefits, isPremium, isPerDay, onClick }) => {
   return (
     <div
     className={`p-8 rounded-lg shadow-lg space-y-6 border transition-all duration-300 transform hover:scale-105 hover:border-[#2596BE] h-[29rem] w-[20rem] flex flex-col justify-between ${
@@ -30,6 +31,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ title, price, benefits, isPre
       </div>
     </div>
     <button
+      onClick={onClick}
       className={`p-2 transition-all duration-300 transform hover:scale-110 ${
         isPremium ? 'bg-black text-white hover:bg-gray-700' : 'bg-[#2596BE] hover:bg-[#007EA7]'
       }`}

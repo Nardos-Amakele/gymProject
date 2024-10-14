@@ -9,8 +9,14 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { motion } from 'framer-motion';
 import { services, Tab } from '../../assets/data/servicesData'; 
+import { useRouter } from 'next/navigation'; 
 
 const Page = () => {
+  const router = useRouter(); 
+
+  const handleServiceClick = (packageName: string) => {
+    router.push(`/Register?category=${activeTab}&package=${encodeURIComponent(packageName)}`);
+  };
   const [activeTab, setActiveTab] = useState<Tab>('Body Building');
   const nextSectionRef = useRef<HTMLDivElement | null>(null);
 
@@ -109,6 +115,7 @@ const Page = () => {
               benefits={service.benefits}
               isPremium={service.isPremium}
               isPerDay={service.isPerDay}
+              onClick={() => handleServiceClick(service.title)} 
             />
           ))}
         </div>

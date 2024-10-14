@@ -1,6 +1,6 @@
 'use client'
-import { useState } from 'react';
-import { useRouter } from 'next/navigation'; 
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation'; 
 import { services } from '../../assets/data/servicesData';
 
 interface Service {
@@ -12,9 +12,20 @@ interface Service {
 type ServiceCategory = keyof typeof services;
 
 const Register = () => {
-  const router = useRouter(); 
+  const router = useRouter();
+  const searchParams = useSearchParams(); 
+
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>('Body Building');
   const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
+
+  useEffect(() => {
+    // Get category and package from URL params
+    const categoryFromUrl = searchParams.get('category') as ServiceCategory;
+    const packageFromUrl = searchParams.get('package');
+
+    if (categoryFromUrl) setSelectedCategory(categoryFromUrl);
+    if (packageFromUrl) setSelectedPackages([packageFromUrl]);
+  }, [searchParams]);
 
   const handlePackageSelect = (packageName: string) => {
     setSelectedPackages((prevSelected) =>
@@ -40,10 +51,11 @@ const Register = () => {
       0
     );
     setError(null);
-
-    // Perform client-side navigation with App Router's router.push
     router.push(`/Register/registerSummary?packages=${encodeURIComponent(JSON.stringify(selectedPackages))}&total=${totalPrice.toFixed(2)}`);
   };
+
+
+
 
   return (
     <div className="flex h-screen">
