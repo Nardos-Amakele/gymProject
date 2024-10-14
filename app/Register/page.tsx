@@ -1,213 +1,178 @@
-'use client'
-import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation'; 
-import { services } from '../../assets/data/servicesData';
+  'use client'
+  import { useState, useEffect } from 'react';
+  import { useRouter, useSearchParams } from 'next/navigation'; 
+  import { services } from '../../assets/data/servicesData';
+  import Link from 'next/link';
+  import bgImage from '../../assets/images/home_image.png';
 
-interface Service {
-  title: string;
-  price: string;
-  benefits: string[];
-}
+  interface Service {
+    title: string;
+    price: string;
+    benefits: string[];
+  }
 
-type ServiceCategory = keyof typeof services;
+  type ServiceCategory = keyof typeof services;
 
-const Register = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams(); 
+  const Register = () => {
+    const router = useRouter();
+    const searchParams = useSearchParams(); 
 
-  const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>('Body Building');
-  const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>('Body Building');
+    const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
 
-  useEffect(() => {
-    // Get category and package from URL params
-    const categoryFromUrl = searchParams.get('category') as ServiceCategory;
-    const packageFromUrl = searchParams.get('package');
+    useEffect(() => {
+      const categoryFromUrl = searchParams.get('category') as ServiceCategory;
+      const packageFromUrl = searchParams.get('package');
 
-    if (categoryFromUrl) setSelectedCategory(categoryFromUrl);
-    if (packageFromUrl) setSelectedPackages([packageFromUrl]);
-  }, [searchParams]);
+      if (categoryFromUrl) setSelectedCategory(categoryFromUrl);
+      if (packageFromUrl) setSelectedPackages([packageFromUrl]);
+    }, [searchParams]);
 
-  const handlePackageSelect = (packageName: string) => {
-    setSelectedPackages((prevSelected) =>
-      prevSelected.includes(packageName)
-        ? prevSelected.filter((name) => name !== packageName)
-        : [...prevSelected, packageName]
-    );
-  };
+    const handlePackageSelect = (packageName: string) => {
+      setSelectedPackages((prevSelected) =>
+        prevSelected.includes(packageName)
+          ? prevSelected.filter((name) => name !== packageName)
+          : [...prevSelected, packageName]
+      );
+    };
 
-  const [error, setError] = useState<string | null>(null);
+    const [error, setError] = useState<string | null>(null);
 
-  const handleNextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+    const handleNextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.preventDefault();
 
-    if (selectedPackages.length === 0) {
-      setError("Please choose at least one package.");
-      return;
-    }
+      if (selectedPackages.length === 0) {
+        setError("Please choose at least one package.");
+        return;
+      }
 
-    const totalPrice = selectedPackages.reduce(
-      (total, packageName) =>
-        total + parseFloat(services[selectedCategory].find(service => service.title === packageName)?.price || '0'),
-      0
-    );
-    setError(null);
-    router.push(`/Register/registerSummary?packages=${encodeURIComponent(JSON.stringify(selectedPackages))}&total=${totalPrice.toFixed(2)}`);
-  };
+      const totalPrice = selectedPackages.reduce(
+        (total, packageName) =>
+          total + parseFloat(services[selectedCategory].find(service => service.title === packageName)?.price || '0'),
+        0
+      );
+      setError(null);
+      router.push(`/Register/registerSummary?packages=${encodeURIComponent(JSON.stringify(selectedPackages))}&total=${totalPrice.toFixed(2)}`);
+    };
 
-
-
-
-  return (
-    <div className="flex h-screen">
-      <div className="flex-grow flex">
-        {/* Form Section */}
-        <div className="w-1/3 flex justify-center items-center bg-black">
-          <div className="text-white bg-black bg-opacity-75 p-8 rounded-md w-4/5">
-            <h2 className="text-3xl mb-8 text-center">Basic Information</h2>
-            <form className="flex flex-col items-center w-full">
-              {/* Form fields */}
-              <div className="mb-4 w-full">
-                <input
-                  type="text"
-                  id="name"
-                  className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
-                  placeholder="Full name"
-                />
-              </div>
-              <div className="mb-4 w-full">
-                <input
-                  type="tel"
-                  id="phone"
-                  className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
-                  placeholder="Phone number"
-                />
-              </div>
-              <div className="mb-4 w-full">
-                <input
-                  type="email"
-                  id="email"
-                  className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
-                  placeholder="Email"
-                />
-              </div>
-              <div className="mb-4 w-full">
-                <input
-                  type="text"
-                  id="address"
-                  className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
-                  placeholder="Address"
-                />
-              </div>
-              <div className="mb-4 w-full">
-                <input
-                  type="date"
-                  id="dob"
-                  className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
-                  placeholder="Date of Birth"
-                />
-              </div>
-              <div className="mb-4 w-full">
-                <input
-                  type="tel"
-                  id="emergency"
-                  className="w-full p-2 placeholder-white/40 rounded-lg border-2 border-white/20 bg-black"
-                  placeholder="Emergency number"
-                />
-              </div>
-
-              {/* Gender Selection */}
-              <div className="mb-6 w-full">
-                <h2 className="text-white/40 text-lg mb-2">Gender</h2>
+    return (
+      <div style={{ 
+        backgroundImage: `url(${bgImage.src})`,
+        backgroundSize: 'cover', 
+        backgroundPosition: 'center', 
+        backgroundRepeat: 'no-repeat',
+        minHeight: '100vh' 
+      }}>
+        <div className="flex justify-center items-center min-h-screen"  >
+        <div className="flex flex-col md:flex-row w-11/12 max-w-6xl shadow-lg rounded-lg overflow-hidden">
+          {/* General Information Section */}
+          <div className="w-full md:w-1/2 bg-zinc-800 p-8">
+            <h2 className="text-2xl font-semibold text-white mb-6">General Information</h2>
+            <form className="space-y-4">
+              <input
+                type="text"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                placeholder="Full name"
+              />
+              <input
+                type="tel"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                placeholder="Phone number"
+              />
+              <input
+                type="email"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                placeholder="Email"
+              />
+              <input
+                type="text"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                placeholder="Address"
+              />
+              <input
+                type="date"
+                className="text-gray-400 w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                placeholder="Date of Birth"
+              />
+              <input
+                type="tel"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                placeholder="Emergency number"
+              />
+              <div className="space-y-2">
+                <h3 className="text-gray-400">Gender</h3>
                 <div className="flex items-center space-x-4">
-                  <label className="flex items-center text-white">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="male"
-                      className="form-radio h-4 w-4 border-2 rounded-sm checked:bg-customBlue"
-                    />
-                    <span className="ml-2">Male</span>
+                  <label className="flex items-center text-gray-400">
+                    <input type="radio" name="gender" value="male" className="mr-2" />
+                    Male
                   </label>
-                  <label className="flex items-center text-white">
-                    <input
-                      type="radio"
-                      name="gender"
-                      value="female"
-                      className="form-radio h-4 w-4 border-2 rounded-sm checked:bg-customBlue"
-                    />
-                    <span className="ml-2">Female</span>
+                  <label className="flex items-center text-gray-400">
+                    <input type="radio" name="gender" value="female" className="mr-2 " />
+                    Female
                   </label>
                 </div>
               </div>
-
-              {/* Submit Button */}
+                {/* Submit Button */}
+            <div className="mt-4">
               <button className="w-full p-2 font-semibold text-customBlue rounded-lg bg-zinc-800 hover:bg-customBlue hover:text-black" onClick={handleNextClick}>
                 Next
               </button>
               {error && (
-              <div className="mb-4 text-red-500 text-sm">
-                {error}
-              </div>
-            )}
+                <div className="mb-4 text-red-500 text-sm">
+                  {error}
+                </div>
+              )}
+            </div>
             </form>
           </div>
-        </div>
 
-        {/* Package Selection Section */}
-        <div className="w-1/2 p-8 pt-16 bg-black ">
-          <div className="mb-2">
-            <h1 className="text-white/40 text-xl">Choose a Package</h1>
-          </div>
-
-          <div className='flex flex-col justify-start'>
-            {/* Sidebar section */}
-            <div className="w-1/3 bg-black p-4 ml-[-1rem] flex flex-row justify-between ">
-              {/* Category buttons */}
-              <div className="mb-8 flex flex-row justify-center gap-10">
+          {/* Choose Package Section */}
+          <div className="w-full md:w-1/2 bg-customBlue p-8 flex flex-col justify-between ">
+            <div className=''>
+              <h2 className="text-2xl font-semibold text-black mb-6">Choose a Package</h2>
+              <div className="flex flex-wrap md:flex-nowrap space-x-1 mb-4">
                 {Object.keys(services).map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category as ServiceCategory)}
-                    className={`w-full text-left py-2 px-4 mb-2 rounded-lg text-sm font-semibold hover:bg-customBlue hover:text-black ${
-                      selectedCategory === category ? 'bg-customBlue text-black' : 'bg-black text-white'
+                    className={`py-2 px-4 rounded-md ${
+                      selectedCategory === category ? 'bg-white text-black' : 'bg-customBlue text-black'
                     }`}
                   >
                     {category}
                   </button>
                 ))}
               </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {services[selectedCategory].map((service: Service, index: number) => (
+                  <label
+                    key={index}
+                    className={`flex items-center p-4 border ${
+                      selectedPackages.includes(service.title) ? 'border-white' : 'border-black'
+                    } rounded-lg cursor-pointer`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedPackages.includes(service.title)}
+                      onChange={() => handlePackageSelect(service.title)}
+                      className="form-checkbox h-4 w-4 text-black mr-3"
+                    />
+                    <div>
+                      <h3 className="text-black">{service.title}</h3>
+                      <p className="text-blue-200">{service.price}</p>
+                    </div>
+                  </label>
+                ))}
+              </div>
             </div>
-
-            {/* Packages Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {services[selectedCategory].map((service: Service, index: number) => (
-                <label
-                  key={index}
-                  className={`flex items-center p-4 border ${
-                    selectedPackages.includes(service.title) ? 'border-customBlue' : 'border-gray-600'
-                  } rounded-lg cursor-pointer`}
-                >
-                  <input
-                    type="checkbox"
-                    name="package"
-                    value={service.title}
-                    checked={selectedPackages.includes(service.title)}
-                    onChange={() => handlePackageSelect(service.title)}
-                    className="form-checkbox h-4 w-4 text-customBlue mr-4 accent-customBlue"
-                  />
-                  <div>
-                    <h2 className="text-white text-lg">{service.title}</h2>
-                    <p className="text-white/40">{service.price}</p>
-                  </div>
-                </label>
-              ))}
-            </div>
-
+            <label className='text-black'>
+            <input type="checkbox" /> I agree to the <Link href={'/termsandconditions'}>terms and conditions</Link></label>    
+        
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+      </div>
+    );
+  };
 
-export default Register;
+  export default Register;
