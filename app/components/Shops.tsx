@@ -24,27 +24,25 @@ const Shop = () => {
 
 
           {/* Shop Item 1 */}
-          <Link href="/shop"> {/* Wrap Shop Item 1 in a link */}
-            <div className="relative mt-6 transition-transform transform hover:scale-105 hover:border-2 hover:border-none">
-              <Image
-                src={shopItem1}
-                alt="Kings Gym Belt"
-                className="rounded-lg w-full md:w-[35rem] h-auto md:h-[245.59px]"
-              />
-              <div className="absolute bottom-4 left-4 flex justify-between items-center w-[95%]">
-                <div className="flex items-baseline space-x-1">
-                  <p className="text-white text-lg font-bold">900</p>
-                  <p className="font-thin text-sm text-white">Birr</p>
-                </div>
-                <a
-                  href="#"
-                  className="button-custom text-sm text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-3 py-1"
-                >
-                  <span>Explore more</span>
-                </a>
-              </div>
-            </div>
-          </Link>
+          <Link href="/shop" className="relative mt-6 transition-transform transform hover:scale-105 hover:border-2 hover:border-none">
+  <div>
+    <Image
+      src={shopItem1}
+      alt="Kings Gym Belt"
+      className="rounded-lg w-full md:w-[35rem] h-auto md:h-[245.59px]"
+    />
+    <div className="absolute bottom-4 left-4 flex justify-between items-center w-[95%]">
+      <div className="flex items-baseline space-x-1">
+        <p className="text-white text-lg font-bold">900</p>
+        <p className="font-thin text-sm text-white">Birr</p>
+      </div>
+      <span className="button-custom text-sm text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-3 py-1">
+        Explore more
+      </span>
+    </div>
+  </div>
+</Link>
+
         </div>
 
         {/* Second column */}
