@@ -7,127 +7,15 @@ import {
   faDumbbell,
   faBottleWater,
   faBoxOpen,
-  faShoppingCart,
-  faArrowUp,
-  faChevronDown
 } from "@fortawesome/free-solid-svg-icons";
-import Cart from "../components/Cart"; 
-import Footer from "../components/Footer"
-import Header from "../components/Header"
-import { motion } from "framer-motion";
-
-
-// HeroSection Component
-const HeroSection: React.FC = () => {
-  const images = [
-    "https://media.istockphoto.com/id/469510058/photo/whey-protein-powder.webp?s=1024x1024&w=is&k=20&c=-8C1S9kwn1X7oBDw1LX51TfX9BESpEu2F4zt3KINoSg=",
-    "https://media.istockphoto.com/id/1193707579/photo/rows-of-dumbbells-in-the-gym-with-hand.jpg?s=1024x1024&w=is&k=20&c=DM94NjhXdZoljOaOtD8T7J1p9Dy8eYhkOG4DM2r0arw=",
-    "https://images.pexels.com/photos/949126/pexels-photo-949126.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-    "https://images.pexels.com/photos/28636773/pexels-photo-28636773/free-photo-of-man-holding-weight-plate-in-gym-setting.png?auto=compress&cs=tinysrgb&w=600",
-    "https://images.pexels.com/photos/416754/pexels-photo-416754.jpeg?auto=compress&cs=tinysrgb&w=600",
-    "https://images.pexels.com/photos/4164843/pexels-photo-4164843.jpeg?auto=compress&cs=tinysrgb&w=600",
-
-  ];
-  
-    const [isJumping, setIsJumping] = useState(true);
-  
-    const handleScroll = () => {
-      const nextSection = document.getElementById("next-section");
-      if (nextSection) {
-        nextSection.scrollIntoView({ behavior: "smooth" });
-      }
-    };
-  
-    useEffect(() => {
-      let timeoutId: NodeJS.Timeout;
-      if (isJumping) {
-        timeoutId = setTimeout(() => {
-          setIsJumping(false);
-        }, 1200);
-      } else {
-        timeoutId = setTimeout(() => {
-          setIsJumping(true);
-        }, 3000);
-      }
-      return () => clearTimeout(timeoutId);
-    }, [isJumping]);
-
-  return (
-    <div className="relative h-screen bg-black flex justify-center items-center overflow-hidden pt-2 lg:pt-8">
-      <div className="absolute w-full h-full flex flex-col justify-center items-center space-y-6 z-0">
-        <div className="w-full flex space-x-6 animate-slideRight">
-          {[...images, ...images].map((image, idx) => (
-            <img
-              key={idx}
-              src={image}
-              alt={`Image ${idx}`}
-              className=" opacity-50 w-50 h-40 object-cover rounded-xl" // Set fixed width and height
-              style={{ width: '200px', height: '150px' }} // Ensure 200x150 dimensions
-            />
-          ))}
-        </div>
-  
-        <div className="w-[calc(100%+50rem)] flex space-x-6">
-          {[...images, ...images].map((image, idx) => (
-            <img
-              key={idx}
-              src={image}
-              alt={`Image ${idx}`}
-              className="  opacity-50 w-50 h-40 object-cover rounded-xl" // Set fixed width and height
-              style={{ width: '200px', height: '150px' }} // Ensure 200x150 dimensions
-            />
-          ))}
-        </div>
-  
-        <div className="w-full flex space-x-6 animate-slideRight">
-          {[...images, ...images].map((image, idx) => (
-            <img
-              key={idx}
-              src={image}
-              alt={`Image ${idx}`}
-              className=" opacity-50 w-50 h-40 object-cover rounded-xl" // Set fixed width and height
-              style={{ width: '200px', height: '150px' }} // Ensure 200x150 dimensions
-            />
-          ))}
-        </div>
-      </div>
-  
-      <div className="relative z-10 text-center text-white">
-      <motion.h1
-                            initial={{ opacity: 0, y: -50 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
-                            className="text-6xl font-bold text-white "
-                        >Shop</motion.h1>
-
-        <div className="mt-6">
-        <div className="mt-6">
-       <div className="flex justify-center">
-        <motion.div
-          onClick={handleScroll}
-          className="flex bottom-4 justify-center border border-white rounded-full p-4 cursor-pointer text-white"
-          whileHover={{ scale: 1.1 }}  // Hover effect for smoother interaction
-          whileTap={{ scale: 0.9 }}    // Tap effect for feedback
-          animate={isJumping ? { y: [0, -10, 0] } : {}}
-          transition={{ 
-            duration: 0.6, 
-            ease: "easeInOut", 
-            repeat: isJumping ? 1 : 0, // Jump twice
-          }}  
-        >
-          <FontAwesomeIcon icon={faArrowUp} className="text-white text-xl" />
-        </motion.div>
-      </div>
-    </div>
-</div>
-      </div>
-    </div>
-  );
-};
-
+import Footer from "../components/Footer";
+import Header from "../components/Header";
+import { HeroSection } from "./_components/Hero";
+import Cart from "./_components/Cart";
+import { Item } from "./_components/Item";
 
 interface Product {
-  id: number;
+  id: string;
   title: string;
   price: number;
   category: string;
@@ -138,51 +26,57 @@ interface Product {
 // Mocked Product Data
 const productData: Product[] = [
   {
-    id: 1,
+    id: "a",
     title: "Gym T-Shirt",
     price: 19.99,
     category: "clothing",
-    image: "https://media.istockphoto.com/id/587819694/photo/wetsuit-isolated-on-white.jpg?s=1024x1024&w=is&k=20&c=kPCOWZw-nJHoV1NmFrHstg3BwA34rkJr4_mM50nf0NE=",
+    image:
+      "https://media.istockphoto.com/id/587819694/photo/wetsuit-isolated-on-white.jpg?s=1024x1024&w=is&k=20&c=kPCOWZw-nJHoV1NmFrHstg3BwA34rkJr4_mM50nf0NE=",
     description: "Comfortable and stylish gym t-shirt.",
   },
   {
-    id: 2,
+    id: "b",
     title: "Running Shorts",
     price: 24.99,
     category: "clothing",
-    image: "https://media.istockphoto.com/id/1308845005/photo/blue-sport-shorts.jpg?s=1024x1024&w=is&k=20&c=9w8CcyUi4e_ek-hE772LJ9Pfm6lU_Ep4LZFt24t-Fts=",
+    image:
+      "https://media.istockphoto.com/id/1308845005/photo/blue-sport-shorts.jpg?s=1024x1024&w=is&k=20&c=9w8CcyUi4e_ek-hE772LJ9Pfm6lU_Ep4LZFt24t-Fts=",
     description: "Breathable running shorts.",
   },
   {
-    id: 3,
+    id: "c",
     title: "Dumbbells Set",
     price: 49.99,
     category: "equipment",
-    image: "https://media.istockphoto.com/id/1325558282/vector/barbell-dumbbells-and-kettlebell-vector.jpg?s=1024x1024&w=is&k=20&c=2qpajxGe6UYOoudZubvd9rl6DLynl-vRnIWXfA9OeVo=",
+    image:
+      "https://media.istockphoto.com/id/1325558282/vector/barbell-dumbbells-and-kettlebell-vector.jpg?s=1024x1024&w=is&k=20&c=2qpajxGe6UYOoudZubvd9rl6DLynl-vRnIWXfA9OeVo=",
     description: "A complete set of dumbbells for strength training.",
   },
   {
-    id: 4,
+    id: "d",
     title: "Kettlebell",
     price: 34.99,
     category: "equipment",
-    image: "https://media.istockphoto.com/id/147804317/photo/kettlebell.jpg?s=1024x1024&w=is&k=20&c=b11YI0moM8rrk4dJS0q3C4dC80qpyEHgA0dDYD5w1N4=",
+    image:
+      "https://media.istockphoto.com/id/147804317/photo/kettlebell.jpg?s=1024x1024&w=is&k=20&c=b11YI0moM8rrk4dJS0q3C4dC80qpyEHgA0dDYD5w1N4=",
     description: "High-quality kettlebell.",
   },
   {
-    id: 5,
+    id: "e",
     title: "Cycling Gloves",
     price: 14.99,
     category: "supplement",
-    image: "https://media.istockphoto.com/id/526706209/photo/bicycle-gloves.webp?s=1024x1024&w=is&k=20&c=sNA5BC0nedg3TLPX85SRAc2B7VYc_mN7MTNiTiH82_s=",
+    image:
+      "https://media.istockphoto.com/id/526706209/photo/bicycle-gloves.webp?s=1024x1024&w=is&k=20&c=sNA5BC0nedg3TLPX85SRAc2B7VYc_mN7MTNiTiH82_s=",
     description: "Durable cycling gloves to enhance your grip.",
   },
   {
-    id: 6,
+    id: "f",
     title: "Sports Water Bottle",
     price: 9.99,
     category: "supplement",
-    image: "https://images.unsplash.com/photo-1601937286283-1c4550e05f58?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image:
+      "https://images.unsplash.com/photo-1601937286283-1c4550e05f58?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     description: "Stay hydrated with this lightweight sports water bottle.",
   },
 ];
@@ -197,8 +91,6 @@ const categories = [
 
 const ShopPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [cartItems, setCartItems] = useState<Product[]>([]);
-  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category === selectedCategory ? "" : category);
@@ -208,29 +100,18 @@ const ShopPage: React.FC = () => {
     ? productData.filter((product) => product.category === selectedCategory)
     : productData;
 
-  const addToCart = (product: Product) => {
-    setCartItems([...cartItems, product]);
-  };
-
-  const removeFromCart = (id: number) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
-
-  const toggleCart = () => {
-    setIsCartOpen(!isCartOpen);
-  };
-
   return (
     <>
-       
-      
       <Header />
 
-<HeroSection />
+      <HeroSection />
 
       <div className="w-full pl-10 pr-10 pb-10">
         {/* Filters */}
-        <div id="next-section"  className="flex justify-between items-center my-16">
+        <div
+          id="next-section"
+          className="flex justify-between items-center my-16"
+        >
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {categories.map((category, idx) => (
               <button
@@ -247,15 +128,6 @@ const ShopPage: React.FC = () => {
               </button>
             ))}
           </div>
-
-          <button onClick={toggleCart} className="relative text-white">
-    <FontAwesomeIcon icon={faShoppingCart} size="lg" />
-    {cartItems.length > 0 && (
-      <span className="absolute top-0 right-0 bg-customBlue text-white rounded-full text-xs px-2 py-1">
-        {cartItems.length}
-      </span>
-    )}
-  </button>
         </div>
 
         {/* Product Grid */}
@@ -270,46 +142,15 @@ const ShopPage: React.FC = () => {
             {filteredProducts.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {filteredProducts.map((product) => (
-                  <div
+                  <Item
+                    id={product.id}
                     key={product.id}
-                    className="p-4 shadow-lg rounded-md hover:shadow-xl transition duration-300 flex flex-col justify-between hover:border-customBlue hover:border-2"
-                    style={{ minHeight: "450px" }} // Set a minimum height
-                  >
-                    {/* Product Image */}
-                    <img
-                      src={product.image}
-                      alt={product.title}
-                      className="opacity-75 hover:opacity-100 w-full h-64 object-cover rounded-md mb-4 bg-white"
-                    />
-
-                    {/* Product Info */}
-                    <div className="flex flex-col justify-between h-full">
-                      {/* Price and Product Title */}
-                      <div>
-                        <div className="flex justify-between items-center mb-4">
-                          <h3 className="text-lg font-semibold text-white">
-                            {product.title}
-                          </h3>
-                          <p className="text-customBlue font-bold mr-4">
-                            ${product.price.toFixed(2)}
-                          </p>
-                        </div>
-
-                        {/* Product Description */}
-                        <p className="text-gray-500 line-clamp-3 mb-2">
-                          {product.description}
-                        </p>
-                      </div>
-
-                      {/* Add to Cart Button */}
-                      <button
-                        onClick={() => addToCart(product)}
-                        className="w-auto border border-customBlue text-customBlue py-2 px-4 rounded-full hover:bg-customBlue hover:text-black transition"
-                      >
-                        Add to Cart
-                      </button>
-                    </div>
-                  </div>
+                    title={product.title}
+                    category={product.category}
+                    image={product.image}
+                    price={product.price}
+                    description={product.description}
+                  ></Item>
                 ))}
               </div>
             ) : (
@@ -319,15 +160,9 @@ const ShopPage: React.FC = () => {
         </div>
 
         {/* Cart Component */}
-        <Cart
-          cartItems={cartItems}
-          isOpen={isCartOpen}
-          onClose={toggleCart}
-          onRemoveItem={removeFromCart} onSubmit={function (): void {
-            throw new Error("Function not implemented.");
-          } }        />
+        <Cart />
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };
