@@ -5,21 +5,19 @@ import { useEffect, useState } from 'react';
 import { useCart } from '../_components/CartContext'; 
 
 const RegisterSummary = () => {
-  const router = useRouter();
-  const { cartItems } = useCart(); // Use the cart items from context
+  const { cartItems } = useCart(); 
   const [total, setTotal] = useState<string | null>(null);
 
   useEffect(() => {
-    // Calculate the total price of the items in the cart
     const cartTotal = cartItems.reduce(
       (sum, item) => sum + item.price * item.quantity,
       0
     );
-    setTotal(cartTotal.toFixed(2)); // Set the total in a formatted way
+    setTotal(cartTotal.toFixed(2)); 
   }, [cartItems]);
 
   if (!cartItems.length) {
-    return <p>Loading...</p>; // Show loading until cartItems are fetched
+    return <p>Loading...</p>; 
   }
 
   return (
