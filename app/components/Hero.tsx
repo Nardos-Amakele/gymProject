@@ -34,11 +34,11 @@ const Hero = () => {
   return (
     <div className="pb-0 lg:pb-28">
       <section
-        className="bg-cover justify-center bg-center h-screen items-center lg:justify-between  flex"
+        className="bg-cover justify-center bg-center h-screen items-center lg:justify-between flex"
         style={{
           backgroundImage: `linear-gradient(to right, black 5%, transparent 100%), url(${heroImage.src})`,
-          backgroundSize: '74%',
-          backgroundPosition: 'center right',
+          backgroundSize: 'cover', // Change to cover
+          backgroundPosition: 'center', // Center the image
           backgroundRepeat: 'no-repeat',
         }}
       >
