@@ -98,7 +98,7 @@ const CartModal = () => {
               >
                 Clear Cart
               </button>
-              <Link href="/checkout">
+              <Link href="/Shop/checkout">
                 <button className="w-full py-3 bg-customBlue mt-5 text-white rounded-full shadow-lg hover:scale-105 transition-all duration-300 ease-in-out">
                   Proceed to Checkout
                 </button>
