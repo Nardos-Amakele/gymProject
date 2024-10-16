@@ -19,6 +19,8 @@
 
     const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>('Body Building');
     const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
+    const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
       const categoryFromUrl = searchParams.get('category') as ServiceCategory;
@@ -36,13 +38,17 @@
       );
     };
 
-    const [error, setError] = useState<string | null>(null);
 
     const handleNextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
 
       if (selectedPackages.length === 0) {
         setError("Please choose at least one package.");
+        return;
+      }
+
+      if (!isTermsChecked) {
+        setError("Please agree to the terms and conditions.");
         return;
       }
 
@@ -175,7 +181,7 @@
               </div>
             </div>
             <label className='text-gray-400'>
-            <input type="checkbox" /> I agree to the <Link href={'/terms'} className='underline hover:text-customBlue'>terms and conditions</Link></label>    
+            <input type="checkbox" checked={isTermsChecked} onChange={(e)=> setIsTermsChecked(e.target.checked)} /> I agree to the <Link href={'/terms'} className='underline hover:text-customBlue'>terms and conditions</Link></label>    
         
           </div>
         </div>
