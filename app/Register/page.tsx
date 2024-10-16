@@ -56,47 +56,41 @@
     };
 
     return (
-      <div style={{ 
-        backgroundImage: `url(${bgImage.src})`,
-        backgroundSize: 'cover', 
-        backgroundPosition: 'center', 
-        backgroundRepeat: 'no-repeat',
-        minHeight: '100vh' 
-      }}>
+      <div className='bg-black'>
         <div className="flex justify-center items-center min-h-screen"  >
         <div className="flex flex-col md:flex-row w-11/12 max-w-6xl shadow-lg rounded-lg overflow-hidden">
           {/* General Information Section */}
-          <div className="w-full md:w-1/2 bg-zinc-800 p-8">
+          <div className="w-full md:w-1/2 bg-gray-800 p-8">
             <h2 className="text-2xl font-semibold text-white mb-6">General Information</h2>
             <form className="space-y-4">
               <input
                 type="text"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
                 placeholder="Full name"
               />
               <input
                 type="tel"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
                 placeholder="Phone number"
               />
               <input
                 type="email"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
                 placeholder="Email"
               />
               <input
                 type="text"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
                 placeholder="Address"
               />
               <input
                 type="date"
-                className="text-gray-400 w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                className="text-gray-400 w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
                 placeholder="Date of Birth"
               />
               <input
                 type="tel"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-zinc-800"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
                 placeholder="Emergency number"
               />
               <div className="space-y-2">
@@ -114,7 +108,7 @@
               </div>
                 {/* Submit Button */}
             <div className="mt-4">
-              <button className="w-full p-2 font-semibold text-customBlue rounded-lg bg-zinc-800 hover:bg-customBlue hover:text-black" onClick={handleNextClick}>
+              <button className="w-full p-2 font-semibold text-customBlue rounded-lg bg-gray-800 hover:bg-customBlue hover:text-black" onClick={handleNextClick}>
                 Next
               </button>
               {error && (
@@ -127,9 +121,9 @@
           </div>
 
           {/* Choose Package Section */}
-          <div className="w-full md:w-1/2 bg-customBlue p-8 flex flex-col justify-between ">
+          <div className="w-full md:w-1/2 bg-gray-800 p-8 flex flex-col justify-between ">
             <div className=''>
-              <h2 className="text-2xl font-semibold text-black mb-6">Choose a Package</h2>
+              <h2 className="text-2xl font-semibold text-white mb-6">Choose a Package</h2>
               <div className="flex flex-wrap md:flex-nowrap space-x-1 mb-4">
                 {Object.keys(services).map((category) => (
                   <button
@@ -144,21 +138,38 @@
                 ))}
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {services[selectedCategory].map((service: Service, index: number) => (
-                  <label
-                    key={index}
-                    className={`flex items-center p-4 border ${
-                      selectedPackages.includes(service.title) ? 'border-white' : 'border-black'
-                    } rounded-lg cursor-pointer`}
-                  >
-                    <input
-                      type="checkbox"
-                      checked={selectedPackages.includes(service.title)}
-                      onChange={() => handlePackageSelect(service.title)}
-                      className="form-checkbox h-4 w-4 text-black mr-3"
-                    />
+              {services[selectedCategory].map((service: Service, index: number) => (
+        <label
+          key={index}
+          className={`relative flex items-center p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
+            selectedPackages.includes(service.title) ? 'border-customBlue shadow-md' : 'border-zinc-600'
+          } hover:border-customBlue`}
+          onClick={() => handlePackageSelect(service.title)}
+        >
+          {/* Checkbox input (hidden) */}
+          <input
+            type="checkbox"
+            checked={selectedPackages.includes(service.title)}
+            onChange={() => handlePackageSelect(service.title)}
+            className="hidden"
+          />
+
+          {/* Checkmark in the top right corner */}
+          {selectedPackages.includes(service.title) && (
+            <div className="absolute top-2 right-2 bg-customBlue rounded-full p-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-4 w-4 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+          )}
                     <div>
-                      <h3 className="text-black">{service.title}</h3>
+                      <h3 className="text-gray-400">{service.title}</h3>
                       <p className="text-blue-200">{service.price}</p>
                     </div>
                   </label>
