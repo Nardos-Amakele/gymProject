@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons"; // Changed to faArrowDown
 import { motion } from "framer-motion";
+
 export const HeroSection: React.FC = () => {
   const images = [
     "https://media.istockphoto.com/id/469510058/photo/whey-protein-powder.webp?s=1024x1024&w=is&k=20&c=-8C1S9kwn1X7oBDw1LX51TfX9BESpEu2F4zt3KINoSg=",
@@ -44,8 +45,8 @@ export const HeroSection: React.FC = () => {
               key={idx}
               src={image}
               alt={`Image ${idx}`}
-              className=" opacity-50 w-50 h-40 object-cover rounded-xl" // Set fixed width and height
-              style={{ width: "200px", height: "150px" }} // Ensure 200x150 dimensions
+              className="opacity-50 w-50 h-40 object-cover rounded-xl"
+              style={{ width: "200px", height: "150px" }}
             />
           ))}
         </div>
@@ -56,8 +57,8 @@ export const HeroSection: React.FC = () => {
               key={idx}
               src={image}
               alt={`Image ${idx}`}
-              className="  opacity-50 w-50 h-40 object-cover rounded-xl" // Set fixed width and height
-              style={{ width: "200px", height: "150px" }} // Ensure 200x150 dimensions
+              className="opacity-50 w-50 h-40 object-cover rounded-xl"
+              style={{ width: "200px", height: "150px" }}
             />
           ))}
         </div>
@@ -68,8 +69,8 @@ export const HeroSection: React.FC = () => {
               key={idx}
               src={image}
               alt={`Image ${idx}`}
-              className=" opacity-50 w-50 h-40 object-cover rounded-xl" // Set fixed width and height
-              style={{ width: "200px", height: "150px" }} // Ensure 200x150 dimensions
+              className="opacity-50 w-50 h-40 object-cover rounded-xl"
+              style={{ width: "200px", height: "150px" }}
             />
           ))}
         </div>
@@ -80,34 +81,28 @@ export const HeroSection: React.FC = () => {
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-6xl font-bold text-white "
+          className="text-6xl font-bold text-white"
         >
           Shop
         </motion.h1>
+      </div>
 
-        <div className="mt-6">
-          <div className="mt-6">
-            <div className="flex justify-center">
-              <motion.div
-                onClick={handleScroll}
-                className="flex bottom-4 justify-center border border-white rounded-full p-4 cursor-pointer text-white"
-                whileHover={{ scale: 1.1 }} // Hover effect for smoother interaction
-                whileTap={{ scale: 0.9 }} // Tap effect for feedback
-                animate={isJumping ? { y: [0, -10, 0] } : {}}
-                transition={{
-                  duration: 0.6,
-                  ease: "easeInOut",
-                  repeat: isJumping ? 1 : 0, // Jump twice
-                }}
-              >
-                <FontAwesomeIcon
-                  icon={faArrowUp}
-                  className="text-white text-xl"
-                />
-              </motion.div>
-            </div>
-          </div>
-        </div>
+      {/*the positioning is what caused it*/}
+      <div className="absolute bottom-10 w-full flex justify-center z-10">
+        <motion.div
+          onClick={handleScroll}
+          className="flex justify-center border border-white rounded-full p-4 cursor-pointer text-white"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          animate={isJumping ? { y: [0, -10, 0] } : {}}
+          transition={{
+            duration: 0.6,
+            ease: "easeInOut",
+            repeat: isJumping ? 1 : 0,
+          }}
+        >
+          <FontAwesomeIcon icon={faArrowUp} className="text-white text-xl" />
+        </motion.div>
       </div>
     </div>
   );

@@ -9,20 +9,20 @@ const ExpertTrainers: React.FC = () => {
     const isInView = useInView(sectionRef, { amount: 0.5 });
 
     return (
-        <section ref={sectionRef} className="py-16 mt-10 bg-black text-white ">
+        <section ref={sectionRef} className="py-16 mt-10 bg-black text-white">
             <h2 className="text-5xl font-bold text-customBlue py-5 text-center">Meet the Team</h2>
             <p className="text-lg text-gray-400 text-center mb-16">
                 Together, we’ll achieve your fitness goals and empower you to live your best life.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-[9rem]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 sm:px-[9rem]">
                 {trainers.map((trainer) => (
                     <div
                         key={trainer.id}
-                        className="relative overflow-hidden  transform transition-transform duration-300 hover:scale-105"
+                        className="relative overflow-hidden transform transition-transform duration-300 hover:scale-105"
                     >
                         <div
-                            className="w-full h-80 bg-cover bg-center"
+                            className="w-full h-80 bg-cover bg-center p-2 sm:p-0"
                             style={{ backgroundImage: `url("${trainer.imageUrl}")` }}
                         ></div>
 

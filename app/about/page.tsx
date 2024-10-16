@@ -131,7 +131,7 @@ const AboutUsPage = () => {
                     </section>
 
                     {/* Section 2 - Our Philosophy */}
-                    <section className="scroll-section flex flex-col md:flex-row items-center py-14 gap-20 ">
+                    <section className="scroll-section flex flex-col-reverse md:flex-row items-center py-14 gap-20">
                         <motion.div
                             className="w-full lg:w-1/2 relative md:h-80 h-60 lg:h-60"
                             initial={{ opacity: 0, scale: 0.9 }}
@@ -150,7 +150,7 @@ const AboutUsPage = () => {
                         <div className="md:w-1/2 px-6">
                             <div className='relative'>
                                 <motion.h2
-                                    className="text-[7rem]  font-bold text-gray-800 tracking-tight"
+                                    className="text-[7rem] font-bold text-gray-800 tracking-tight"
                                     initial={{ opacity: 0 }}
                                     whileInView={{ opacity: 0.8 }}
                                     transition={{ duration: 1 }}
@@ -176,6 +176,7 @@ const AboutUsPage = () => {
                             </motion.p>
                         </div>
                     </section>
+
 
                     {/* Section 3 - Our Facilities & Trainers */}
                     <section className="scroll-section flex flex-col md:flex-row items-center pb-40  gap-20">
@@ -223,26 +224,26 @@ const AboutUsPage = () => {
                             />
                         </motion.div>
                     </section>
-                    </section>
-             </div>
-                  {/* Join Us Section */}
+                </section>
+            </div>
+            {/* Join Us Section */}
 
-                        
-                        <section className='mx-auto text-center'>
-                            <Link href='/Register' >
-                                <motion.button
-                                className=" button-custom text-xl text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-5 py-1"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                >
-                                    <span>Join Robi Fitness Now</span>
-                                </motion.button>
-                            </Link>
-                        </section>
+
+            <section className='mx-auto text-center'>
+                <Link href='/Register' >
+                    <motion.button
+                        className=" button-custom text-xl text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-5 py-1"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <span>Join Robi Fitness Now</span>
+                    </motion.button>
+                </Link>
+            </section>
             <Staff />
 
-       
-            
+
+
             <Footer />
         </>
     );
