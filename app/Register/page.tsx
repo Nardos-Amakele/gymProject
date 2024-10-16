@@ -65,32 +65,32 @@
             <form className="space-y-4">
               <input
                 type="text"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder="Full name"
               />
               <input
                 type="tel"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder="Phone number"
               />
               <input
                 type="email"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder="Email"
               />
               <input
                 type="text"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder="Address"
               />
               <input
                 type="date"
-                className="text-gray-400 w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
+                className="text-gray-400 w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder="Date of Birth"
               />
               <input
                 type="tel"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-2 focus:ring-customeBlue bg-gray-800"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder="Emergency number"
               />
               <div className="space-y-2">
@@ -176,8 +176,8 @@
                 ))}
               </div>
             </div>
-            <label className='text-black'>
-            <input type="checkbox" /> I agree to the <Link href={'/termsandconditions'}>terms and conditions</Link></label>    
+            <label className='text-gray-400'>
+            <input type="checkbox" /> I agree to the <Link href={'/terms'} className='underline hover:text-customBlue'>terms and conditions</Link></label>    
         
           </div>
         </div>
