@@ -138,7 +138,7 @@
                 ))}
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {services[selectedCategory].map((service: Service, index: number) => (
+              {services[selectedCategory].filter(service => service.title !== 'Per day').map((service: Service, index: number) => (
         <label
           key={index}
           className={`relative flex items-center p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
@@ -153,8 +153,6 @@
             onChange={() => handlePackageSelect(service.title)}
             className="hidden"
           />
-
-          {/* Checkmark in the top right corner */}
           {selectedPackages.includes(service.title) && (
             <div className="absolute top-2 right-2 bg-customBlue rounded-full p-1">
               <svg
