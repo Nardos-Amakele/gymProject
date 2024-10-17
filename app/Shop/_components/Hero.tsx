@@ -46,7 +46,7 @@ export const HeroSection: React.FC = () => {
               src={image}
               alt={`Image ${idx}`}
               className="opacity-50 w-50 h-40 object-cover rounded-xl"
-              style={{ width: "200px", height: "150px" }}
+              style={{ width: "200px", height: "250px" }}
             />
           ))}
         </div>
@@ -58,7 +58,7 @@ export const HeroSection: React.FC = () => {
               src={image}
               alt={`Image ${idx}`}
               className="opacity-50 w-50 h-40 object-cover rounded-xl"
-              style={{ width: "200px", height: "150px" }}
+              style={{ width: "200px", height: "200px" }}
             />
           ))}
         </div>
@@ -70,13 +70,12 @@ export const HeroSection: React.FC = () => {
               src={image}
               alt={`Image ${idx}`}
               className="opacity-50 w-50 h-40 object-cover rounded-xl"
-              style={{ width: "200px", height: "150px" }}
+              style={{ width: "200px", height: "200px" }}
             />
           ))}
         </div>
       </div>
-
-      <div className="relative z-10 text-center text-white">
+      <div className="relative text-center text-white">
         <motion.h1
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -85,24 +84,24 @@ export const HeroSection: React.FC = () => {
         >
           Shop
         </motion.h1>
-      </div>
 
-      {/*the positioning is what caused it*/}
-      <div className="absolute bottom-10 w-full flex justify-center z-10">
-        <motion.div
-          onClick={handleScroll}
-          className="flex justify-center border border-white rounded-full p-4 cursor-pointer text-white"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-          animate={isJumping ? { y: [0, -10, 0] } : {}}
-          transition={{
-            duration: 0.6,
-            ease: "easeInOut",
-            repeat: isJumping ? 1 : 0,
-          }}
-        >
-          <FontAwesomeIcon icon={faArrowUp} className="text-white text-xl" />
-        </motion.div>
+        {/* Arrow positioned directly below the Shop heading */}
+        <div className="mt-4 flex justify-center">
+          <motion.div
+            onClick={handleScroll}
+            className="flex justify-center border border-white rounded-full p-4 cursor-pointer text-white"
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
+            animate={isJumping ? { y: [0, -10, 0] } : {}}
+            transition={{
+              duration: 0.6,
+              ease: "easeInOut",
+              repeat: isJumping ? 1 : 0,
+            }}
+          >
+            <FontAwesomeIcon icon={faArrowUp} className="text-white text-xl" />
+          </motion.div>
+        </div>
       </div>
     </div>
   );

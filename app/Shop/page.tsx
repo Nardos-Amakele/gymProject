@@ -117,11 +117,10 @@ const ShopPage: React.FC = () => {
               <button
                 key={idx}
                 onClick={() => handleCategoryClick(category.value)}
-                className={`hover:border-white text-sm px-4 py-2 border rounded-full ${
-                  selectedCategory === category.value
-                    ? "bg-customBlue text-black"
-                    : "border-customBlue text-white"
-                }`}
+                className={`hover:border-white text-sm px-4 py-2 border rounded-full ${selectedCategory === category.value
+                  ? "bg-customBlue text-black"
+                  : "border-customBlue text-white"
+                  }`}
               >
                 <FontAwesomeIcon icon={category.icon} className="mr-2" />
                 {category.title}
@@ -140,7 +139,7 @@ const ShopPage: React.FC = () => {
             </h2>
 
             {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {filteredProducts.map((product) => (
                   <Item
                     id={product.id}
@@ -150,7 +149,7 @@ const ShopPage: React.FC = () => {
                     image={product.image}
                     price={product.price}
                     description={product.description}
-                  ></Item>
+                  />
                 ))}
               </div>
             ) : (

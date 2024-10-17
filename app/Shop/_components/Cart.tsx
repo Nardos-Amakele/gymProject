@@ -75,7 +75,7 @@ const CartModal = () => {
                   </>
 
                   <button
-                    className="absolute top-10 right-8 text-red-900 hover:text-red-800"
+                    className="absolute top-10 right-8 text-white/75 hover:text-white/100 "
                     onClick={() => removeFromCart(item.id)}
                   >
                     <FontAwesomeIcon icon={faTimesCircle} />
@@ -93,7 +93,7 @@ const CartModal = () => {
                 <span className="text-white">ETB {subtotal.toFixed(2)}</span>
               </div>
               <button
-                className="w-full py-3 bg-red-700 text-white rounded-full shadow-lg hover:scale-105  transition-all duration-300 ease-in-out"
+                className="w-full py-3 border-customBlue border-1 text-white rounded-full shadow-lg hover:scale-105  transition-all duration-300 ease-in-out"
                 onClick={clearCart}
               >
                 Clear Cart
@@ -110,11 +110,11 @@ const CartModal = () => {
 
       <button
         onClick={toggleCart}
-        className="sticky top-8 left-4 p-3 bg-accentthirty text-white rounded-full shadow-lg hover:bg-thirty transition-all z-30"
+        className="sticky top-18 left-4 p-3 bg-accentthirty text-white rounded-full shadow-lg hover:bg-thirty transition-all z-30"
       >
         <FontAwesomeIcon icon={faShoppingCart} size="xl" />
         {totalItems >= 1 && (
-          <span className="absolute top-0 right-0 text-xs bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center transition-all">
+          <span className="absolute top-0 right-0 text-xs bg-customBlue text-white rounded-full h-5 w-5 flex items-center justify-center transition-all">
             {totalItems}
           </span>
         )}
