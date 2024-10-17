@@ -1,3 +1,4 @@
+
 "use client"; 
 
 import React, { useState } from 'react';
@@ -5,9 +6,11 @@ import styles from '../styles/ButtonStyles.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import logo from '../../assets/logos/logo.svg';
+import useTranslation from 'next-translate/useTranslation';
 
 const Header: React.FC = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { t } = useTranslation('common'); // Use translation hook
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -38,32 +41,32 @@ const Header: React.FC = () => {
         <nav className={`md:flex ${menuOpen ? 'block' : 'hidden'} absolute md:static bg-[#000000ce] md:bg-transparent w-full md:w-auto top-0 right-0 md:right-auto z-10`}> {/* Changed top-12 to top-0 to remove the margin */}
           <ul className="pt-20 flex flex-col items-center md:flex-row text-base space-y-4 md:space-y-0 md:space-x-10 lg:space-x-14 p-6 md:p-0 ml-auto md:ml-0">
             <li className="cursor-pointer relative group">
-              <Link href="/">Home</Link>
+              <Link href="/">{t('home')}</Link> {/* Translation for Home */}
               <span className="absolute left-1/2 bottom-0 transform -translate-x-1/2 h-[2px] w-0 bg-[#2596BE] transition-all duration-300 group-hover:w-8"></span>
             </li>
             <li className="cursor-pointer relative group">
-              <Link href="/about">About Us</Link>
+              <Link href="/about">{t('about_us')}</Link> {/* Translation for About Us */}
               <span className="absolute left-1/2 bottom-0 transform -translate-x-1/2 h-[2px] w-0 bg-[#2596BE] transition-all duration-300 group-hover:w-8"></span>
             </li>
             <li className="cursor-pointer relative group">
-              <Link href="/services">Service</Link>
+              <Link href="/services">{t('service')}</Link> {/* Translation for Service */}
               <span className="absolute left-1/2 bottom-0 transform -translate-x-1/2 h-[2px] w-0 bg-[#2596BE] transition-all duration-300 group-hover:w-8"></span>
             </li>
             <li className="cursor-pointer relative group">
-              <Link href="/Shop">Shop</Link>
+              <Link href="/Shop">{t('shop')}</Link> {/* Translation for Shop */}
               <span className="absolute left-1/2 bottom-0 transform -translate-x-1/2 h-[2px] w-0 bg-[#2596BE] transition-all duration-300 group-hover:w-8"></span>
             </li>
             <li className="cursor-pointer relative group">
-              <Link href="/Contact">Contact</Link>
+              <Link href="/Contact">{t('contact')}</Link> {/* Translation for Contact */}
               <span className="absolute left-1/2 bottom-0 transform -translate-x-1/2 h-[2px] w-0 bg-[#2596BE] transition-all duration-300 group-hover:w-8"></span>
             </li>
             {/* Sign-up Button in Mobile Menu */}
             <li className="mt-4 md:hidden">
               <button className={`${styles.customButton} w-full`}>
-                <Link href="/Register">SignUp</Link>
+                <Link href="/Register">{t('sign_up')}</Link> {/* Translation for SignUp */}
               </button>
               <button className={`bg-black text-customBlue w-full py-2 rounded-br-[1rem] hover:translate-y-1`}>
-                <Link href="/Login">LogIn</Link>
+                <Link href="/Login">{t('log_in')}</Link> {/* Translation for LogIn */}
               </button>
             </li>
           </ul>
@@ -72,10 +75,10 @@ const Header: React.FC = () => {
         {/* Sign-up and Login Buttons for Desktop */}
         <div className="hidden md:flex">
           <button className={`${styles.customButton}`}>
-            <Link href="/Register">SignUp</Link>
+            <Link href="/Register">{t('sign_up')}</Link> {/* Translation for SignUp */}
           </button>
           <button className="bg-black py-[0.38rem] px-[1.8rem] rounded-br-[1rem] font-bold text-customBlue hover:shadow-[rgba(0, 0, 0, .3) 2px 8px 8px -5px] hover:translate-y-1">
-            <Link href="/Login">LogIn</Link>
+            <Link href="/Login">{t('log_in')}</Link> {/* Translation for LogIn */}
           </button>
         </div>
     </header>
