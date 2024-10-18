@@ -7,7 +7,6 @@ import Header from './components/Header';
 import './globals.css';
 import { Inter } from 'next/font/google';
 import { CartProvider } from './Shop/_components/CartContext';
-import LanguageSwitcher from './components/LanguageSwitcher';
 
 
 
@@ -29,7 +28,6 @@ export default function RootLayout({
       <body className={inter.className}>
 
         <CartProvider>
-    <LanguageSwitcher />
           {children}
         </CartProvider>
       </body>
