@@ -1,3 +1,6 @@
+import { useTranslations } from "next-intl";
+
+
 export type Service = {
     title: string;
     price: string;
@@ -5,9 +8,10 @@ export type Service = {
     isPremium?: boolean;
     isPerDay?: boolean;
   };
-  
+
   export type Tab = 'Body Building' | 'Exercise' | 'Group Fitness' | 'Personal Training';
-  
+    const t = useTranslations("registration_page");
+
   export const services: { [key in Tab]: Service[] } = {
     'Body Building': [
       {

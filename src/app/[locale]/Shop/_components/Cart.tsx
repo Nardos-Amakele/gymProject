@@ -12,7 +12,7 @@ import { formatCurrency } from "@/lib/formatters";
 import { useTranslations } from "next-intl";
 
 const CartModal = () => {
-  const t = useTranslations("login_page");
+  const t = useTranslations("cart");
 
   const { cartItems, removeFromCart, clearCart } = useCart();
   const [isOpen, setIsOpen] = useState(false);

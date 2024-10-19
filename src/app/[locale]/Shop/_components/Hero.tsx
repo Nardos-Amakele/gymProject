@@ -2,8 +2,12 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons"; // Changed to faArrowDown
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
+
 
 export const HeroSection: React.FC = () => {
+  const t = useTranslations("shop_page");
+
   const images = [
     "https://media.istockphoto.com/id/469510058/photo/whey-protein-powder.webp?s=1024x1024&w=is&k=20&c=-8C1S9kwn1X7oBDw1LX51TfX9BESpEu2F4zt3KINoSg=",
     "https://media.istockphoto.com/id/1193707579/photo/rows-of-dumbbells-in-the-gym-with-hand.jpg?s=1024x1024&w=is&k=20&c=DM94NjhXdZoljOaOtD8T7J1p9Dy8eYhkOG4DM2r0arw=",
@@ -82,7 +86,7 @@ export const HeroSection: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="text-6xl font-bold text-white"
         >
-          Shop
+          {t("heading")}
         </motion.h1>
 
         {/* Arrow positioned directly below the Shop heading */}
