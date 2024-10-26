@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '~slick-carousel/slick/slick.css';
+@import '~slick-carousel/slick/slick-theme.css';
+
+
+body {
+  font-family: 'Jost', sans-serif;
+  color: rgb(var(--foreground-rgb));
+  background-color: #000000; 
+}
+
+
+
+
+.shadow-left-gradient {
+  background: linear-gradient(to right, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+.shadow-right-gradient {
+  background: linear-gradient(to left, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+}
+
+/* Scrolling animation for testimonial cards */
+@keyframes scroll {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0); 
+  }
+}
+
+/* Animate the scroll of the testimonials */
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}
+
+/* Pause scrolling when hovered */
+.pause-scroll {
+  animation-play-state: paused;
+}
+
+/* Customize scrollbar for Webkit browsers (optional, if needed) */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: black; /* Or any custom color */
+}
+::-webkit-scrollbar-thumb {
+  background-color: #2596BE; /* Scrollbar thumb color */
+  border-radius: 20px;
+  border: 3px solid transparent; /* Adds some padding */
+}
+
+
+/* Styling for the arrow buttons */
+test-button {
+  cursor: pointer;
+}
+
+test-button:hover {
+  background-color: #1c82a5; /* Slight hover effect */
+}
+
+
+
+/* CSS */
+.button-custom {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-custom span {
+  position: relative;
+  transition: color 600ms cubic-bezier(0.48, 0, 0.12, 1);
+  z-index: 10;
+  color: #2596BE; 
+}
+
+.button-custom:after {
+  content: "";
+  position: absolute;
+  bottom: -50%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #2596BE;
+  transform-origin: bottom center;
+  transition: transform 600ms cubic-bezier(0.48, 0, 0.12, 1);
+  transform: skewY(9.3deg) scaleY(0);
+  z-index: 50;
+}
+
+.button-custom:hover:after {
+  transform-origin: bottom center;
+  transform: skewY(9.3deg) scaleY(2);
+}
+
+.button-custom:hover span {
+  color: black;
+  z-index: 60; 
+}

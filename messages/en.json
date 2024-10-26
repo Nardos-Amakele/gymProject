@@ -1,0 +1,442 @@
+{
+  "home_Page": {
+    "nav": {
+      "links": [
+        "Home",
+        "About Us",
+        "Service",
+        "Shop",
+        "Contact",
+        "SignUp",
+        "LogIn"
+      ]
+    },
+    "heroSection": {
+      "title": "ROBI FITNESS",
+      "titleTwo": "CENTER",
+      "subtitle": "Where strength meets determination. Your journey to a stronger, better you starts here.",
+      "ctaButton": "Join Now",
+      "members": "Members",
+      "services": "Services"
+    },
+    "aboutSection": {
+      "title": "About Us",
+      "description": "ROBI Fitness Center is more than just a gym—it’s a family. Located in Hawassa, we’ve created a welcoming environment where members of all fitness levels can achieve their goals. Our passionate team of trainers and state-of-the-art facilities ensure you get the support and guidance needed to succeed."
+    },
+    "bmiSection": {
+      "heading": "Every rep brings you closer to greatness",
+      "subtext": "Know where you fit in.",
+      
+      "form": {
+        "title": "Check your BMI",
+        "bmiLabel":"You'r BMI",
+        "messages": {
+          "underweight": "You are underweight. Nutritional tracking and frequent exercises might be good for you.",
+          "goodHealth": "You are in good health! Bodybuilding maybe?",
+          "overweight": "You are overweight. Join our group fitness exercises.",
+          "obese": "You are obese. Get individualized training from our personal trainers.",
+          "invalidInput": "Please enter valid numbers for weight and height.",
+          "invalidAge": "Please enter a valid age."
+        },
+        "weight": {
+          "label": "Weight (kg)",
+          "placeholder": "Enter weight"
+        },
+        "height": {
+          "label": "Height (m)",
+          "placeholder": "Enter height"
+        },
+        "age": {
+          "label": "Age",
+          "placeholder": "Enter age"
+        },
+        "calculateButton": "Calculate"
+        
+      }
+    },
+    "servicesSection": {
+      "title": "Our Services",
+      "services": {
+        "weightLifting": {
+          "title": "Weight Lifting",
+          "description": "Train with the best equipment."
+        },
+        "aerobics": {
+          "title": "Aerobics",
+          "description": "Improve your cardio with our aerobic classes."
+        },
+        "personalTraining": {
+          "title": "Personal Training",
+          "description": "Get one-on-one training sessions."
+        }
+      }
+    },
+    "shopSection": {
+      "title": "Shop",
+      "subtext": "Discover our premium fitness products and accessories at unbeatable prices.",
+      "products": [
+        {
+          "name": "Kings Gym Belt",
+          "price": "900 Birr",
+          "ctaButton": "Explore more"
+        },
+        {
+          "name": "Water Bottle",
+          "originalPrice": "300 Birr",
+          "discountedPrice": "150 Birr",
+          "badge": "New Arrival",
+          "discountText": "50% Discount for the first 10 sales"
+        }
+      ]
+    },
+    "testimonialSection": {
+      "title": "Testimonials",
+      "testimonials": [
+        {
+          "before": "Before",
+          "after": "After",
+          "quote": "I wanted to lose weight after giving birth, but I wasn’t sure where to start. Andres helped me create a plan that fit my lifestyle, and I ended up losing 20 pounds while feeling more energetic and healthy. His coaching has made a huge impact on my life!",
+          "name": "Meheret Alemu"
+        },
+        {
+          "before": "Before working with Andres",
+          "after": "After",
+          "quote": "Before working with Andres, I struggled with back pain and gaining strength for powerlifting. After hiring him, I was able to drop 30 pounds, eliminate my back pain, and hit lifetime PRs at my powerlifting meet—all while celebrating the birth of my daughter. Andres is the best coach out there!",
+          "name": "Eden Gebreselassie"
+        },
+        {
+          "before": "Before",
+          "after": "After",
+          "quote": "I had been overweight for years and struggled to stay consistent with workouts. With Andres' guidance, I lost 25 pounds, improved my overall fitness, and gained more muscle than I ever thought possible. I'm stronger and more confident now.",
+          "name": "Bereket Tesfaye"
+        },
+        {
+          "before": "Before",
+          "after": "After",
+          "quote": "I wanted to lose weight after giving birth, but I wasn’t sure where to start. Andres helped me create a plan that fit my lifestyle, and I ended up losing 20 pounds while feeling more energetic and healthy. His coaching has made a huge impact on my life!",
+          "name": "Meheret Alemu"
+        }
+      ]
+    },
+    "contactSection": {
+      "address": "Gabriel, Hawassa Building mall 3rd floor",
+      "phone": "+251 911 2345 212",
+      "email": "Robigym@gym.com"
+    },
+    "footerSection": {
+      "company": {
+        "title": "Company",
+        "links": ["About", "Philosophy", "Facilities", "Team"]
+      },
+      "explore": {
+        "title": "Explore",
+        "links": ["Services", "Shop"]
+      },
+      "shopCategories": {
+        "title": "Product",
+        "links": ["Clothing", "Supplement", "Equipment"]
+      },
+      "support": {
+        "title": "Support",
+        "links": [
+          "BMI",
+          "Address",
+          "Phone",
+          "Email",
+          "Feedback",
+          "Terms & Conditions"
+        ]
+      }
+    }
+  },
+  "about_page": {
+    "hero": {
+      "title": "About Us"
+    },
+    "sections": [
+      {
+        "id": "01",
+        "title": "About Robi Fitness",
+        "content": "Robi Fitness is dedicated to fostering a supportive environment where individuals of all fitness levels can thrive. Our gym offers state-of-the-art equipment and expert trainers who are passionate about helping you achieve your fitness goals."
+      },
+      {
+        "id": "02",
+        "title": "Our Philosophy",
+        "content": "At Robi Fitness, we believe in a holistic approach to health and wellness. Fitness isn't just about physical strength — it's about building mental resilience, confidence, and overall well-being."
+      },
+      {
+        "id": "03",
+        "title": "Our Facilities & Trainers",
+        "content": "Robi Fitness is equipped with the latest fitness technology and an inspiring space designed for every fitness level. Our experienced trainers are here to support your growth, offering personalized guidance to help you maximize your potential."
+      },
+      {
+        "callToAction": "Join Robi Fitness now",
+        "teamTitle": "Meet the Team",
+        "team": [
+          {
+            "name": "Robel",
+            "role": "Owner"
+          },
+          {
+            "name": "Samrawit",
+            "role": "Manager"
+          },
+          {
+            "name": "Trainer 3",
+            "role": "Trainer"
+          },
+          {
+            "name": "Abebe",
+            "role": "Nutritionist"
+          }
+        ]
+      }
+    ]
+  },
+  "services_page": {
+    "hero":{
+      "title": "Services"
+    },
+    "sections": {
+      "body_building": "Body Building",
+      "exercise": "Exercise",
+      "group_fitness": "Group Fitness",
+      "personal_training": "Personal Training"
+    },
+    "body_building": {
+      "heading": "Achieve your fitness goals with our dedicated bodybuilding packages.",
+      "plans": {
+        "monthly": {
+          "title": "Monthly",
+          "price": "1,100 Birr",
+          "description": [
+            "Unlimited gym access with personalized bodybuilding coaching.",
+            "Includes two 1:1 coaching sessions per week.",
+            "Free access to one special bodybuilding event each month."
+          ],
+          "purchase": "Purchase"
+        },
+        "three_months": {
+          "title": "3 Months",
+          "price": "3,100 Birr",
+          "description": [
+            "Access for three months with regular progress check-ins and assessments.",
+            "Includes access to nutritional workshops and meal plans.",
+            "Monthly performance tracking and progress reports."
+          ],
+          "purchase": "Purchase"
+        },
+        "six_months": {
+          "title": "6 Months",
+          "price": "6,000 Birr",
+          "description": [
+            "Half-year access to gym facilities, including all bodybuilding equipment.",
+            "Free nutritional tracking and monthly assessments.",
+            "Discount on fitness and wellness workshops."
+          ],
+          "purchase": "Purchase"
+        },
+        "yearly": {
+          "title": "Yearly",
+          "price": "11,500 Birr",
+          "description": [
+            "Full year of access to all bodybuilding equipment and classes.",
+            "Priority booking for 1:1 coaching and diet consultations.",
+            "Exclusive discounts on supplements and apparel."
+          ],
+          "purchase": "Purchase"
+        }
+      }
+    },
+    "exercise": {
+      "heading": "Stay fit and energized with various exercise options for all levels.",
+      "plans": {
+        "per_day": {
+          "title": "Per day",
+          "price": "500 Birr",
+          "description": "Come to our gym get access to all exercise equipment and classes.",
+          "purchase": "Purchase"
+        },
+        "in_person": {
+          "title": "20 Days (With Coupon)",
+          "price": "1,000 Birr",
+          "description": [
+            "20 days of gym and class access with optional fitness tracking.",
+            "Eligible for a discount on future memberships.",
+            "Access to one free group fitness class."
+          ],
+          "purchase": "Purchase"
+        },
+        "monthly": {
+          "title": "Monthly (12 days)",
+          "price": "1,300 Birr",
+          "description": [
+            "One-month access to gym and classes with weekly fitness assessments.",
+            "Access to member-only fitness workshops and discounts on training packages."
+          ],
+          "purchase": "Purchase"
+        },
+        "three_months": {
+          "title": "3 Months",
+          "price": "3,600 Birr",
+          "description": [
+            "Three months of access to all exercise equipment and classes.",
+            "Weekly check-ins with a fitness coach and personalized workout plans.",
+            "Free entry to one special fitness event per month."
+          ],
+          "purchase": "Purchase"
+        },
+        "yearly": {
+          "title": "Yearly",
+          "price": "11,000 Birr",
+          "description": [
+            "One year of full gym access, including special fitness programs and classes.",
+            "Monthly fitness progress tracking and goal-setting meetings.",
+            "Priority access to limited-time fitness workshops and events."
+          ],
+          "purchase": "Purchase"
+        }
+      }
+    }
+  },
+  "shop_page": {
+    "heading": "Shop",
+    "categories": {
+      "all": "All",
+      "clothing": "Clothing",
+      "supplement": "Supplement",
+      "equipment": "Equipment"
+    },
+    "all_products": "All Products For You!",
+    "products": [
+      {
+        "name": "Gym T-Shirt",
+        "price": "ETB 19.99",
+        "description": "Comfortable and stylish gym t-shirt.",
+        "button": "Add to Cart"
+      },
+      {
+        "name": "Running Shorts",
+        "price": "ETB 24.99",
+        "description": "Breathable running shorts.",
+        "button": "Add to Cart"
+      },
+      {
+        "name": "Dumbbells Set",
+        "price": "ETB 49.99",
+        "description": "A complete set of dumbbells for strength training.",
+        "button": "Add to Cart"
+      },
+      {
+        "name": "Kettlebell",
+        "price": "ETB 34.99",
+        "description": "High-quality kettlebell.",
+        "button": "Add to Cart"
+      },
+      {
+        "name": "Cycling Gloves",
+        "price": "ETB 14.99",
+        "description": "Durable cycling gloves to enhance your grip.",
+        "button": "Add to Cart"
+      },
+      {
+        "name": "Sports Water Bottle",
+        "price": "ETB 9.99",
+        "description": "Stay hydrated with this lightweight sports water bottle.",
+        "button": "Add to Cart"
+      }
+    ]
+  },
+  "cart": {
+    "heading": "Your Cart",
+
+    "subtotal": "Subtotal",
+    "currency": "Birr",
+    "buttons": {
+      "clear_cart": "Clear Cart",
+      "proceed_checkout": "Proceed to Checkout"
+    }
+  },
+  "contact_page": {
+    "heading": "Contact Us",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "details": {
+      "address": {
+        "label": "Address",
+        "value": "Gabriel, Hawassa Building Mall, 3rd Floor"
+      },
+      "phone": {
+        "label": "Phone",
+        "value": "+251 911 2345 212"
+      },
+      "email": {
+        "label": "Email",
+        "value": "Robigym@gym.com"
+      }
+    },
+    "feedback_form": {
+      "heading": "Send Feedback",
+      "fields": {
+        "full_name": "Full Name",
+        "email": "Email",
+        "message": "Type your Message..."
+      },
+      "submit_button": "Send"
+    }
+  },
+  "login_page": {
+    "heading": "Log in to Account",
+    "fields": {
+      "phone_number": "Phone Number",
+      "password": "Password"
+    },
+    "buttons": {
+      "login": "Log in",
+      "signup": "Sign Up?"
+    }
+  },
+  "registration_page": {
+    "heading": "General Information",
+    "fields": {
+      "full_name": "Full Name",
+      "phone_number": "Phone Number",
+      "email": "Email",
+      "address": "Address",
+      "birthdate": "mm/dd/yyyy",
+      "emergency_number": "Emergency Number",
+      "gender": {
+        "label": "Gender",
+        "options": {
+          "male": "Male",
+          "female": "Female"
+        }
+      }
+    },
+    "buttons": {
+      "next": "Next"
+    }
+  },
+  "checkout_page": {
+    "order_summary": {
+      "heading": "Order Summary",
+      "items_selected": "Items Selected:",
+      "packages_selected": "Packages Selected:",
+      "total": "Total:",
+      "currency": "Birr"
+    },
+    "payment_instructions": {
+      "heading": "Payment Instructions",
+      "instruction_1": "Please transfer 50% of the total amount --- ETB ",
+      "instruction_2": " --- to one of the following accounts:",
+      "accounts": {
+        "cbe": "CBE: Account Number 123456789",
+        "boa": "Bank of Abyssinia: Account Number 987654321",
+        "telebirr": "TeleBirr: Phone Number 0912345678"
+      },
+      "confirmation": "After making the payment, click the button below to confirm your order."
+    },
+    "buttons": {
+      "confirm_payment": "Confirm Payment"
+    }
+  }
+}
