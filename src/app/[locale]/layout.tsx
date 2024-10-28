@@ -10,7 +10,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { CartProvider } from "./Shop/_components/CartContext";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable:'--font-sans' });
 
 export const metadata = {
   title: "My Gym Website",
