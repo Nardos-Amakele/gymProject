@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logos/logo.svg";
 
-const navItems = ["Dashboard", "Gym Member", "Employee", "Inventory"];
+const navItems = ["Dashboard", "Gym Member", "Employee", "Inventory", "Stock", "Orders"];
 
 const AdminSidebar: React.FC<{ onNavClick: (item: string) => void }> = ({ onNavClick }) => {
   return (

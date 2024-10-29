@@ -23,15 +23,19 @@ const PieChartComponent: React.FC = () => {
   const totalValue = useMemo(() => chartData.reduce((acc, curr) => acc + curr.value, 0), []);
 
   return (
-    <Card className="flex flex-col bg-[#121212] text-white">
-      <CardHeader className="items-center pb-0">
-        <CardTitle>Total Members</CardTitle>
-      </CardHeader>
+    <Card className="flex flex-col border-0 bg-[#121212] text-white max-w-md mx-auto">
       <CardContent className="flex-1 pb-0">
         <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
           <PieChart>
-            <ChartTooltip cursor={false} content={<ChartTooltipContent hideLabel />} />
-            <Pie data={chartData} dataKey="value" nameKey="category" innerRadius={60} outerRadius={80} stroke="none">
+            <ChartTooltip cursor={false} content={<ChartTooltipContent className="p-1" hideLabel />} />
+            <Pie
+              data={chartData}
+              dataKey="value"
+              nameKey="category"
+              innerRadius={60}
+              outerRadius={90}
+              stroke="none"
+            >
               <Label
                 content={({ viewBox }) =>
                   viewBox && "cx" in viewBox && "cy" in viewBox ? (
@@ -42,8 +46,9 @@ const PieChartComponent: React.FC = () => {
                       dominantBaseline="middle"
                       className="text-white"
                     >
-                      <tspan className="fill-white text-2xl font-bold">{totalValue}</tspan>
-                      <tspan x={viewBox.cx} dy="1.5em" className="fill-gray-400 text-lg">Total Members</tspan>
+                      <tspan dy='-1.5em' className="fill-white text-base font-medium">Total</tspan>
+                      <tspan x={viewBox.cx} dy="1.5em" className="fill-white text-base font-medium">Members</tspan>
+                      <tspan x={viewBox.cx} dy="2em" className="fill-white text-sm font-light">{totalValue}</tspan>
                     </text>
                   ) : null
                 }
@@ -51,17 +56,17 @@ const PieChartComponent: React.FC = () => {
             </Pie>
           </PieChart>
         </ChartContainer>
-        <div className="mt-4 space-y-1">
-          {chartData.map((entry) => (
-            <div key={entry.category} className="flex justify-between">
-              <div className="flex items-center space-x-2">
-                <span className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.fill }}></span>
-                <span>{entry.category}</span>
-              </div>
-              <span>{entry.value}</span>
+        <div className="mt-4 md:mt-0 md:ml-8 space-y-2 text-small">
+        {chartData.map((entry) => (
+          <div key={entry.category} className="flex justify-between gap-5 items-center">
+            <div className="flex items-center space-x-2">
+              <span className="w-5 h-5 rounded-sm" style={{ backgroundColor: entry.fill }}></span>
+              <span>{entry.category}</span>
             </div>
-          ))}
-        </div>
+            <span className="font-extralight">{entry.value}</span>
+          </div>
+        ))}
+      </div>
       </CardContent>
     </Card>
   );
