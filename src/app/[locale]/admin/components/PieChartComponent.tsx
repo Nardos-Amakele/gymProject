@@ -46,8 +46,9 @@ const PieChartComponent: React.FC = () => {
                       dominantBaseline="middle"
                       className="text-white"
                     >
-                      <tspan className="fill-white text-3xl font-bold">{totalValue}</tspan>
-                      <tspan x={viewBox.cx} dy="1.5em" className="fill-white text-xl">Total Members</tspan>
+                      <tspan dy='-1.5em' className="fill-white text-base font-medium">Total</tspan>
+                      <tspan x={viewBox.cx} dy="1.5em" className="fill-white text-base font-medium">Members</tspan>
+                      <tspan x={viewBox.cx} dy="2em" className="fill-white text-sm font-light">{totalValue}</tspan>
                     </text>
                   ) : null
                 }
