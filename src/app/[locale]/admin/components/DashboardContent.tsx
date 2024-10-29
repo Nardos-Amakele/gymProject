@@ -25,7 +25,7 @@ const DashboardContent: React.FC = () => {
       <div className='flex gap-4'>
       <div className="flex gap-4">
         {Object.entries(dashboardData.stats).map(([label, value]) => (
-          <div key={label} className="bg-[#121212] border border-[#23363f] py-5 px-10  rounded-lg h-fit text-center text-white">
+          <div key={label} className="bg-[#121212] border border-[#23363f] py-3 px-8  rounded-lg h-fit text-center text-white">
             <FontAwesomeIcon icon={getIcon(label)} className="text-3xl mb-2 text-customBlue" />
             <p className="text-3xl font-bold">{value}</p>
             <p className='text-small font-light pt-2'>{label.replace(/([A-Z])/g, " $1").trim()}</p>
