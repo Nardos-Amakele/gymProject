@@ -6,6 +6,8 @@ import DashboardContent from './components/DashboardContent';
 import Employee from './components/Employee';
 import GymMember from './components/GymMember';
 import Inventory from './components/Inventory';
+import Stock from './components/Stock';
+import Orders from './components/Orders';
 
 const AdminDashboard: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState("Dashboard");
@@ -24,6 +26,8 @@ const AdminDashboard: React.FC = () => {
           {selectedTab === "Gym Member" && <GymMember />}
           {selectedTab === "Employee" && <Employee />}
           {selectedTab === "Inventory" && <Inventory />}
+          {selectedTab === "Stock" && <Stock />}
+          {selectedTab === "Orders" && <Orders />}
 
         </main>
       </div>
