@@ -14,48 +14,73 @@ const getIcon = (label: string) => {
     case 'newMembers':
       return faUserPlus;
     default:
-      return faUser; 
+      return faUser;
   }
 };
 
 const DashboardContent: React.FC = () => {
   return (
-    <div className="p-6 space-y-6">
-      {/* Stats */}
-      <div className='flex gap-4'>
-      <div className="flex gap-4">
-        {Object.entries(dashboardData.stats).map(([label, value]) => (
-          <div key={label} className="bg-[#121212] border border-[#23363f] py-3 px-8  rounded-lg h-fit text-center text-white">
-            <FontAwesomeIcon icon={getIcon(label)} className="text-3xl mb-2 text-customBlue" />
-            <p className="text-3xl font-bold">{value}</p>
-            <p className='text-small font-light pt-2'>{label.replace(/([A-Z])/g, " $1").trim()}</p>
-          </div>
-        ))}
-      </div>
-      {/* pie chart */}
-      <div>
-      <PieChartComponent />
-      </div>
-
-      </div>
-      {/* Pending Members */}
-      <div className="bg-gray-800 rounded-lg p-4 text-white">
-        <h2 className="text-lg font-semibold mb-2">Pending Members</h2>
-        <div className="grid grid-cols-3 gap-4 text-sm">
-          {dashboardData.members.map((member, index) => (
-            <div key={index} className="flex justify-between p-2">
-              <span>{member.name}</span>
-              <span>{member.phone}</span>
-              <span>{member.type}</span>
+    <div className="p-6 flex gap-6">
+      <div className="flex flex-col gap-6 w-1/2">
+        {/* Stats Section */}
+        <div className="flex gap-4">
+          {Object.entries(dashboardData.stats).map(([label, value]) => (
+            <div
+              key={label}
+              className="bg-[#121212] border border-[#23363f] py-3 px-8 rounded-lg text-center text-white flex-1"
+            >
+              <FontAwesomeIcon icon={getIcon(label)} className="text-3xl mb-2 text-customBlue" />
+              <p className="text-3xl font-bold">{value}</p>
+              <p className="text-sm font-light pt-2">
+                {label.replace(/([A-Z])/g, ' $1').trim()}
+              </p>
             </div>
           ))}
         </div>
+
+        {/* Pending Members Section */}
+        <div className="text-white mt-5">
+          <h2 className="text-lg font-bold mb-6">Pending Member</h2>
+          <div className="overflow-x-auto">
+            <table className="min-w-full border-collapse border-none">
+              <thead>
+                <tr>
+                  <th className="text-left text-white font-bold text-sm py-3">Name</th>
+                  <th className="text-left text-white font-bold text-sm py-3">Phone number</th>
+                  <th className="text-left text-white font-bold text-sm py-3">Membership Type</th>
+                  <th className="text-left text-white font-bold text-sm py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {dashboardData.members.map((member, index) => (
+                  <tr key={index} className="hover:bg-[#333]">
+                    <td className="text-gray-400 font-medium text-sm py-2">{member.name}</td>
+                    <td className="text-gray-400 font-medium text-sm py-2">{member.phone}</td>
+                    <td className="text-gray-400 font-medium text-sm py-2">{member.type}</td>
+                    <td className="py-2">
+                      <input
+                        type="checkbox"
+                        className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
 
-      {/* Attendance Chart */}
-      <div className="bg-gray-800 rounded-lg p-4">
-        <h2 className="text-lg font-semibold text-white mb-4">Attendance</h2>
-        <div className="grid grid-cols-2 gap-6">
+      {/* Charts Section */}
+      <div className="flex flex-col gap-6 w-1/3">
+        {/* Pie Chart */}
+        <div className="bg-[#121212] rounded-lg p-4 text-white">
+          <PieChartComponent />
+        </div>
+
+        {/* Attendance Chart */}
+        <div className="bg-gray-800 rounded-lg p-4 text-white">
+          <h2 className="text-lg font-semibold mb-4">Attendance</h2>
           <BarChartComponent />
         </div>
       </div>
