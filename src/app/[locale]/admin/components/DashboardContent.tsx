@@ -54,9 +54,9 @@ const DashboardContent: React.FC = () => {
               <tbody>
                 {dashboardData.members.map((member, index) => (
                   <tr key={index} className="hover:bg-[#333]">
-                    <td className="text-gray-400 font-medium text-sm py-2">{member.name}</td>
-                    <td className="text-gray-400 font-medium text-sm py-2">{member.phone}</td>
-                    <td className="text-gray-400 font-medium text-sm py-2">{member.type}</td>
+                    <td className="text-zinc-600 font-medium text-sm py-2">{member.name}</td>
+                    <td className="text-zinc-600 font-medium text-sm py-2">{member.phone}</td>
+                    <td className="text-zinc-600 font-medium text-sm py-2">{member.type}</td>
                     <td className="py-2">
                       <input
                         type="checkbox"
@@ -79,7 +79,7 @@ const DashboardContent: React.FC = () => {
         </div>
 
         {/* Attendance Chart */}
-        <div className="bg-gray-800 rounded-lg p-4 text-white">
+        <div className="">
           <h2 className="text-lg font-semibold mb-4">Attendance</h2>
           <BarChartComponent />
         </div>
