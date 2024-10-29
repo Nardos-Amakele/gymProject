@@ -1,4 +1,4 @@
-import { faFilter, faSearch } from "@fortawesome/free-solid-svg-icons"; // Importing filter and search icons
+import { faFilter, faSearch, faTrash } from "@fortawesome/free-solid-svg-icons"; // Importing filter, search, and delete icons
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState } from "react";
 import { members as membersData, Member } from "../../../../../assets/data/employeesData"; // Importing the data
@@ -33,10 +33,7 @@ const Employee = () => {
           {/* Search Input */}
           <div className="relative">
             <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FontAwesomeIcon
-                icon={faSearch}
-                className="text-customBlue text-xl" 
-              />
+              <FontAwesomeIcon icon={faSearch} className="text-customBlue text-xl" />
             </span>
             <input
               type="text"
@@ -50,11 +47,11 @@ const Employee = () => {
           {/* Filter Icon */}
           <div className="relative ml-4">
             <div className="bg-[#ffffff29] px-4 py-2 rounded-md border border-gray-600">
-            <FontAwesomeIcon
-              icon={faFilter}
-              className="text-customBlue  text-xl cursor-pointer"
-              onClick={toggleDropdown} 
-            />
+              <FontAwesomeIcon
+                icon={faFilter}
+                className="text-customBlue text-xl cursor-pointer"
+                onClick={toggleDropdown}
+              />
             </div>
             {isDropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 rounded-md bg-zinc-900 border z-10">
@@ -65,21 +62,21 @@ const Employee = () => {
                   >
                     All
                   </li>
-                  <hr></hr>
+                  <hr />
                   <li
                     className="px-4 py-2 cursor-pointer hover:bg-gray-700"
                     onClick={() => handleJobTypeSelect("Janitor")}
                   >
                     Janitor
                   </li>
-                  <hr></hr>
+                  <hr />
                   <li
                     className="px-4 py-2 cursor-pointer hover:bg-gray-700"
                     onClick={() => handleJobTypeSelect("Trainer")}
                   >
                     Trainer
                   </li>
-                  <hr></hr>
+                  <hr />
                   <li
                     className="px-4 py-2 cursor-pointer hover:bg-gray-700"
                     onClick={() => handleJobTypeSelect("Reception")}
@@ -102,20 +99,26 @@ const Employee = () => {
               <th scope="col" className="px-6 py-3">Phone no.</th>
               <th scope="col" className="px-6 py-3">Start Date</th>
               <th scope="col" className="px-6 py-3">Job Type</th>
+              <th scope="col" className="px-6 py-3">Actions</th> {/* Added actions column header */}
             </tr>
           </thead>
           <tbody>
             {filteredMembers.map((member: Member, index) => (
               <tr
                 key={index}
-                className={`border-b border-gray-700 ${
-                  index % 2 === 0 ? "bg-black" : "bg-black"
-                }`}
+                className={`border-b border-gray-700 ${index % 2 === 0 ? "bg-black" : "bg-black"}`}
               >
                 <td className="px-6 py-4">{member.name}</td>
                 <td className="px-6 py-4">{member.phone}</td>
                 <td className="px-6 py-4">{member.startDate}</td>
                 <td className="px-6 py-4">{member.jobType}</td>
+                <td className="px-10 py-4 ">
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className="text-red-500 cursor-pointer"
+                    onClick={() => console.log(`Delete ${member.name}`)} // Replace with delete handler
+                  />
+                </td>
               </tr>
             ))}
           </tbody>
