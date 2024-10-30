@@ -13,7 +13,7 @@ const attendanceData = dashboardData.attendance.map((value, index) => {
 
 export function BarChartComponent() {
   return (
-    <div className="bg-[#121212] text-white p-6 rounded-lg shadow-lg w-[30rem] mx-auto">
+    <div className="bg-[#121212] text-white p-6 rounded-lg shadow-lg w-[33rem] mx-auto">
       <div className="mb-4 flex justify-between items-center">
         <h2 className="text-lg font-semibold">Attendance</h2>
         <select className="text-gray-400 bg-[#121212] border border-gray-500 px-3 py-1 rounded-full text-sm cursor-pointer">

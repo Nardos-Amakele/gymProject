@@ -20,7 +20,7 @@ const getIcon = (label: string) => {
 
 const DashboardContent: React.FC = () => {
   return (
-    <div className="p-6 flex gap-6">
+    <div className=" flex gap-6">
       <div className="flex flex-col gap-6 w-1/2">
         {/* Stats Section */}
         <div className="flex gap-4">
@@ -72,9 +72,9 @@ const DashboardContent: React.FC = () => {
       </div>
 
       {/* Charts Section */}
-      <div className="flex flex-col gap-6 w-1/3">
+      <div className="flex flex-col">
         {/* Pie Chart */}
-        <div className="bg-[#121212] rounded-lg p-4 text-white">
+        <div className="bg-[#121212] rounded-lg text-white">
           <PieChartComponent />
         </div>
 

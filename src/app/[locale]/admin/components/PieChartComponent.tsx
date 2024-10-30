@@ -2,14 +2,14 @@
 
 import React, { useMemo } from "react";
 import { Label, Pie, PieChart } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 
 const chartData = [
-  { category: "Body Building", value: 120, fill: "#4A90E2" },  
-  { category: "Group Aerobics", value: 48, fill: "#7ED321" },    
-  { category: "Exercise", value: 60, fill: "#D0021B" },          
-  { category: "Personal Training", value: 33, fill: "#F8E71C" }, 
+  { category: "Body Building", value: 120, fill: "#4A90E2" },
+  { category: "Group Aerobics", value: 48, fill: "#7ED321" },
+  { category: "Exercise", value: 60, fill: "#D0021B" },
+  { category: "Personal Training", value: 33, fill: "#F8E71C" },
 ];
 
 const chartConfig = {
@@ -23,10 +23,10 @@ const PieChartComponent: React.FC = () => {
   const totalValue = useMemo(() => chartData.reduce((acc, curr) => acc + curr.value, 0), []);
 
   return (
-    <Card className="flex flex-col border-0 bg-[#121212] text-white max-w-md mx-auto">
-      <CardContent className="flex-1 pb-0">
-        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
-          <PieChart>
+    <Card className=" border-none bg-[#121212] text-white w-[32rem] mx-auto">
+      <CardContent className="grid md:grid-cols-2 p-[0.2rem] gap-6 items-center">
+        <ChartContainer config={chartConfig} className="mx-auto w-[220px] h-[220px]">
+          <PieChart width={220} height={220}>
             <ChartTooltip cursor={false} content={<ChartTooltipContent className="p-1" hideLabel />} />
             <Pie
               data={chartData}
@@ -56,17 +56,17 @@ const PieChartComponent: React.FC = () => {
             </Pie>
           </PieChart>
         </ChartContainer>
-        <div className="mt-4 md:mt-0 md:ml-8 space-y-2 text-small">
-        {chartData.map((entry) => (
-          <div key={entry.category} className="flex justify-between gap-5 items-center">
-            <div className="flex items-center space-x-2">
-              <span className="w-5 h-5 rounded-sm" style={{ backgroundColor: entry.fill }}></span>
-              <span>{entry.category}</span>
+        <div className="space-y-2 text-small max-h-[250px] pr-5">
+          {chartData.map((entry) => (
+            <div key={entry.category} className="flex justify-between items-center">
+              <div className="flex items-center space-x-2">
+                <span className="w-5 h-5 rounded-sm" style={{ backgroundColor: entry.fill }}></span>
+                <span>{entry.category}</span>
+              </div>
+              <span className="font-extralight">{entry.value}</span>
             </div>
-            <span className="font-extralight">{entry.value}</span>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
       </CardContent>
     </Card>
   );
