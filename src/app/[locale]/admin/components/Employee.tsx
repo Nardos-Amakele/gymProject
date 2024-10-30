@@ -25,7 +25,7 @@ const Employee = () => {
   };
 
   return (
-    <div className="p-4">
+    <div >
       {/* Header Section */}
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-bold text-customBlue">Employees</h1>
@@ -93,13 +93,13 @@ const Employee = () => {
       {/* Table Section */}
       <div className="overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-400">
-          <thead className="bg-[#ffffff29] text-gray-300 uppercase">
+          <thead className="bg-black text-gray-300 uppercase">
             <tr>
-              <th scope="col" className="px-6 py-3">Name</th>
-              <th scope="col" className="px-6 py-3">Phone no.</th>
-              <th scope="col" className="px-6 py-3">Start Date</th>
-              <th scope="col" className="px-6 py-3">Job Type</th>
-              <th scope="col" className="px-6 py-3">Actions</th> {/* Added actions column header */}
+              <th scope="col" className="px-6 py-3 border-b border-t border-[#D9D9D93B]">Name</th>
+              <th scope="col" className="px-6 py-3 border border-[#D9D9D93B]">Phone no.</th>
+              <th scope="col" className="px-6 py-3 border border-[#D9D9D93B]">Start Date</th>
+              <th scope="col" className="px-6 py-3 border border-[#D9D9D93B]">Job Type</th>
+              <th scope="col" className="px-6 py-3 text-center border-b border-t border-[#D9D9D93B]">Actions</th> {/* No border on the last column header */}
             </tr>
           </thead>
           <tbody>
@@ -108,11 +108,11 @@ const Employee = () => {
                 key={index}
                 className={`border-b border-gray-700 ${index % 2 === 0 ? "bg-black" : "bg-black"}`}
               >
-                <td className="px-6 py-4">{member.name}</td>
-                <td className="px-6 py-4">{member.phone}</td>
-                <td className="px-6 py-4">{member.startDate}</td>
-                <td className="px-6 py-4">{member.jobType}</td>
-                <td className="px-10 py-4 ">
+                <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.name}</td>
+                <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.phone}</td>
+                <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.startDate}</td>
+                <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.jobType}</td>
+                <td className="text-center py-4">
                   <FontAwesomeIcon
                     icon={faTrash}
                     className="text-red-500 cursor-pointer"
