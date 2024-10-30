@@ -38,7 +38,7 @@ const Employee = () => {
             <input
               type="text"
               placeholder="Search..."
-              className="pl-10 px-4 py-2 rounded-md bg-[#ffffff29] text-gray-300 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-customBlue"
+              className="pl-10 px-6 py-2 rounded-md bg-[#ffffff29] text-gray-300 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-customBlue"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -106,7 +106,7 @@ const Employee = () => {
             {filteredMembers.map((member: Member, index) => (
               <tr
                 key={index}
-                className={`border-b border-gray-700 ${index % 2 === 0 ? "bg-black" : "bg-black"}`}
+                className={`border-b border-[#D9D9D93B] ${index % 2 === 0 ? "bg-black" : "bg-black"}`}
               >
                 <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.name}</td>
                 <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.phone}</td>
