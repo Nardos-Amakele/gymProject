@@ -1,4 +1,3 @@
-// components/Orders.tsx
 
 import React from 'react';
 import { ordersData } from '../../../../../assets/data/ordersData';
@@ -15,9 +14,12 @@ const Orders: React.FC = () => {
                 {Object.entries(ordersData.stats).map(([label, value]) => (
                     <div
                         key={label}
-                        className="bg-[#121212] border border-[#23363f] py-8 px-3 rounded-lg text-center text-white flex-1"
+                        className="bg-[#121212] border border-[#23363f] py-6 px-2 rounded-lg text-center text-white flex-1"
                     >
                         <p className="text-4xl font-bold">{value}</p>
+                        <p className="text-sm font-light pt-2 capitalize text-customBlue">
+                            {ordersData.statLabels[label as keyof typeof ordersData.statLabels]}
+                        </p>
                         <p className="text-sm font-light pt-2 capitalize">
                             {label.replace(/([A-Z])/g, ' $1').trim()}
                         </p>
@@ -43,13 +45,13 @@ const Orders: React.FC = () => {
                         <tbody>
                             {ordersData.orders.map((order, index) => (
                                 <tr
-                                key={index}
-                                className={` ${index % 2 === 0 ? 'bg-[#ffffff12]' : 'bg-black'}`}>
+                                    key={index}
+                                    className={` ${index % 2 === 0 ? 'bg-[#ffffff12]' : 'bg-black'}`}>
                                     <td className="text-gray-400 py-4 px-2">{order.name}</td>
                                     <td className="text-gray-400 py-4 px-2">{order.phone}</td>
                                     <td className="text-gray-400 py-4 px-2">{order.item}</td>
                                     <td className="text-gray-400 py-4 px-2 ">{order.quantity}</td>
-                                    <td className="py-4 px-2 text-gray-400 ">{order.status }</td>
+                                    <td className="py-4 px-2 text-gray-400 ">{order.status}</td>
                                     <td className="py-2">
                                         <input
                                             type="checkbox"
