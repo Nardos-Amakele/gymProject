@@ -20,18 +20,18 @@ const getIcon = (label: string) => {
 
 const DashboardContent: React.FC = () => {
   return (
-    <div className=" flex gap-6">
-      <div className="flex flex-col gap-6 w-1/2">
+    <div className="flex flex-col lg:flex-row gap-6">
+      <div className="flex flex-col gap-6 lg:w-1/2">
         {/* Stats Section */}
-        <div className="flex gap-4">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
           {Object.entries(dashboardData.stats).map(([label, value]) => (
             <div
               key={label}
-              className="bg-[#121212] border border-[#23363f] py-3 px-8 rounded-lg text-center text-white flex-1"
+              className="bg-[#121212] border border-[#23363f] py-3 px-4 rounded-lg text-center text-white flex-1"
             >
-              <FontAwesomeIcon icon={getIcon(label)} className="text-3xl mb-2 text-customBlue" />
-              <p className="text-3xl font-bold">{value}</p>
-              <p className="text-sm font-light pt-2">
+              <FontAwesomeIcon icon={getIcon(label)} className="text-2xl mb-2 text-customBlue" />
+              <p className="text-2xl font-bold">{value}</p>
+              <p className="text-xs font-light pt-1">
                 {label.replace(/([A-Z])/g, ' $1').trim()}
               </p>
             </div>
@@ -40,23 +40,23 @@ const DashboardContent: React.FC = () => {
 
         {/* Pending Members Section */}
         <div className="text-white mt-5">
-          <h2 className="text-lg font-bold mb-6">Pending Member</h2>
+          <h2 className="text-lg font-bold mb-4">Pending Member</h2>
           <div className="overflow-x-auto">
-            <table className="min-w-full border-collapse border-none">
+            <table className="min-w-full border-collapse border-none text-sm">
               <thead>
                 <tr>
-                  <th className="text-left text-white font-bold text-sm py-3">Name</th>
-                  <th className="text-left text-white font-bold text-sm py-3">Phone number</th>
-                  <th className="text-left text-white font-bold text-sm py-3">Membership Type</th>
-                  <th className="text-left text-white font-bold text-sm py-3"></th>
+                  <th className="text-left font-semibold py-2">Name</th>
+                  <th className="text-left font-semibold py-2">Phone</th>
+                  <th className="text-left font-semibold py-2">Type</th>
+                  <th className="py-2"></th>
                 </tr>
               </thead>
               <tbody>
                 {dashboardData.members.map((member, index) => (
                   <tr key={index} className="hover:bg-[#333]">
-                    <td className="text-zinc-600 font-medium text-sm py-2">{member.name}</td>
-                    <td className="text-zinc-600 font-medium text-sm py-2">{member.phone}</td>
-                    <td className="text-zinc-600 font-medium text-sm py-2">{member.type}</td>
+                    <td className="text-zinc-600 font-medium py-2">{member.name}</td>
+                    <td className="text-zinc-600 font-medium py-2">{member.phone}</td>
+                    <td className="text-zinc-600 font-medium py-2">{member.type}</td>
                     <td className="py-2">
                       <input
                         type="checkbox"
@@ -72,14 +72,14 @@ const DashboardContent: React.FC = () => {
       </div>
 
       {/* Charts Section */}
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-6 lg:w-1/2">
         {/* Pie Chart */}
-        <div className="bg-[#121212] rounded-lg text-white">
+        <div className="bg-[#121212] rounded-lg p-4">
           <PieChartComponent />
         </div>
 
         {/* Attendance Chart */}
-        <div className="">
+        <div>
           <h2 className="text-lg font-semibold mb-4">Attendance</h2>
           <BarChartComponent />
         </div>
