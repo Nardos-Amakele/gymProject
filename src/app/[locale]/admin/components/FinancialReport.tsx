@@ -42,8 +42,20 @@ export function FinancialReport() {
             {/* Line Chart */}
             <div className="p-4 bg-[#121212] rounded-lg my-4">
                 <LineChart data={chartData} width={970} height={300}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Tooltip />
+                    <CartesianGrid stroke="#333"
+                        strokeDasharray="4 4"
+                        strokeOpacity={0.3}
+                    />
+                    <Tooltip contentStyle={{
+                        backgroundColor: "#121212",
+                        border: "1px solid #333",
+                        borderRadius: "8px",
+                        padding: "5px",
+                    }}
+                        itemStyle={{
+                            color: "#00bfff",
+                            fontSize: "12px",
+                        }} />
                     <Line type="monotone" dataKey="amount" stroke="#00bfff" dot={{ r: 5, fill: "#00bfff" }} />
                 </LineChart>
             </div>
@@ -90,7 +102,7 @@ export function FinancialReport() {
                 {/* New Transaction Form */}
                 <div className="w-full lg:flex-1 p-4 bg-[#121212] rounded-lg">
                     <div className="font-bold text-sm mb-2">New Transaction</div>
-                        <div className="flex flex-col gap-2 mb-2 text-sm font-extralight">
+                    <div className="flex flex-col gap-2 mb-2 text-sm font-extralight">
                         <input
                             type="text"
                             placeholder="Name"
@@ -120,37 +132,37 @@ export function FinancialReport() {
                     <div className="flex justify-between  gap-4">
                         {/* type */}
                         <div className="flex items-center gap-4">
-                        <h2 className="text-sm font-extralight">Type:</h2>
-                        <label className="text-sm font-extralight flex items-center gap-2">
-                            <input
-                                type="checkBox"
-                                name="type"
-                                value="expense"
-                                checked={newTransaction.type === "expense"}
-                                onChange={() => setNewTransaction((prev) => ({ ...prev, type: "expense" }))}
-                                className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
-                            />
-                            Expense
-                        </label>
-                        <label className="text-sm font-extralight flex items-center gap-2">
-                            <input
-                                type="checkBox"
-                                name="type"
-                                value="income"
-                                checked={newTransaction.type === "income"}
-                                onChange={() => setNewTransaction((prev) => ({ ...prev, type: "income" }))}
-                                className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
-                            />
-                            Income
-                        </label>
+                            <h2 className="text-sm font-extralight">Type:</h2>
+                            <label className="text-sm font-extralight flex items-center gap-2">
+                                <input
+                                    type="checkBox"
+                                    name="type"
+                                    value="expense"
+                                    checked={newTransaction.type === "expense"}
+                                    onChange={() => setNewTransaction((prev) => ({ ...prev, type: "expense" }))}
+                                    className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
+                                />
+                                Expense
+                            </label>
+                            <label className="text-sm font-extralight flex items-center gap-2">
+                                <input
+                                    type="checkBox"
+                                    name="type"
+                                    value="income"
+                                    checked={newTransaction.type === "income"}
+                                    onChange={() => setNewTransaction((prev) => ({ ...prev, type: "income" }))}
+                                    className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
+                                />
+                                Income
+                            </label>
 
                         </div>
-                            <button
-                        onClick={() => console.log(newTransaction)}
-                        className="px-5 py-[0.2rem] bg-customBlue text-white rounded hover:bg-zinc-800 text-sm font-extralight"
-                    >
-                        Add
-                    </button>
+                        <button
+                            onClick={() => console.log(newTransaction)}
+                            className="px-5 py-[0.2rem] bg-customBlue text-white rounded hover:bg-zinc-800 text-sm font-extralight"
+                        >
+                            Add
+                        </button>
 
                     </div>
 
