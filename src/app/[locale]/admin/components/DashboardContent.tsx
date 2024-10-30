@@ -72,7 +72,7 @@ const DashboardContent: React.FC = () => {
       </div>
 
       {/* Charts Section */}
-      <div className="flex flex-col gap-6 lg:w-1/2">
+      <div className="flex flex-col  lg:w-1/2">
         {/* Pie Chart */}
         <div className="bg-[#121212] rounded-lg p-4">
           <PieChartComponent />

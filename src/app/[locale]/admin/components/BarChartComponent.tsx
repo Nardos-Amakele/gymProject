@@ -22,7 +22,7 @@ export function BarChartComponent() {
           <option>2 Weeks Ago</option>
         </select>
       </div>
-      <div style={{ width: "100%", height: 300 }}>
+      <div style={{ width: "100%", height: 200 }}>
         <ResponsiveContainer>
           <BarChart data={attendanceData} margin={{ top: 20, right: 30, left: -30, bottom: 0 }}>
             <CartesianGrid stroke="#2C2C2C" strokeDasharray="3 3" vertical={false} />
