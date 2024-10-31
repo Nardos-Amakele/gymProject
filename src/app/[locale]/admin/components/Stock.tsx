@@ -54,42 +54,38 @@ const Stock: React.FC = () => {
             {/* Table Section */}
             <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left text-gray-400">
-                    <thead className="bg-[#ffffff29] text-gray-300 uppercase">
+                    <thead className=" bg-black border-t border-[#D9D9D93B] text-gray-300 uppercase">
                         <tr>
-                            <th className="px-6 py-3">Items</th>
-                            <th className="px-6 py-3">Category</th>
-                            <th className="px-6 py-3">Quantity</th>
-                            <th className="px-6 py-3 text-right">Actions</th>
+                            <th className="px-6 py-6">Items</th>
+                            <th className="px-6 py-6">Category</th>
+                            <th className="px-6 py-6">Quantity</th>
+                            <th className="px-6 py-6 text-center">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {stockData.map((item, index) => (
                             <tr
                                 key={index}
-                                className={`border-b border-gray-700 ${index % 2 === 0 ? 'bg-black' : 'bg-black'
+                                className={`${index % 2 === 0 ? 'bg-[#ffffff12]' : 'bg-black'
                                     }`}
                             >
-                                <td className="px-6 py-4">{item.name}</td>
-                                <td className="px-6 py-4">{item.category}</td>
-                                <td className="px-6 py-4">{item.quantity}</td>
-                                <td className="px-6 py-4 flex justify-end space-x-4">
-
+                                <td className="px-6 py-2 ">{item.name}</td>
+                                <td className="px-6 py-2">{item.category}</td>
+                                <td className="px-6 py-2">{item.quantity}</td>
+                                <td className="px-6 flex justify-end space-x-4">
                                     <td className="px-4 py-2 flex space-x-4">
-                                        <button className="flex items-center text-gray-400  hover:text-customBlue">
-                                            <FontAwesomeIcon icon={faMinus} className="mr-1" /> 
+                                        <button className="flex items-center text-customBlue border-customBlue border rounded-md p-2 hover:bg-opacity-80 transition-colors">
+                                            <FontAwesomeIcon icon={faMinus} className="text-xs" /> 
                                         </button>
-                                        <button className="flex items-center text-red-500 hover:text-red-600 hover:underline">
-                                            <FontAwesomeIcon icon={faTrash} className="mr-1" /> 
-
+                                        <button className="flex items-center border border-red-500 text-red-500 rounded-md p-2 hover:text-red-600 hover:underline">
+                                            <FontAwesomeIcon icon={faTrash} className="text-xs" />
                                         </button>
-                                        <button
-                                            className="flex items-center text-gray-400 hover:text-customBlue"
-                                        >
-                                            <FontAwesomeIcon icon={faPlus} className="mr-1" /> 
-
+                                        <button className="flex items-center text-black bg-customBlue rounded-md p-2 hover:bg-opacity-80 transition-colors">
+                                            <FontAwesomeIcon icon={faPlus} className="text-xs" />
                                         </button>
                                     </td>
                                 </td>
+
                             </tr>
                         ))}
                     </tbody>

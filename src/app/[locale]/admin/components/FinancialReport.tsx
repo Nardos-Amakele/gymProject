@@ -109,7 +109,7 @@ export function FinancialReport() {
                             name="name"
                             value={newTransaction.name}
                             onChange={handleInputChange}
-                            className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-2 focus:ring-customBlue"
+                            className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
                         />
                         <input
                             type="text"
@@ -117,7 +117,7 @@ export function FinancialReport() {
                             name="category"
                             value={newTransaction.category}
                             onChange={handleInputChange}
-                            className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-2 focus:ring-customBlue"
+                            className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
                         />
                         <input
                             type="number"
@@ -125,7 +125,7 @@ export function FinancialReport() {
                             name="amount"
                             value={newTransaction.amount}
                             onChange={handleInputChange}
-                            className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-2 focus:ring-customBlue"
+                            className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
                         />
                     </div>
 
