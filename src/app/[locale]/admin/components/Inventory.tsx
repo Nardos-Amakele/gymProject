@@ -87,7 +87,7 @@ export default function HomePage() {
         </select>
 
         <h2 className="text-sm font-extralight mb-4">Upload Media</h2>
-        <div className="w-full h-36 bg-[#121212] rounded-lg flex items-center justify-center border-dashed border-2 border-gray-700 relative">
+        <div className="w-full h-36 bg-[#121212] rounded-lg flex items-center justify-center border-dashed border-2 border-zinc-500 relative">
           <input
             type="file"
             onChange={handleFileUpload}
