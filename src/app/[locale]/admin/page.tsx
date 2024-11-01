@@ -11,6 +11,7 @@ import Orders from './components/Orders';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { FinancialReport } from './components/FinancialReport';
+import Services from './components/Services';
 
 const AdminDashboard: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState("Dashboard");
@@ -51,6 +52,7 @@ const AdminDashboard: React.FC = () => {
           {selectedTab === "Stock" && <Stock />}
           {selectedTab === "Orders" && <Orders />}
           {selectedTab === "Financial Report" && <FinancialReport />}
+          {selectedTab === "Services" && <Services />}
         </main>
       </div>
       
