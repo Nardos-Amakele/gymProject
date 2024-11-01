@@ -1,3 +1,4 @@
+'use client'
 import { useTranslations } from "next-intl";
 
 
@@ -10,7 +11,7 @@ export type Service = {
   };
 
   export type Tab = 'Body Building' | 'Exercise' | 'Group Fitness' | 'Personal Training';
-    const t = useTranslations("registration_page");
+    // const t = useTranslations("registration_page");
 
   export const services: { [key in Tab]: Service[] } = {
     'Body Building': [
