@@ -74,7 +74,7 @@ const Register = () => {
   };
 
   return (
-    <div className="bg-black">
+    <div className="bg-black ">
       <div className="flex justify-center items-center min-h-screen">
         <div className="flex flex-col md:flex-row w-11/12 max-w-6xl shadow-lg rounded-lg overflow-hidden">
           {/* General Information Section */}
@@ -113,6 +113,17 @@ const Register = () => {
                 className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder={t("fields.emergency_number")}
               />
+
+              {/* Upload Photo Section */}
+              <div className="space-y-2 ">
+                <label className="cursor-pointer text-gray-400">{t("fields.upload_photo")}</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="cursor-pointer w-full p-3 text-gray-400 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 file:bg-customBlue file:text-black file:rounded-lg file:p-2 file:mr-3"
+                />
+              </div>
+
               <div className="space-y-2">
                 <h3 className="text-gray-400">{t("fields.gender.label")}</h3>
                 <div className="flex items-center space-x-4">
