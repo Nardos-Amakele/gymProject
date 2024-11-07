@@ -9,9 +9,15 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use(cors({
-    origin: "http://localhost:3000"
-  }));
+
+const corsOptions = {
+    origin: 'http://localhost:3000', // Allow all routes from this origin
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify allowed methods if needed
+    optionsSuccessStatus: 200, // For legacy browser support
+  };
+  
+app.use(cors(corsOptions));
+
 app.use("/api/employees", require("./routes/employeesRoutes"));
 app.use("/api/orders", require("./routes/orderRoutes"));
 app.use("/api/stock", require("./routes/stockRoutes"));
