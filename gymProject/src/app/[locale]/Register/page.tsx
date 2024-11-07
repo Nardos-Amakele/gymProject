@@ -5,6 +5,8 @@ import { services } from "../../../../assets/data/servicesData";
 import Link from "next/link";
 import bgImage from "../../assets/images/home_image.png";
 import { useTranslations } from "next-intl";
+import axios from 'axios';
+
 
 interface Service {
   title: string;
@@ -20,11 +22,20 @@ const Register = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const [selectedCategory, setSelectedCategory] =
-    useState<ServiceCategory>("Body Building");
+  const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>("Body Building");
   const [selectedPackages, setSelectedPackages] = useState<string[]>([]);
   const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    phoneNumber: "",
+    email: "",
+    address: "",
+    dob: "",
+    emergencyContact: "",
+    gender: "",
+    profileImage: null as File | null,
+  });
 
   useEffect(() => {
     const categoryFromUrl = searchParams.get("category") as ServiceCategory;
@@ -34,6 +45,17 @@ const Register = () => {
     if (packageFromUrl) setSelectedPackages([packageFromUrl]);
   }, [searchParams]);
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, files } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
+
+  
+  };
+
+
   const handlePackageSelect = (packageName: string) => {
     setSelectedPackages((prevSelected) =>
       prevSelected.includes(packageName)
@@ -42,7 +64,7 @@ const Register = () => {
     );
   };
 
-  const handleNextClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleNextClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (selectedPackages.length === 0) {
@@ -59,18 +81,42 @@ const Register = () => {
       (total, packageName) =>
         total +
         parseFloat(
-          services[selectedCategory].find(
-            (service) => service.title === packageName
-          )?.price || "0"
+          services[selectedCategory].find((service) => service.title === packageName)?.price || "0"
         ),
       0
     );
-    setError(null);
-    router.push(
-      `/Register/registerSummary?packages=${encodeURIComponent(
+
+    const newUser = {
+      ...formData,
+      selectedPackages,
+      totalPrice,
+    };
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/members", newUser, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      
+      console.log(formData);
+
+      
+    if (response.status !== 200) {
+      console.log(response.data.message);
+      setError(response.data.message);
+    } else{
+      setError(null);}
+      
+      router.push(`/Register/registerSummary?packages=${encodeURIComponent(
         JSON.stringify(selectedPackages)
-      )}&total=${totalPrice.toFixed(2)}`
-    );
+      )}&total=${totalPrice.toFixed(2)}`);
+    }  catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        // Display only backend error message if available
+        setError(error.response.data.message || null);
+      }}
+
   };
 
   return (
@@ -80,43 +126,62 @@ const Register = () => {
           {/* General Information Section */}
           <div className="w-full md:w-1/2 bg-gray-800 p-8">
             <h2 className="text-2xl font-semibold text-white mb-6">
-            {t("heading")}
+              {t("heading")}
             </h2>
             <form className="space-y-4">
               <input
+                name="fullName"
+                value={formData.fullName}
+                onChange={handleInputChange}
                 type="text"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
+                className="text-gray-400 w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder={t("fields.full_name")}
               />
               <input
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+
                 type="tel"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
+                className="text-gray-400 w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder={t("fields.phone_number")}
               />
-              <input
+              {/* <input
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
                 type="email"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
+                className="text-gray-400 w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder={t("fields.email")}
-              />
+              /> */}
               <input
+                name="address"
+                value={formData.address}
+                onChange={handleInputChange}
                 type="text"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
+                className="text-gray-400 w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder={t("fields.address")}
               />
               <input
+              name="dob"
+              value={formData.dob}
+              onChange={handleInputChange}
                 type="date"
                 className="text-gray-400 w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
                 placeholder={t("fields.birthdate")}
               />
               <input
+              name="emergencyContact"
+              value={formData.emergencyContact}
+              onChange={handleInputChange}
                 type="tel"
-                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 text-white focus:ring-customBlue bg-gray-800"
                 placeholder={t("fields.emergency_number")}
               />
 
               {/* Upload Photo Section */}
               <div className="space-y-2 ">
-                <label className="cursor-pointer text-gray-400">{t("fields.upload_photo")}</label>
+                <label className="cursor-pointer text-gray-400">Upload photo</label>
                 <input
                   type="file"
                   accept="image/*"
@@ -129,18 +194,20 @@ const Register = () => {
                 <div className="flex items-center space-x-4">
                   <label className="flex items-center text-gray-400">
                     <input
+                    value="male"
+                    onChange={handleInputChange}
                       type="radio"
                       name="gender"
-                      value="male"
                       className="mr-2"
                     />
                     {t("fields.gender.options.male")}
                   </label>
                   <label className="flex items-center text-gray-400">
                     <input
+                    value="female"
+                    onChange={handleInputChange}
                       type="radio"
                       name="gender"
-                      value="female"
                       className="mr-2 "
                     />
                     {t("fields.gender.options.female")}
@@ -175,11 +242,10 @@ const Register = () => {
                     onClick={() =>
                       setSelectedCategory(category as ServiceCategory)
                     }
-                    className={`py-2 px-4 rounded-md ${
-                      selectedCategory === category
+                    className={`py-2 px-4 rounded-md ${selectedCategory === category
                         ? "bg-white text-black"
                         : "bg-customBlue text-black"
-                    }`}
+                      }`}
                   >
                     {category}
                   </button>
@@ -191,11 +257,10 @@ const Register = () => {
                   .map((service: Service, index: number) => (
                     <label
                       key={index}
-                      className={`relative flex items-center p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
-                        selectedPackages.includes(service.title)
+                      className={`relative flex items-center p-4 border rounded-lg cursor-pointer transition-all duration-200 ${selectedPackages.includes(service.title)
                           ? "border-customBlue shadow-md"
                           : "border-zinc-600"
-                      } hover:border-customBlue`}
+                        } hover:border-customBlue`}
                       onClick={() => handlePackageSelect(service.title)}
                     >
                       {/* Checkbox input (hidden) */}
