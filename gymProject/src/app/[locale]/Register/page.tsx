@@ -107,10 +107,9 @@ const Register = () => {
       setError(response.data.message);
     } else{
       setError(null);}
+
+      router.push('admin');
       
-      router.push(`/Register/registerSummary?packages=${encodeURIComponent(
-        JSON.stringify(selectedPackages)
-      )}&total=${totalPrice.toFixed(2)}`);
     }  catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         // Display only backend error message if available
