@@ -11,7 +11,7 @@ interface AdminSidebarProps {
 
 const AdminSidebar: React.FC<AdminSidebarProps> = ({ locale }) => {
   return (
-    <aside className="bg-black w-40 h-full text-white flex flex-col border-r-[0.5px] border-gray-800">
+    <aside className="bg-black w-40 text-white flex flex-col border-r-[0.5px] border-gray-800">
       <div className="p-[0.85rem] border-b-[0.5px] border-gray-800">
         <Image src={logo} alt="logo" className="w-28 mx-auto" />
       </div>
