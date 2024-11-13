@@ -1,22 +1,69 @@
 'use client'
-import React, { useState } from 'react';
-import { useServiceContext } from "../../admin/components/serviceContext";
-import { Tab } from '@/assets/data/servicesData';
+import React, { useState, ChangeEvent } from 'react';
+import axios from 'axios';
+import { useFetchServices } from '../../hooks/usefetchServices';
 import ServiceCard from '../../services/ServicesCards';
 import AdminSidebar from '../components/AdminSideBar';
 import AdminHeader from '../components/AdminHeader';
+import EditServiceModal from './EditServiceModal';
 
 const Services: React.FC = () => {
-  const { services, activeTab, setActiveTab, addService } = useServiceContext();
+  const { services, loading, error } = useFetchServices();
+  const [activeTab, setActiveTab] = useState<keyof typeof services>("Exercise");
+  const [modalService, setModalService] = useState(null);
+  const [formData, setFormData] = useState({
+    name: '',
+    period: '',
+    daysAllocated: '',
+    price: '',
+    category: 'Exercise',
+    details: '',
+    isPremium: false
+  });
 
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    const checked = type === 'checkbox' ? (e.target as HTMLInputElement).checked : false;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
 
+  const handleAddService = async () => {
+    const newService = { ...formData };
 
-  const tabs: Tab[] = [
-    "Body Building",
-    "Exercise",
-    "Group Fitness",
-    "Personal Training",
-  ];
+    try {
+      const formDataToSend = new FormData();
+      Object.entries(newService).forEach(([key, value]) => {
+        formDataToSend.append(key, value as string | Blob);
+      });
+
+      await axios.post('/api/services', formDataToSend, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      alert('Service added successfully!');
+    } catch (error) {
+      console.error("Failed to add service:", error);
+      alert('Failed to add service');
+    }
+  };
+
+  const tabs = Object.keys(services);
+  const handleCardClick = (service: any) => {
+    setModalService(service);
+  };
+
+  const handleCloseModal = () => {
+    setModalService(null);
+  };
+
+  const handleSaveService = (updatedService: any) => {
+    setModalService(null);
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p style={{ color: 'red' }}>Error: {error}</p>;
 
   return (
     <div className="flex bg-black min-h-screen text-white">
@@ -24,65 +71,79 @@ const Services: React.FC = () => {
       <div className="w-1/3 p-4 space-y-4">
         <h2 className="text-sm font-extralight">Name</h2>
         <input
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
           type="text"
-          className="w-full  bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+          className="w-full bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
         />
         <div className='flex gap-2'>
           <div>
             <h2 className="text-sm font-extralight mb-3">Period</h2>
-            <div className="flex space-x-2">
-              <input
-                type="text"
-                className="w-full  bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-              />
-            </div>
-
+            <input
+              name="period"
+              value={formData.period}
+              onChange={handleInputChange}
+              type="text"
+              className="w-full bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+            />
           </div>
           <div>
             <h2 className="text-sm font-extralight mb-3">Days Allocated</h2>
-            <div>
-              <input
-                type="text"
-                className="w-full  bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-              />
-            </div>
-
+            <input
+              name="daysAllocated"
+              value={formData.daysAllocated}
+              onChange={handleInputChange}
+              type="text"
+              className="w-full bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+            />
           </div>
         </div>
         <h2 className="text-sm font-extralight">Price</h2>
         <input
+          name="price"
+          value={formData.price}
+          onChange={handleInputChange}
           type="text"
-          className="w-full  bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+          className="w-full bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
         />
         <h2 className="text-sm font-extralight">Category</h2>
-        <select className="w-full  bg-[#121212] text-sm font-extralight text-gray-300 rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue">
-          <option>Equipment</option>
-          <option>Clothing</option>
-          <option>Accessories</option>
+        <select
+          name="category"
+          value={formData.category}
+          onChange={handleInputChange}
+          className="w-full bg-[#121212] text-sm font-extralight text-gray-300 rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+        >
+          <option>Exercise</option>
+          <option>Body Building</option>
+          <option>Group Fitness</option>
+          <option>Personal Training</option>
+          <option>Annual</option>
         </select>
         <h2 className="text-sm font-extralight">Details</h2>
-        <input type="text" className="w-full  bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue" />
-        <input type="text" placeholder="Optional" className="w-full mb-6 bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue" />
-        <input type="text" placeholder="Optional" className="w-full mb-6 bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue" />
-        <div className="flex items-center justify-between space-x-2">
-          <div className='flex items-center gap-2'>
-            <input
-              type="checkBox"
-              name="type"
-              value="income"
-              className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
-            />
-            <label htmlFor="preferred" className="text-sm font-extralight">Premium</label>
-
-          </div>
-          <button
-            className="px-5 py-[0.2rem] bg-customBlue text-black rounded hover:bg-zinc-800 text-sm font-extralight"
-          >
-            Add
-          </button>
-
+        <input
+          name="details"
+          value={formData.details}
+          onChange={handleInputChange}
+          type="text"
+          className="w-full bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+        />
+        <div className="flex items-center gap-2 mt-4">
+          <input
+            type="checkbox"
+            name="isPremium"
+            checked={formData.isPremium}
+            onChange={handleInputChange}
+            className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
+          />
+          <label htmlFor="isPremium" className="text-sm font-extralight">Premium</label>
         </div>
-
+        <button
+          onClick={handleAddService}
+          className="mt-4 px-5 py-[0.2rem] bg-customBlue text-black rounded hover:bg-zinc-800 text-sm font-extralight"
+        >
+          Add
+        </button>
       </div>
 
       {/* Right side tabs */}
@@ -92,7 +153,7 @@ const Services: React.FC = () => {
             {tabs.map((tab) => (
               <li
                 key={tab}
-                onClick={() => setActiveTab(tab)}
+                onClick={() => setActiveTab(tab as keyof typeof services)}
                 className={`cursor-pointer ${activeTab === tab ? 'text-customBlue' : ''}`}
               >
                 {tab}
@@ -101,48 +162,50 @@ const Services: React.FC = () => {
           </ul>
         </div>
 
-        {/* Service Cards*/}
+        {/* Service Cards */}
         <div className="grid grid-cols-2 ">
           {services[activeTab]?.map((service, index) => (
-            <ServiceCard
-              key={index}
-              title={service.title}
-              price={service.price}
-              benefits={service.benefits}
-              isPremium={service.isPremium}
-              isPerDay={service.isPerDay}
-              onClick={() => { }}
-              className='scale-75'
+            <div key={index} onClick={() => handleCardClick(service)}>
+              <ServiceCard
+                title={service.name}
+                price={`${service.price} Birr`}
+                benefits={service.description}
+                isPremium={service.isPremium}
+                isPerDay={service.isPerDay}
+                className='scale-75'
+                onClick={() => {}}
               />
+            </div>
           ))}
-
+          {modalService && (
+            <EditServiceModal
+              service={modalService}
+              onClose={handleCloseModal}
+              onSave={handleSaveService}
+              onDelete={() => {}}
+            />
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-
-const page = () => {
+const Page = () => {
   return (
-    <div className="flex h-screen">
-    {/* Sidebar */}
-    <div className="hidden lg:block sticky top-0 h-screen bg-[#121212]">
-      <AdminSidebar locale={""} />
-    </div>
+    <div className="flex">
+      <div className="hidden lg:block sticky top-0 h-screen bg-[#121212]">
+        <AdminSidebar locale={""} />
+      </div>
 
-
-    <div className="flex flex-col flex-1">
-      {/* Header */}
-      <AdminHeader />
-
-      {/* Main Content Area */}
-      <div className="flex-1 p-6 overflow-auto bg-black">
-        <Services />
+      <div className="flex flex-col flex-1">
+        <AdminHeader />
+        <div className="flex-1 p-6 overflow-auto bg-black">
+          <Services />
+        </div>
       </div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page;
