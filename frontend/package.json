@@ -31,6 +31,7 @@
     "next-translate": "^2.6.2",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-webcam": "^7.2.0",
     "recharts": "^2.13.0",
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^2.5.4",
