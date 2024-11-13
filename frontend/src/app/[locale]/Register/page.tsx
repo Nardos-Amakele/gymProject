@@ -161,9 +161,13 @@ const Register = () => {
     setIsModalOpen(false); // Close the modal after selection
   };
 
-  const handlePhotoCapture = (capturedPhoto: string | null) => {
+  const handleCapture = (capturedPhoto: string | null) => {
     setPhoto(capturedPhoto);
-    console.log("Captured photo:", capturedPhoto);
+    setIsModalOpen(false); 
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false); 
   };
 
   const handleGallerySelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -183,7 +187,6 @@ const Register = () => {
       </div>
     );
   }
-
 
   return (
     <div className="bg-black">
@@ -239,7 +242,7 @@ const Register = () => {
               <div className="">
                 <button
                   onClick={(e) => {e.preventDefault(); setIsModalOpen(true)}}
-                  className="p-3 bg-customBlue text-white rounded-lg"
+                  className="p-3 bg-customBlue text-black rounded-lg"
                 >
                   Upload Photo
                 </button>
@@ -253,7 +256,7 @@ const Register = () => {
 
                 {/* Webcam capture or gallery selection */}
                 {isUsingCamera ? (
-                  <WebcamCapture onCapture={handlePhotoCapture} />
+                  <WebcamCapture onCapture={handleCapture} onClose={closeModal} />
                 ) : (
                   <input
                     type="file"
@@ -266,10 +269,6 @@ const Register = () => {
                 {/* Display selected photo */}
                 {photo && <img src={photo} alt="Uploaded" className="mt-4 w-40 h-auto" />}
               </div>
-
-
-
-
               <div className="space-y-2">
                 <h3 className="text-gray-400">{t('fields.gender.label')}</h3>
                 <div className="flex items-center space-x-4">

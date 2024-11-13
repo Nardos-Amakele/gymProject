@@ -1,4 +1,3 @@
-
 import React from "react";
 
 interface PhotoUploadModalProps {
@@ -12,7 +11,7 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
   onClose,
   onOptionSelect,
 }) => {
-  if (!isOpen) return null; // Don't render the modal if it's not open
+  if (!isOpen) return null; 
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -31,7 +30,7 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
           Choose from Gallery
         </button>
         <button
-          onClick={onClose}
+          onClick={(e) => {e.preventDefault(); onClose();}}
           className="w-full p-3 mt-4 text-gray-400 border border-zinc-600 rounded-md"
         >
           Close
