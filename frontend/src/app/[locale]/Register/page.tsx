@@ -14,7 +14,7 @@ interface Service {
   price: string;
   benefits: string[];
   category: string;
-  description?: string[]; // Add this field to the Service type
+  description?: string[]; 
 }
 
 const Register = () => {
@@ -161,32 +161,31 @@ const Register = () => {
     setIsModalOpen(false); 
     };
 
-  const handleCapture = (capturedPhoto: string | null) => {
-    setPhoto(capturedPhoto);
-    setFormData((prev) => ({
-      ...prev,
-      profileImage: capturedPhoto,
-    }));
-  
-    setIsModalOpen(false); 
-  };
-
-  const closeModal = () => {
-    console.log("Closing modal");
-    setIsUsingCamera(false);
-    setIsModalOpen(false); 
-  };
-
-  const handleGallerySelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const selectedFile = event.target.files[0];
+    const handleCapture = (capturedPhoto: string | null) => {
+      setPhoto(capturedPhoto);
       setFormData((prev) => ({
         ...prev,
-        profileImage: selectedFile,
+        profileImage: capturedPhoto,
       }));
-    }
+      setIsModalOpen(false);
     };
-  if (isLoading) {
+  
+    const closeModal = () => {
+      setIsUsingCamera(false);
+      setIsModalOpen(false);
+    };
+  
+    const handleGallerySelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files && event.target.files[0]) {
+        const selectedFile = event.target.files[0];
+        setFormData((prev) => ({
+          ...prev,
+          profileImage: selectedFile,
+        }));
+        setPhoto(URL.createObjectURL(selectedFile));
+      }
+    };
+    if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <p className="text-white">Loading...</p>
