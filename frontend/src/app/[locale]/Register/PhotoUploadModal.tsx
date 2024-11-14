@@ -30,7 +30,7 @@ const PhotoUploadModal: React.FC<PhotoUploadModalProps> = ({
           Choose from Gallery
         </button>
         <button
-          onClick={(e) => {e.preventDefault(); onClose();}}
+          onClick={(e) => {onClose();}}
           className="w-full p-3 mt-4 text-gray-400 border border-zinc-600 rounded-md"
         >
           Close

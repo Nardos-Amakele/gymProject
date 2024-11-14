@@ -49,6 +49,7 @@ const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture, onClose }) => 
         context.drawImage(videoRef.current, 0, 0, canvasRef.current.width, canvasRef.current.height);
         const imageUrl = canvasRef.current.toDataURL("image/png");
         onCapture(imageUrl);
+        onClose(); // Close the modal after capturing
       }
     }
   };
@@ -64,24 +65,27 @@ const WebcamCapture: React.FC<WebcamCaptureProps> = ({ onCapture, onClose }) => 
           style={{ maxWidth: "400px" }}
         ></video>
         {!isCameraActive && <p className="text-red-500 text-center">Unable to access the camera.</p>}
+        
         <button
           onClick={(e) => {
             e.preventDefault();
-            capturePhoto();
+            capturePhoto(); // Capture and close
           }}
           className="mt-4 w-full p-3 bg-customBlue text-white rounded-lg"
         >
           Capture Photo
         </button>
+
         <button
           onClick={(e) => {
             e.preventDefault();
-            onClose(); // Trigger parent component to close the modal
+            onClose(); // Close without capturing
           }}
           className="mt-4 w-full p-3 bg-gray-500 text-white rounded-lg"
         >
           Close
         </button>
+        
         {/* Invisible canvas to capture image */}
         <canvas ref={canvasRef} className="hidden"></canvas>
       </div>

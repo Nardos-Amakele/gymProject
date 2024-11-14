@@ -14,7 +14,7 @@ interface Service {
   price: string;
   benefits: string[];
   category: string;
-  description?: string[]; // Add this field to the Service type
+  description?: string[]; 
 }
 
 const Register = () => {
@@ -154,33 +154,38 @@ const Register = () => {
 
   const handleOptionSelect = (option: "camera" | "gallery") => {
     if (option === "camera") {
-      setIsUsingCamera(true); // Show the webcam component
+      setIsUsingCamera(true);
     } else {
-      setIsUsingCamera(false); // Show gallery selection (file input)
+      document.getElementById('fileInput')?.click(); 
     }
-    setIsModalOpen(false); // Close the modal after selection
-  };
-
-  const handleCapture = (capturedPhoto: string | null) => {
-    setPhoto(capturedPhoto);
     setIsModalOpen(false); 
-  };
+    };
 
-  const closeModal = () => {
-    setIsModalOpen(false); 
-  };
-
-  const handleGallerySelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      const selectedFile = event.target.files[0];
-      const fileReader = new FileReader();
-      fileReader.onloadend = () => {
-        setPhoto(fileReader.result as string);
-      };
-      fileReader.readAsDataURL(selectedFile);
-    }
-  };
-  if (isLoading) {
+    const handleCapture = (capturedPhoto: string | null) => {
+      setPhoto(capturedPhoto);
+      setFormData((prev) => ({
+        ...prev,
+        profileImage: capturedPhoto,
+      }));
+      setIsModalOpen(false);
+    };
+  
+    const closeModal = () => {
+      setIsUsingCamera(false);
+      setIsModalOpen(false);
+    };
+  
+    const handleGallerySelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files && event.target.files[0]) {
+        const selectedFile = event.target.files[0];
+        setFormData((prev) => ({
+          ...prev,
+          profileImage: selectedFile,
+        }));
+        setPhoto(URL.createObjectURL(selectedFile));
+      }
+    };
+    if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <p className="text-white">Loading...</p>
@@ -249,19 +254,22 @@ const Register = () => {
 
                 {/* Modal for photo upload options */}
                 <PhotoUploadModal
-                  isOpen={isModalOpen}
-                  onClose={() => setIsModalOpen(false)}
-                  onOptionSelect={handleOptionSelect}
+    isOpen={isModalOpen}
+    onClose={closeModal}
+    onOptionSelect={handleOptionSelect}
                 />
 
                 {/* Webcam capture or gallery selection */}
                 {isUsingCamera ? (
-                  <WebcamCapture onCapture={handleCapture} onClose={closeModal} />
+                  <WebcamCapture onCapture={handleCapture}  onClose={closeModal} />
                 ) : (
                   <input
+                    id="fileInput"
                     type="file"
                     accept="image/*"
-                    onChange={handleGallerySelect}
+                    onChange={(e) => {
+                      handleGallerySelect(e);
+                    }}
                     className="hidden"
                   />
                 )}
