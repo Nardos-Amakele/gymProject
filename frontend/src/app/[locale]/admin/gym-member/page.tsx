@@ -34,6 +34,8 @@ import axios from "axios";
 import MemberDetails from "../components/membersDetails";
 import AdminSidebar from "../components/AdminSideBar";
 import AdminHeader from "../components/AdminHeader";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const GymMembersList = ({
   onMemberSelected,
@@ -130,17 +132,23 @@ const GymMembersList = ({
       ) : (
         <>
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-xl font-bold text-customBlue">Gym Members</h1>
-            <input
-              type="text"
-              placeholder="Search..."
-              className="pl-10 px-6 py-2 rounded-md bg-[#ffffff29] text-gray-300 focus:outline-none focus:ring-2 focus:ring-customBlue"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+            <h1 className="text-2xl font-bold text-customBlue">Gym Members</h1>
+
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <FontAwesomeIcon icon={faSearch} className="text-customBlue text-xl" />
+              </span>
+              <input
+                type="text"
+                placeholder="Search..."
+                className="pl-10 px-6 py-2 rounded-md bg-[#ffffff29] text-gray-300 focus:outline-none focus:ring-2 focus:ring-customBlue"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
           </div>
           <div>
-            <table className="min-w-full text-left text-gray-200">
+            <table className="min-w-full text-left text-sm text-gray-400">
               <thead className="text-gray-300">
                 <tr>
                   <th className="px-6 py-4 border-b border-t border-[#D9D9D93B]">
@@ -165,26 +173,25 @@ const GymMembersList = ({
                   filteredMembers.map((member, index) => (
                     <tr
                       key={member.id}
-                      className={`border-b border-[#D9D9D93B] ${
-                        member.status === "Expired" ? "bg-red-800" : ""
-                      } hover:bg-[#1d1d1d]`}
+                      className={`border-b border-[#D9D9D93B] ${member.status === "Expired" ? "bg-red-800" : ""
+                        } hover:bg-[#1d1d1d]`}
                     >
                       <td
-                        className="px-4 py-2 border-r border-b border-[#D9D9D93B] hover:underline cursor-pointer"
+                        className="px-4 py-3 border-r border-b border-[#D9D9D93B] hover:underline cursor-pointer"
                         onClick={() => handleNameClick(member)}
                       >
                         {member.fullName}
                       </td>
-                      <td className="px-4 py-2 border border-[#D9D9D93B]">
+                      <td className="px-4 py-3 border border-[#D9D9D93B]">
                         {member.phoneNumber}
                       </td>
-                      <td className="px-4 py-2 border border-[#D9D9D93B]">
+                      <td className="px-4 py-3 border border-[#D9D9D93B]">
                         {member.status}
                       </td>
-                      <td className="px-4 py-2 border-b border-[#D9D9D93B]">
+                      <td className="px-4 py-3 border-b border-[#D9D9D93B]">
                         {member.countDown}
                       </td>
-                      <td className="relative px-4 py-2 border-b border-[#D9D9D93B]">
+                      <td className="relative px-4 py-3 border-b border-[#D9D9D93B]">
                         <button
                           onClick={() => toggleDropdown(index)}
                           className="text-gray-300 hover:text-white"
@@ -268,7 +275,7 @@ const Page = () => {
     <div className="flex h-screen">
       {/* Sidebar */}
       {!selectedMember && (
-        <div className="hidden lg:block sticky top-0 h-screen bg-[#121212]">
+        <div className="fixed top-0 left-0 h-full bg-black lg:relative lg:flex lg:h-auto z-20">
           <AdminSidebar locale={""} />
         </div>
       )}

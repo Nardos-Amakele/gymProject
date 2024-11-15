@@ -167,7 +167,7 @@ const Stock: React.FC = () => {
 const Page = () => {
     return (
         <div className="flex h-screen">
-            <div className="hidden lg:block sticky top-0 h-screen bg-[#121212]">
+            <div className="fixed top-0 left-0 h-full bg-black lg:relative lg:flex lg:h-auto z-20">
                 <AdminSidebar locale={""} />
             </div>
 

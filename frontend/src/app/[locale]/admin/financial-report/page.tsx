@@ -58,7 +58,7 @@ const FinancialReport = () => {
     });
     return monthlyTotals;
   };
-  
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewTransaction((prev) => ({ ...prev, [name]: value }));
@@ -96,7 +96,7 @@ const FinancialReport = () => {
       .catch((error) => {
         console.error("Error adding transaction:", error);
         setError("Failed to add transaction. Please try again.");
-        });
+      });
   };
 
   return (
@@ -173,9 +173,8 @@ const FinancialReport = () => {
 const Page = () => {
   return (
     <div className="flex h-screen">
-      {/* Sidebar */}
-      <div className="hidden lg:block sticky top-0">
-        <AdminSidebar />
+      <div className="fixed top-0 left-0 h-full bg-black lg:relative lg:flex lg:h-auto z-20">
+        <AdminSidebar locale={""} />
       </div>
 
       {/* Main Content */}
