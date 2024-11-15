@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import { Link } from "../../../i18n/routing";
 import shopItem1 from "@/assets/images/shop_item2.png";
 import shopItem2 from "@/assets/images/shop_item1.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,7 +20,7 @@ const Shop = () => {
         <div className="flex flex-col justify-between mb-8 md:mb-0">
           <div className="container mx-auto">
             {/* Link the Shop header */}
-            <Link href="/shop">
+            <Link href="/Shop">
               <h2 className="text-6xl font-bold mb-4 text-[#2596BE]">
                 {t("title")} {/* Use translated title */}
               </h2>
@@ -32,7 +32,7 @@ const Shop = () => {
 
           {/* Shop Item 1 */}
           <Link
-            href="/shop"
+            href="/Shop"
             className="relative mt-6 transition-transform transform hover:scale-105 hover:border-2 hover:border-none"
           >
             <div>
@@ -59,7 +59,7 @@ const Shop = () => {
         {/* Second column */}
         <div className="flex flex-col justify-between">
           {/* Shop Item 2 */}
-          <Link href="/shop">
+          <Link href="/Shop">
             <div className="relative transition-transform transform hover:scale-105 hover:border-2 hover:border-none">
               <Image
                 src={shopItem2}

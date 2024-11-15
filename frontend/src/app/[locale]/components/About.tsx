@@ -39,7 +39,7 @@ const About = () => {
             {/* Text and Smaller Images Section */}
             <div className="lg:w-1/2 lg:pl-12 mr-0 lg:text-start sm:text-start lg:mr-16 flex flex-col justify-between">
               <div>
-                <Link href="./about">
+                <Link href="/about">
                   <h2 className="text-6xl font-bold py-5 text-customBlue block">
                     {t("aboutSection.title")} {/* Use the correct translation key */}
                   </h2>
@@ -50,14 +50,14 @@ const About = () => {
               </div>
 
               <div className="flex space-x-6 h-full">
-                <Link href="./about" className="w-1/2 h-full flex items-center">
+                <Link href="/about" className="w-1/2 h-full flex items-center">
                   <Image
                     src={aboutImage2}
                     alt="About Image 2"
                     className="opacity-80 rounded-[6px] w-full h-full object-cover transition-transform transform hover:scale-105"
                   />
                 </Link>
-                <Link href="./about" className="w-1/2 h-full flex items-center">
+                <Link href="/about" className="w-1/2 h-full flex items-center">
                   <Image
                     src={aboutImage3}
                     alt="About Image 3"
