@@ -180,7 +180,7 @@ test-button:hover {
   } 
 }
 
-.form-checkbox, .form-radio {
+.form-checkbox {
   appearance: none;
   width: 1rem;
   height: 1rem; 
@@ -191,11 +191,6 @@ test-button:hover {
 }
 
 .form-checkbox:checked {
-  background-color: #2596BE;
-  border: 2px solid #2596BE;
-}
-
-.form-radio:checked {
   background-color: #2596BE;
   border: 2px solid #2596BE;
 }

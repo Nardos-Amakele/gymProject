@@ -1,13 +1,9 @@
 "use client";
-import AdminSidebar from "../components/AdminSideBar";
-import AdminHeader from "../components/AdminHeader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {
   CartesianGrid,
   LineChart,
-  XAxis,
-  YAxis,
   Tooltip,
   Line,
 } from "recharts";
@@ -63,14 +59,18 @@ const FinancialReport = () => {
     const { name, value } = e.target;
     setNewTransaction((prev) => ({ ...prev, [name]: value }));
   };
-
+  
   const addTransaction = () => {
     const { name, category, amount, type } = newTransaction;
     const transactionAmount = parseFloat(amount);
     if (isNaN(transactionAmount) || transactionAmount <= 0) return;
-
+    if (!name || !category || !amount || !type) {
+      setError("All fields are required!");
+      return;
+    }
+    
     axios
-      .post(`${apiUrl}/transactions`, {
+      .post(`${apiUrl}`, {
         name,
         category,
         amount: transactionAmount.toString(),
@@ -153,13 +153,28 @@ const FinancialReport = () => {
             <div className="flex items-center gap-4">
               <h2 className="text-sm font-extralight">Type:</h2>
               <label className="text-sm font-extralight flex items-center gap-2">
-                <input type="radio" name="type" value="Expense" checked={newTransaction.type === "Expense"} onChange={() => setNewTransaction((prev) => ({ ...prev, type: "Expense" }))} className="form-radio w-5 h-5 border-2 border-customBlue rounded text-customBlue" />
-                Expense
-              </label>
-              <label className="text-sm font-extralight flex items-center gap-2">
-                <input type="radio" name="type" value="Income" checked={newTransaction.type === "Income"} onChange={() => setNewTransaction((prev) => ({ ...prev, type: "Income" }))} className="form-radio w-5 h-5 border-2 border-customBlue rounded text-customBlue" />
-                Income
-              </label>
+  <input
+    type="radio"
+    name="type"
+    value="Expense"
+    checked={newTransaction.type === "Expense"}
+    onChange={handleInputChange}
+    className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
+  />
+  Expense
+</label>
+<label className="text-sm font-extralight flex items-center gap-2">
+  <input
+    type="radio"
+    name="type"
+    value="Income"
+    checked={newTransaction.type === "Income"}
+    onChange={handleInputChange}
+    className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
+
+  />
+  Income
+</label>
             </div>
             <button onClick={addTransaction} className="bg-customBlue hover:bg-opacity-80 font-light px-5 py-1 rounded-lg text-black">Add</button>
           </div>
