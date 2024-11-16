@@ -1,12 +1,21 @@
 'use client';
-import React, { useState } from 'react';
-import DashboardContent from './components/DashboardContent';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
+import LoadingPage from './loading';
+const DashboardContent = lazy(() => import("./components/DashboardContent")); 
+
 const AdminDashboard: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  useEffect(() => {
+    const timeout = setTimeout(() => setIsLoading(false), 1500); 
+    return () => clearTimeout(timeout);
+  }, []);
+
+  if (isLoading) return <LoadingPage />;
 
   return (
-    <div className="relative h-screen flex">
-          <DashboardContent />
-    </div>
+    <Suspense fallback={<LoadingPage />}>
+      <DashboardContent />
+    </Suspense>
   );
 };
 
