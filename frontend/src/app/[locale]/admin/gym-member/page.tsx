@@ -28,12 +28,9 @@ export type Member = {
   profileImageUrl: string | null;
 };
 
-// Main component
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import MemberDetails from "../components/membersDetails";
-import AdminSidebar from "../components/AdminSideBar";
-import AdminHeader from "../components/AdminHeader";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
@@ -132,7 +129,7 @@ const GymMembersList = ({
       ) : (
         <>
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold text-customBlue">Gym Members</h1>
+            <h1 className="text-2xl font-bold text-black">Gym Members</h1>
 
             <div className="relative">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -268,33 +265,4 @@ const GymMembersList = ({
   );
 };
 
-const Page = () => {
-  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
-
-  return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      {!selectedMember && (
-        <div className="fixed top-0 left-0 h-full bg-black lg:relative lg:flex lg:h-auto z-20">
-          <AdminSidebar locale={""} />
-        </div>
-      )}
-
-      <div className="flex flex-col flex-1">
-        {!selectedMember && (
-          <div>
-            {/* Header */}
-            <AdminHeader />
-          </div>
-        )}
-
-        {/* Main Content Area */}
-        <div className="flex-1 p-6 overflow-auto bg-black">
-          <GymMembersList onMemberSelected={setSelectedMember} />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Page;
+export default GymMembersList;

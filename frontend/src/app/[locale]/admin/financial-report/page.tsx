@@ -161,7 +161,7 @@ const FinancialReport = () => {
                 Income
               </label>
             </div>
-            <button onClick={addTransaction} className="bg-customBlue hover:bg-opacity-80 px-6 py-2 rounded-md">Add Transaction</button>
+            <button onClick={addTransaction} className="bg-customBlue hover:bg-opacity-80 font-light px-5 py-1 rounded-lg text-black">Add</button>
           </div>
         </div>
       </div>
@@ -169,24 +169,4 @@ const FinancialReport = () => {
   );
 };
 
-
-const Page = () => {
-  return (
-    <div className="flex h-screen">
-      <div className="fixed top-0 left-0 h-full bg-black lg:relative lg:flex lg:h-auto z-20">
-        <AdminSidebar locale={""} />
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <AdminHeader />
-
-        {/* Financial Report Component */}
-        <FinancialReport />
-      </div>
-    </div>
-  );
-};
-
-export default Page;
+export default FinancialReport;

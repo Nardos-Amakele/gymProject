@@ -268,25 +268,4 @@ const HomePage = () => {
   );
 };
 
-const page = () => {
-  return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <div className="fixed top-0 left-0 h-full bg-black lg:relative lg:flex lg:h-auto z-20">
-        <AdminSidebar locale={""} />
-      </div>
-
-      <div className="flex flex-col flex-1">
-        {/* Header */}
-        <AdminHeader />
-
-        {/* Main Content Area */}
-        <div className="flex-1 p-6 overflow-auto bg-black">
-          <HomePage />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default page;
+export default HomePage;
