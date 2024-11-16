@@ -1,6 +1,6 @@
 "use client";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+import { Link } from "../../../i18n/routing";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import styles from "../styles/ButtonStyles.module.css";
@@ -74,15 +74,12 @@ const Hero = () => {
             >
               {t("heroSection.subtitle")}
             </motion.p>
-
-            <a
+            <Link
               href="/Register"
-              className=" button-custom text-xl text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-5 py-1"
+              className="button-custom text-xl text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-5 py-1"
             >
-              <span>
-                {t("heroSection.ctaButton")}
-              </span>
-            </a>
+              <span>{t("heroSection.ctaButton")}</span>
+            </Link>
           </motion.div>
         </div>
 

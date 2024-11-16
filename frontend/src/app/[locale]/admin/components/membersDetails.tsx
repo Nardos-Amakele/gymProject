@@ -43,6 +43,7 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
   const [member, setMember] = useState<Member | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isZoomed, setIsZoomed] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchMemberData = async () => {
@@ -74,12 +75,12 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold p-1">Gym Member</h1>
         <div className="flex space-x-4">
-          {/* <button className="bg-customBlue hover:bg-customHoverBlue px-6 py-2 rounded text-black">
+          <button className="bg-customBlue hover:bg-customHoverBlue px-5 py-2 rounded text-[10px] text-black">
             Edit Profile
-          </button> */}
+          </button>
           <button
             onClick={onClose}
-            className="bg-customBlue hover:bg-customHoverBlue px-6 py-2 rounded text-black"
+            className="bg-customBlue hover:bg-customHoverBlue px-5 py-2 rounded text-[10px] text-black"
           >
             Back to Home
           </button>
@@ -89,138 +90,145 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
       <div className="flex space-x-8 pt-10">
         <div className="w-96 ">
           <div className="flex items-center mb-8 space-x-4 bg-white p-4 rounded-lg ">
-            <div className="w-24 h-24 rounded-full bg-gray-700">
+            <div
+              className="w-24 h-24 rounded-full bg-gray-700 cursor-pointer"
+              onClick={() => setIsZoomed(!isZoomed)}
+            >
               <img
                 src={`http://localhost:5000${member.profileImageUrl}`}
                 alt="Profile"
-                className="w-full h-full rounded-full"
+                className={`w-full h-full rounded-full transition-transform ${isZoomed ? "scale-150" : "scale-100"
+                  }`}
               />
             </div>
+
             <div>
-              <h2 className="text-2xl text-black font-bold">
+              <h2 className="text-sm text-black font-bold">
                 {member.fullName}
               </h2>
-              <p className="text-customBlue">{member.gender}</p>
+              <p className="text-customBlue text-xs">{member.gender}</p>
             </div>
             <div className="w-48 h-10">
               <img
                 src={member.barcode}
                 alt="barcode"
-                className="h-full w-full"
+                className="h-full w-full filter contrast-125"
               />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 bg-[#111111] p-4 rounded-lg">
+          <div className="grid grid-cols-1 gap-4 bg-[#111111] p-4 rounded-lg pb-52">
             <p className="flex justify-between">
-              <span className="text-gray-400">Phone number:</span>
-              <span>{member.phoneNumber}</span>
+              <span className="text-gray-400 text-[10px]">Phone number:</span>
+              <span className="text-[11px]">{member.phoneNumber}</span>
             </p>
             <p className="flex justify-between">
-              <span className="text-gray-400">Email Address:</span>
-              <span>{member.email || "N/A"}</span>
+              <span className="text-gray-400 text-[10px]">Email Address:</span>
+              <span className="text-[11px]">{member.email || "N/A"}</span>
             </p>
             <p className="flex justify-between">
-              <span className="text-gray-400">Address:</span>
-              <span>{member.address}</span>
+              <span className="text-gray-400 text-[10px]">Address:</span>
+              <span className="text-[11px]">{member.address}</span>
             </p>
             <p className="flex justify-between">
-              <span className="text-gray-400">DOB:</span>
-              <span>{member.dob.substring(0, 10)}</span>
+              <span className="text-gray-400 text-[10px]">DOB:</span>
+              <span className="text-[11px]">{member.dob.substring(0, 10)}</span>
             </p>
             <p className="flex justify-between">
-              <span className="text-gray-400">Emergency Contact:</span>
-              <span>{member.emergencyContact || "N/A"}</span>
+              <span className="text-gray-400 text-[10px]">Emergency Contact:</span>
+              <span className="text-[11px]">{member.emergencyContact || "N/A"}</span>
             </p>
           </div>
         </div>
 
         <div className="flex-1 space-y-8">
-          <div className="flex items-center justify-around bg-[#111111] p-5 rounded-lg">
-            <div className="text-center border border-[#111111] px-4 rounded-lg bg-[#1B1B1B] p-4">
-              <p className="text-customBlue text-center text-3xl font-bold px-2 py-1 rounded-md inline-block">
+          <div className="flex items-center gap-4 bg-[#111111] p-5 rounded-lg">
+            <div className="text-center border border-[#111111] px-6 rounded-lg bg-[#1B1B1B] p-4">
+              <p className="text-customBlue text-center text-xs font-bold px-2 py-1 rounded-md inline-block">
                 {member.service.name || "N/A"}
               </p>
-              <p className="text-white">Membership Type</p>
+              <p className="text-white text-[10px]">Membership Type</p>
             </div>
-            <div className="text-center border border-[rgb(17,17,17)]  p-8 rounded-lg bg-[#1B1B1B] ">
-              <p className="text-customBlue text-3xl font-bold text-center ">
+            <div className="text-center border border-[rgb(17,17,17)]  p-4 rounded-lg bg-[#1B1B1B] ">
+              <p className="text-customBlue text-xs font-bold text-center ">
                 {member.countDown}
               </p>
-              <p className="text-white">Days Left</p>
+              <p className="text-white text-[10px]">Days Left</p>
             </div>
-            <div className="text-center border border-[#111111]  px-4 rounded-lg bg-[#1B1B1B] p-4">
-              <p className="text-customBlue text-center text-3xl font-bold ">
+            <div className="text-center border border-[#111111]  px-6 rounded-lg bg-[#1B1B1B] p-4">
+              <p className="text-customBlue text-center text-xs font-bold ">
                 {member.firstRegisteredAt.substring(0, 10)}
               </p>
-              <p className="text-white">Member Since</p>
+              <p className="text-white text-[10px]">Member Since</p>
             </div>
-            {/* <button className="bg-customBlue hover:bg-customHoverBlue p-2 rounded text-black px-4">
-              Freeze Account
-            </button>
-            <button className="bg-customBlue hover:bg-customHoverBlue p-2 rounded text-black px-4">
-              Download
-            </button> */}
+            <div className="flex gap-3">
+              <button className="bg-customBlue text-[10px] hover:bg-customHoverBlue p-2 rounded text-black px-6">
+                Freeze Account
+              </button>
+              <button className="bg-customBlue text-[10px] hover:bg-customHoverBlue p-2 rounded text-black px-6">
+                Download
+              </button>
+            </div>
           </div>
 
           <div className="bg-[#111111] pb-6">
             <div className="flex justify-between bg-[#111111] p-4 px-8 rounded-lg text-center">
               <div>
-                <p className="text-[14px] font-bold">Details</p>
+                <p className="text-sm font-bold">Details</p>
               </div>
               <div>
-                <p className="text-2xl text-customBlue font-jost font-extrabold">
+                <p className="text-[20px] text-customBlue font-jost font-extrabold">
                   {member.totalAttendance}
                 </p>
-                <p className="text-xs text-customBlue">Days</p>
-                <p className="text-gray-400">Total Attendance</p>
+                <p className="text-[8px] text-customBlue">Days</p>
+                <p className="text-gray-400 text-[10px]">Total Attendance</p>
               </div>
               <div>
-                <p className="text-2xl text-customBlue font-jost font-extrabold">
+                <p className="text-[20px] text-customBlue font-jost font-extrabold">
                   {member.weight || "N/A"}
                 </p>
-                <p className="text-xs text-customBlue">kg</p>
-                <p className="text-gray-400">Weight</p>
+                <p className="text-[8px] text-customBlue">kg</p>
+                <p className="text-gray-400 text-[10px]">Weight</p>
               </div>
               <div>
-                <p className="text-2xl text-customBlue font-jost font-extrabold">
+                <p className="text-[20px] text-customBlue font-jost font-extrabold">
                   {member.height || "N/A"}
                 </p>
-                <p className="text-xs text-customBlue">cm</p>
-                <p className="text-gray-400">Height</p>
+                <p className="text-[8px] text-customBlue">cm</p>
+                <p className="text-gray-400 text-[10px]">Height</p>
               </div>
               <div>
-                <p className="text-2xl text-customBlue font-jost font-extrabold">
+                <p className="text-[20px] text-customBlue font-jost font-extrabold">
                   N/A
                 </p>
-                <p className="text-xs text-customBlue">Kg/m²</p>
-                <p className="text-gray-400">BMI</p>
+                <p className="text-[8px] text-customBlue">Kg/m²</p>
+                <p className="text-gray-400 text-[10px]">BMI</p>
               </div>
             </div>
 
             <div className="px-6 py-6">
               <div className="bg-[#1B1B1B] p-4 rounded-lg flex space-x-20">
-                <h3 className="text-[24px] font-bold">Health Info.</h3>
+                <h3 className="text-xl font-bold">Health Info.</h3>
                 <div className="w-full">
                   <p className="flex items-center justify-between">
-                    <span className="text-gray-400">Medical conditions:</span>
+                    <span className="text-gray-400 text-[10px]">Medical conditions:</span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span>{member.healthConditions || "N/A"}</span>
+                    <span className="text-[8px]">{member.healthConditions || "N/A"}</span>
                   </p>
                   <p className="flex items-center justify-between">
-                    <span className="text-gray-400">Allergies:</span>
+                    <span className="text-gray-400 text-[10px]">Allergies:</span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span>{member.goal || "N/A"}</span>
+                    <span className="text-[8px]">{member.goal || "N/A"}</span>
                   </p>
                   <p className="flex items-center justify-between">
-                    <span className="text-gray-400">Injuries:</span>
+                    <span className="text-gray-400 text-[10px]">Injuries:</span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span>{member.goal || "N/A"}</span>
+                    <span className="text-[8px]">{member.goal || "N/A"}</span>
                   </p>
                   <p className="flex items-center justify-between">
-                    <span className="text-gray-400">Medications:</span>
+                    <span className="text-gray-400 text-[10px]">Medications:</span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span>{member.goal || "N/A"}</span>
+                    <span className="text-[8px]">{member.goal || "N/A"}</span>
                   </p>
                 </div>
               </div>
@@ -228,17 +236,17 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
 
             <div className="px-6 py-6">
               <div className="bg-[#1B1B1B] p-4 rounded-lg flex space-x-20">
-                <h3 className="text-[24px] font-bold">Health Info.</h3>
+                <h3 className="text-xl font-bold">Health Info.</h3>
                 <div className="w-full">
                   <p className="flex items-center justify-between">
-                    <span className="text-gray-400">Level:</span>
+                    <span className="text-gray-400 text-[10px]">Level:</span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span>{member.level || "N/A"}</span>
+                    <span className="text-[10px]">{member.level || "N/A"}</span>
                   </p>
                   <p className="flex items-center justify-between">
-                    <span className="text-gray-400">Goal:</span>
+                    <span className="text-gray-400 text-[10px]">Goal:</span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span>{member.goal || "N/A"}</span>
+                    <span className="text-[10px]">{member.goal || "N/A"}</span>
                   </p>
                 </div>
               </div>
@@ -246,6 +254,19 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
           </div>
         </div>
       </div>
+      {isZoomed && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+          onClick={() => setIsZoomed(false)}
+        >
+          <img
+            src={`http://localhost:5000${member.profileImageUrl}`}
+            alt="Zoomed Profile"
+            className="max-w-full max-h-screen rounded-lg"
+          />
+        </div>
+      )}
+
     </div>
   );
 };

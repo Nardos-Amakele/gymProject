@@ -58,7 +58,7 @@ const FinancialReport = () => {
     });
     return monthlyTotals;
   };
-  
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewTransaction((prev) => ({ ...prev, [name]: value }));
@@ -96,7 +96,7 @@ const FinancialReport = () => {
       .catch((error) => {
         console.error("Error adding transaction:", error);
         setError("Failed to add transaction. Please try again.");
-        });
+      });
   };
 
   return (
@@ -161,7 +161,7 @@ const FinancialReport = () => {
                 Income
               </label>
             </div>
-            <button onClick={addTransaction} className="bg-customBlue hover:bg-opacity-80 px-6 py-2 rounded-md">Add Transaction</button>
+            <button onClick={addTransaction} className="bg-customBlue hover:bg-opacity-80 font-light px-5 py-1 rounded-lg text-black">Add</button>
           </div>
         </div>
       </div>
@@ -169,25 +169,4 @@ const FinancialReport = () => {
   );
 };
 
-
-const Page = () => {
-  return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <div className="hidden lg:block sticky top-0">
-        <AdminSidebar />
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <AdminHeader />
-
-        {/* Financial Report Component */}
-        <FinancialReport />
-      </div>
-    </div>
-  );
-};
-
-export default Page;
+export default FinancialReport;

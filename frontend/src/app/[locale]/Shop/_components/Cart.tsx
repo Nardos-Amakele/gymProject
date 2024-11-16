@@ -1,9 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import { Link } from "../../../../i18n/routing";
 import { useCart } from "./CartContext";
-import Link from "next/link";
 import {
   faShoppingCart,
   faTimesCircle,

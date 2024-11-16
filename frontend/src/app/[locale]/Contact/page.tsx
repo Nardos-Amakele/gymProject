@@ -28,7 +28,7 @@ const Contact = () => {
           {/* Left Side - Contact Information */}
           <div className="flex flex-col justify-center items-start p-8 w-full md:w-1/3 space-y-6 mb-8 mt-4 md:mb-0">
             <div className="space-y-10">
-              <div className="flex items-center space-x-4">
+              <div id="address" className="flex items-center space-x-4">
                 <div className="bg-white p-3 rounded-full">
                   <FontAwesomeIcon icon={faMapMarkerAlt} className="w-6 h-6 text-gray-800" />
                 </div>
@@ -38,7 +38,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4">
+              <div id="phone" className="flex items-center space-x-4">
                 <div className="bg-white p-3 rounded-full">
                   <FontAwesomeIcon icon={faPhoneAlt} className="w-6 h-6 text-gray-800" />
                 </div>
@@ -48,7 +48,7 @@ const Contact = () => {
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4">
+              <div id="email" className="flex items-center space-x-4">
                 <div className="bg-white p-3 rounded-full">
                   <FontAwesomeIcon icon={faEnvelope} className="w-6 h-6 text-gray-800" />
                 </div>
@@ -61,7 +61,7 @@ const Contact = () => {
           </div>
 
           {/* Right Side - Contact Form */}
-          <div className="bg-[#141416] text-gray-100 p-8 shadow-lg rounded-lg w-full md:w-1/3 border-[0.5px] border-customBlue">
+          <div id="feedback" className="bg-[#141416] text-gray-100 p-8 shadow-lg rounded-lg w-full md:w-1/3 border-[0.5px] border-customBlue">
             <h3 className="text-3xl text-center font-semibold text-customBlue mb-6">{t("feedback_form.heading")}</h3>
             <form className="space-y-6">
               <input

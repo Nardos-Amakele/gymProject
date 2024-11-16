@@ -191,21 +191,4 @@ const Services: React.FC = () => {
   );
 };
 
-const Page = () => {
-  return (
-    <div className="flex">
-      <div className="hidden lg:block sticky top-0 h-screen bg-[#121212]">
-        <AdminSidebar locale={""} />
-      </div>
-
-      <div className="flex flex-col flex-1">
-        <AdminHeader />
-        <div className="flex-1 p-6 overflow-auto bg-black">
-          <Services />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default Page;
+export default Services;

@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import style from "../styles/ButtonStyles.module.css";
-import Link from "next/link";
+import { Link } from "../../../i18n/routing";
 import Staff from "./componenets/ourStaff";
 import React from "react";
 import { useTranslations } from "next-intl";
@@ -144,7 +144,7 @@ const AboutUsPage = () => {
           </section>
 
           {/* Section 2 - Our Philosophy */}
-          <section className="scroll-section flex flex-col-reverse md:flex-row items-center py-14 gap-20">
+          <section id="our-philosophy" className="scroll-section flex flex-col-reverse md:flex-row items-center py-14 gap-20">
             <motion.div
               className="w-full lg:w-1/2 relative md:h-80 h-60 lg:h-60"
               initial={{ opacity: 0, scale: 0.9 }}
@@ -192,7 +192,7 @@ const AboutUsPage = () => {
           </section>
 
           {/* Section 3 - Our Facilities & Trainers */}
-          <section className="scroll-section flex flex-col md:flex-row items-center pb-40  gap-20">
+          <section id="our-Facilities" className="scroll-section flex flex-col md:flex-row items-center pb-40  gap-20">
             <div className="md:w-1/2 sm:w-full sm:px-0 px-6">
               <div className="relative">
                 <motion.h2
@@ -255,7 +255,9 @@ const AboutUsPage = () => {
           </motion.button>
         </Link>
       </section>
-      <Staff />
+      <div id="our-Team">
+        <Staff />
+      </div>
 
       <Footer />
     </>

@@ -95,12 +95,12 @@ const Stock: React.FC = () => {
     return (
         <div className="p-6 bg-black text-white rounded-lg shadow-lg">
             <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold">Stock Inventory</h1>
+                <h1 className="text-2xl font-bold text-black">Stock Inventory</h1>
                 <button
-                    className="bg-customBlue text-white px-4 py-2 rounded-md hover:bg-customHoverBlue"
+                    className="bg-customBlue text-black font-light px-5 py-1 rounded-lg hover:bg-customHoverBlue "
                     onClick={() => setShowAddForm(true)}
                 >
-                    <FontAwesomeIcon icon={faPlus} className="mr-2" /> Add Item
+                    <FontAwesomeIcon icon={faPlus} className="mr-2 text-black" /> <span className=''>Add Item</span>
                 </button>
             </div>
 
@@ -164,21 +164,4 @@ const Stock: React.FC = () => {
     );
 };
 
-const Page = () => {
-    return (
-        <div className="flex h-screen">
-            <div className="hidden lg:block sticky top-0 h-screen bg-[#121212]">
-                <AdminSidebar locale={""} />
-            </div>
-
-            <div className="flex flex-col flex-1">
-                <AdminHeader />
-                <div className="flex-1 p-6 overflow-auto bg-black">
-                    <Stock />
-                </div>
-            </div>
-        </div>
-    );
-};
-
-export default Page;
+export default Stock;

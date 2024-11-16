@@ -59,7 +59,7 @@ const BMIComponent = () => {
 };
 
   return (
-    <div className="bg-black text-white p-2 lg:p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-10">
+    <div id="bmi" className="bg-black text-white p-2 lg:p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-10">
       <h1 className="text-2xl font-bold text-customBlue mb-6">{t("title")}</h1>
 
       {bmi === null ? (

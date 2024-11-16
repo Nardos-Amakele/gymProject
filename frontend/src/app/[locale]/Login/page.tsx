@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import loginImage from './home image.png';
 import React from 'react'
-import Link from 'next/link';
+import { Link } from "../../../i18n/routing";
 import { useTranslations } from 'next-intl';
 
 const login = () => {

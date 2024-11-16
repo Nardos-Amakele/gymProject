@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import axios from "axios";
-import Link from "next/link";
+import { Link } from "../../../i18n/routing";
 import WebcamCapture from "./PhotoUpload";
 import PhotoUploadModal from "./PhotoUploadModal";
 

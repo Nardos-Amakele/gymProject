@@ -11,6 +11,8 @@ import React from "react";
 import Image from "next/image";
 import logo from "@/assets/logos/logo-second.svg";
 import { useTranslations } from "next-intl";
+import { Link } from "../../../i18n/routing";
+
 
 const Footer: React.FC = () => {
   const t = useTranslations("home_Page.footerSection");
@@ -26,35 +28,91 @@ const Footer: React.FC = () => {
             <div>
               <h2 className="font-bold">{t('company.title')}</h2>
               <ul className="mt-6 space-y-2">
-                <li className="cursor-pointer">{t('company.links.0')}</li>
-                <li className="cursor-pointer">{t('company.links.1')}</li>
-                <li className="cursor-pointer">{t('company.links.2')}</li>
-                <li className="cursor-pointer">{t('company.links.3')}</li>
+                <li className="cursor-pointer">
+                  <Link href="/about" className="hover:underline">
+                    {t('company.links.0')}
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/about#our-philosophy"  className="hover:underline">
+                    {t('company.links.1')}
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/about#our-Facilities" className="hover:underline">
+                    {t('company.links.2')}
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/about#our-Team" className="hover:underline">
+                    {t('company.links.3')}
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
-              <h2 className="font-bold">E{t('explore.title')}</h2>
+              <h2 className="font-bold">{t('explore.title')}</h2>
               <ul className="mt-6 space-y-2">
-                <li className="cursor-pointer">{t('explore.links.0')}</li>
-                <li className="cursor-pointer">{t('explore.links.1')}</li>
+                <li className="cursor-pointer">
+                  <Link href="/service" className="hover:underline">
+                    {t('explore.links.0')}
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/Shop" className="hover:underline">
+                    {t('explore.links.1')}
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
               <h2 className="font-bold">{t('shopCategories.title')}</h2>
               <ul className="mt-6 space-y-2">
-                <li className="cursor-pointer">{t('shopCategories.links.0')}</li>
-                <li className="cursor-pointer">{t('shopCategories.links.1')}</li>
-                <li className="cursor-pointer">{t('shopCategories.links.2')}</li>
+                <li className="cursor-pointer">
+                  <Link href="/Shop" className="hover:underline">
+                    {t('shopCategories.links.0')}
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/Shop" className="hover:underline">
+                    {t('shopCategories.links.1')}
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/Shop" className="hover:underline">
+                    {t('shopCategories.links.2')}
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
               <h2 className="font-bold">{t('support.title')}</h2>
               <ul className="mt-6 space-y-2">
-                <li className="cursor-pointer">{t('support.links.0')}</li>
-                <li className="cursor-pointer">{t('support.links.1')}</li>
-                <li className="cursor-pointer">{t('support.links.2')}</li>
-                <li className="cursor-pointer">{t('support.links.3')}</li>
-                <li className="cursor-pointer">{t('support.links.4')}</li>
+                <li className="cursor-pointer">
+                  <Link href="/#bmi" className="hover:underline">
+                    {t('support.links.0')}
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/Contact#address" className="hover:underline">
+                    {t('support.links.1')}
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/Contact#phone" className="hover:underline">
+                    {t('support.links.2')}
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/Contact#email" className="hover:underline">
+                    {t('support.links.3')}
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/Contact#feedback" className="hover:underline">
+                    {t('support.links.4')}
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -62,9 +120,9 @@ const Footer: React.FC = () => {
         <hr className="border-t border-black my-6 mt-20" />
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm mb-4 md:mb-0">
-            <a href="/terms" className="mr-6 hover:underline">
-            {t('support.links.5')}
-            </a>
+            <Link href="/terms" className="mr-6 hover:underline">
+              {t('support.links.5')}
+            </Link>
           </div>
           <div className="flex space-x-4">
             <a

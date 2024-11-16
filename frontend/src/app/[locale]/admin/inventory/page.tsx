@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faEdit, faUpload } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +10,7 @@ interface Product {
   name: string;
   description: string;
   imageUrl: string;
+  price: number; // Add price field to the product interface
 }
 
 const HomePage = () => {
@@ -23,6 +24,7 @@ const HomePage = () => {
     name: '',
     description: '',
     category: 'Equipment',
+    price: '', // Add price field
   });
 
   // Fetch products from backend on component mount
@@ -81,6 +83,7 @@ const HomePage = () => {
       formData.append('name', editProduct.name);
       formData.append('description', editProduct.description);
       formData.append('category', 'Equipment'); // Example, adjust as needed
+      formData.append('price', editProduct.price.toString());  // Include price
       if (file) formData.append('image', file);
 
       try {
@@ -106,11 +109,14 @@ const HomePage = () => {
     }
   };
 
+
+  // Handle add product
   const handleAddProduct = async () => {
     const formData = new FormData();
     formData.append('name', newProduct.name);
     formData.append('description', newProduct.description);
     formData.append('category', newProduct.category);
+    formData.append('price', newProduct.price);
     if (file) formData.append('image', file);
 
     // Log the formData for debugging
@@ -126,7 +132,7 @@ const HomePage = () => {
 
       if (response.ok) {
         setProducts((prevProducts) => [...prevProducts, responseData.data]);
-        setNewProduct({ name: '', description: '', category: 'Equipment' });
+        setNewProduct({ name: '', description: '', category: 'Equipment', price: '' }); // Reset form state
         setFile(null);
       } else {
         console.error('Failed to add product:', responseData.message);
@@ -135,6 +141,7 @@ const HomePage = () => {
       console.error('Error adding product:', error);
     }
   };
+
 
 
 
@@ -169,6 +176,14 @@ const HomePage = () => {
           <option>Clothing</option>
           <option>Accessories</option>
         </select>
+        <h2 className="text-sm font-extralight mb-4">Price</h2>
+        <input
+          type="number"
+          value={newProduct.price}
+          onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
+          placeholder="Product price..."
+          className="w-full mb-6 bg-[#121212] text-gray-300 text-sm font-extralight rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+        />
 
         <h2 className="text-sm font-extralight mb-4">Upload Media</h2>
         <div className="w-full h-36 bg-[#121212] rounded-lg flex items-center justify-center border-dashed border-2 border-zinc-500 relative">
@@ -253,25 +268,4 @@ const HomePage = () => {
   );
 };
 
-const page = () => {
-  return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <div className="hidden lg:block sticky top-0 h-screen bg-[#121212]">
-        <AdminSidebar locale={""} />
-      </div>
-
-      <div className="flex flex-col flex-1">
-        {/* Header */}
-        <AdminHeader />
-
-        {/* Main Content Area */}
-        <div className="flex-1 p-6 overflow-auto bg-black">
-          <HomePage />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default page;
+export default HomePage;

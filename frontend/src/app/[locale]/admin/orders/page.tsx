@@ -1,15 +1,9 @@
-
 import React from 'react';
 import { ordersData } from '../../../../../assets/data/ordersData';
-import AdminSidebar from '../components/AdminSideBar';
-import AdminHeader from '../components/AdminHeader';
 
 const Orders: React.FC = () => {
     return (
         <div className="p-8 bg-black min-h-screen text-white flex flex-col gap-8">
-
-            {/* Heading */}
-            <h1 className="text-2xl font-bold">Orders</h1>
 
             {/* Stats Section */}
             <div className="flex gap-6 ">
@@ -49,11 +43,11 @@ const Orders: React.FC = () => {
                                 <tr
                                     key={index}
                                     className={` ${index % 2 === 0 ? 'bg-[#ffffff12]' : 'bg-black'}`}>
-                                    <td className="text-gray-400 py-4 px-2">{order.name}</td>
-                                    <td className="text-gray-400 py-4 px-2">{order.phone}</td>
-                                    <td className="text-gray-400 py-4 px-2">{order.item}</td>
-                                    <td className="text-gray-400 py-4 px-2 ">{order.quantity}</td>
-                                    <td className="py-4 px-2 text-gray-400 ">{order.status}</td>
+                                    <td className="text-gray-400 py-2 px-2 font-extralight text-sm">{order.name}</td>
+                                    <td className="text-gray-400 py-2 px-2 font-extralight text-sm">{order.phone}</td>
+                                    <td className="text-gray-400 py-2 px-2 font-extralight text-sm">{order.item}</td>
+                                    <td className="text-gray-400 py-2 px-2 font-extralight text-sm ">{order.quantity}</td>
+                                    <td className="py-2 px-2 font-extralight text-sm text-gray-400 ">{order.status}</td>
                                     <td className="py-2">
                                         <input
                                             type="checkbox"
@@ -71,27 +65,4 @@ const Orders: React.FC = () => {
     );
 };
 
-
-const page = () => {
-  return (
-    <div className="flex h-screen">
-    {/* Sidebar */}
-    <div className="hidden lg:block sticky top-0 h-screen bg-[#121212]">
-      <AdminSidebar locale={""} />
-    </div>
-
-
-    <div className="flex flex-col flex-1">
-      {/* Header */}
-      <AdminHeader />
-
-      {/* Main Content Area */}
-      <div className="flex-1 p-6 overflow-auto bg-black">
-        <Orders />
-      </div>
-    </div>
-  </div>
-  )
-}
-
-export default page
+export default Orders;

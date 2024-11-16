@@ -70,7 +70,7 @@ const DashboardContent: React.FC = () => {
     }
   };
   return (
-    <div className="flex flex-col lg:flex-row gap-6">
+    <div className="flex flex-col lg:flex-row gap-6 min-h-screen">
       <div className="flex flex-col gap-6 lg:w-1/2">
         {/* Stats Section */}
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">

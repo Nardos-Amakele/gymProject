@@ -5,6 +5,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import AdminSidebar from "../components/AdminSideBar";
 import AdminHeader from "../components/AdminHeader";
 import AddEmployeeModal from "../components/AddEmployeeForm";
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 // Define the type for the Employee member
 interface Member {
@@ -14,7 +15,6 @@ interface Member {
   startDate: string;
   jobType: string;
 }
-
 const Employee = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedJobType, setSelectedJobType] = useState("All");
@@ -111,7 +111,7 @@ const Employee = () => {
     <div>
       {/* Header Section */}
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-customBlue">Employees</h1>
+        <h1 className="text-2xl font-bold text-black">Employees</h1>
         <div className="flex items-center">
           {/* Search Input */}
           <div className="relative">
@@ -211,7 +211,7 @@ const Employee = () => {
       {/* Add Employee Button */}
       <div className="flex justify-end mt-4">
         <button
-          className="bg-customBlue text-white px-6 py-2 rounded-md hover:bg-customHoverBlue"
+          className="bg-customBlue text-black font-light px-5 py-1 rounded-lg hover:bg-customHoverBlue"
           onClick={openModal}
         >
           <FontAwesomeIcon icon={faPlus} className="mr-2" />
@@ -225,25 +225,4 @@ const Employee = () => {
   );
 };
 
-const page = () => {
-  return (
-    <div className="flex h-screen">
-      {/* Sidebar */}
-      <div className="hidden lg:block sticky top-0 h-screen bg-[#121212]">
-        <AdminSidebar locale={""} />
-      </div>
-
-      <div className="flex flex-col flex-1">
-        {/* Header */}
-        <AdminHeader />
-
-        {/* Main Content Area */}
-        <div className="flex-1 p-6 overflow-auto bg-black">
-          <Employee />
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default page;
+export default Employee;
