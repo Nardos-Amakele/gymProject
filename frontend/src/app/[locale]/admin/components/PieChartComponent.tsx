@@ -23,9 +23,9 @@ const PieChartComponent: React.FC = () => {
   const totalValue = useMemo(() => chartData.reduce((acc, curr) => acc + curr.value, 0), []);
 
   return (
-    <Card className=" border-none bg-[#121212] text-white w-[32rem] mx-auto">
-      <CardContent className="grid md:grid-cols-2 p-[0.2rem] gap-6 items-center">
-        <ChartContainer config={chartConfig} className="mx-auto w-[220px] h-[220px]">
+    <Card className="border-none bg-[#121212] text-white w-full max-w-4xl mx-auto">
+      <CardContent className="grid grid-cols-1 md:grid-cols-2  gap-6 items-center">
+        <ChartContainer config={chartConfig} className="mx-auto w-full max-w-[220px] h-[220px]">
           <PieChart width={220} height={220}>
             <ChartTooltip cursor={false} content={<ChartTooltipContent className="p-1" hideLabel />} />
             <Pie
@@ -46,7 +46,7 @@ const PieChartComponent: React.FC = () => {
                       dominantBaseline="middle"
                       className="text-white"
                     >
-                      <tspan dy='-1.5em' className="fill-white text-base font-medium">Total</tspan>
+                      <tspan dy="-1.5em" className="fill-white text-base font-medium">Total</tspan>
                       <tspan x={viewBox.cx} dy="1.5em" className="fill-white text-base font-medium">Members</tspan>
                       <tspan x={viewBox.cx} dy="2em" className="fill-white text-sm font-light">{totalValue}</tspan>
                     </text>

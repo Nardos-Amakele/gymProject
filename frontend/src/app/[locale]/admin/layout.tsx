@@ -18,7 +18,7 @@ export default function AdminLayout({
     <div className="flex h-screen">
      {/* Burger Icon for Mobile */}
      <button
-        className="lg:hidden p-4 z-10"
+        className="lg:hidden p-4  z-10"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
         <FontAwesomeIcon icon={faBars} className="text-white text-2xl" />

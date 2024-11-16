@@ -73,7 +73,7 @@ const DashboardContent: React.FC = () => {
     <div className="flex flex-col lg:flex-row gap-6 min-h-screen">
       <div className="flex flex-col gap-6 lg:w-1/2">
         {/* Stats Section */}
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {Object.entries(dashboardData.stats).map(([label, value]) => (
             <div
               key={label}
@@ -107,13 +107,13 @@ const DashboardContent: React.FC = () => {
               <tbody>
                 {pendingMembers.map((member) => (
                   <tr key={member.id} className="hover:bg-[#333]">
-                    <td className="text-zinc-600 font-medium py-2">
+                    <td className="text-zinc-600 text-tiny md:text-small  font-medium py-2">
                       {member.fullName}
                     </td>
-                    <td className="text-zinc-600 font-medium py-2">
+                    <td className="text-zinc-600 text-tiny md:text-small font-medium py-2">
                       {member.phoneNumber}
                     </td>
-                    <td className="text-zinc-600 font-medium py-2">
+                    <td className="text-zinc-600 text-tiny md:text-small font-medium py-2">
                       {member.status}
                     </td>
                     <td className="py-2">

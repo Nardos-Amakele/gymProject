@@ -108,120 +108,142 @@ const Employee = () => {
   };
 
   return (
-    <div>
-      {/* Header Section */}
-      <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold text-black">Employees</h1>
-        <div className="flex items-center">
-          {/* Search Input */}
-          <div className="relative">
-            <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <FontAwesomeIcon icon={faSearch} className="text-customBlue text-xl" />
-            </span>
-            <input
-              type="text"
-              placeholder="Search..."
-              className="pl-10 px-6 py-2 rounded-md bg-[#ffffff29] text-gray-300 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-customBlue"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
+<div>
+  {/* Header Section */}
+  <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-2 sm:space-y-0">
+    <h1 className="text-lg sm:text-2xl font-bold text-black">Employees</h1>
+    <div className="flex flex-row items-center space-x-4 ">
+      {/* Search Input */}
+      <div className="relative w-full sm:w-auto">
+        <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <FontAwesomeIcon icon={faSearch} className="text-customBlue text-base sm:text-xl" />
+        </span>
+        <input
+          type="text"
+          placeholder="Search..."
+          className="w-full pl-10 px-6 py-2 rounded-md bg-[#ffffff29] text-gray-300 border border-gray-600 focus:outline-none focus:ring-2 focus:ring-customBlue"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </div>
+
+      {/* Filter Icon */}
+      <div className="relative">
+        <div className="bg-[#ffffff29] px-4 py-2 rounded-md border border-gray-600">
+          <FontAwesomeIcon
+            icon={faFilter}
+            className="text-customBlue text-base sm:text-xl cursor-pointer"
+            onClick={toggleDropdown}
+          />
+        </div>
+        {isDropdownOpen && (
+          <div className="absolute right-0 mt-2 w-48 rounded-md bg-zinc-900 border z-10">
+            <ul className="text-gray-300">
+              <li
+                className="px-4 py-2 cursor-pointer hover:bg-gray-700"
+                onClick={() => handleJobTypeSelect("All")}
+              >
+                All
+              </li>
+              <hr />
+              <li
+                className="px-4 py-2 cursor-pointer hover:bg-gray-700"
+                onClick={() => handleJobTypeSelect("Janitor")}
+              >
+                Janitor
+              </li>
+              <hr />
+              <li
+                className="px-4 py-2 cursor-pointer hover:bg-gray-700"
+                onClick={() => handleJobTypeSelect("Trainer")}
+              >
+                Trainer
+              </li>
+              <hr />
+              <li
+                className="px-4 py-2 cursor-pointer hover:bg-gray-700"
+                onClick={() => handleJobTypeSelect("Reception")}
+              >
+                Reception
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+
+  {/* Table Section */}
+  <div className="overflow-x-auto">
+    <table className="hidden sm:table w-full text-sm text-left text-gray-400">
+      <thead className="bg-black text-gray-300 uppercase">
+        <tr>
+          <th scope="col" className="px-6 py-3 border-b border-t border-[#D9D9D93B]">Name</th>
+          <th scope="col" className="px-6 py-3 border border-[#D9D9D93B]">Phone no.</th>
+          <th scope="col" className="px-6 py-3 border border-[#D9D9D93B]">Start Date</th>
+          <th scope="col" className="px-6 py-3 border border-[#D9D9D93B]">Job Type</th>
+          <th scope="col" className="px-6 py-3 text-center border-b border-t border-[#D9D9D93B]">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {filteredMembers.map((member) => (
+          <tr
+            key={member.id}
+            className="border-b border-[#D9D9D93B] hover:bg-[#1d1d1d]"
+          >
+            <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.name}</td>
+            <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.phone}</td>
+            <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.startDate}</td>
+            <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.jobType}</td>
+            <td className="text-center py-4">
+              <FontAwesomeIcon
+                icon={faTrash}
+                className="text-red-500 cursor-pointer"
+                onClick={() => deleteMember(member.id)}
+              />
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+
+    {/* Responsive Cards for Small Screens */}
+    <div className="sm:hidden">
+      {filteredMembers.map((member) => (
+        <div
+          key={member.id}
+          className="mb-4 p-4 bg-[#1d1d1d] rounded-md border border-[#D9D9D93B]"
+        >
+          <div className="flex justify-between">
+            <h3 className="text-lg font-bold text-white">{member.name}</h3>
+            <FontAwesomeIcon
+              icon={faTrash}
+              className="text-red-500 cursor-pointer"
+              onClick={() => deleteMember(member.id)}
             />
           </div>
-
-          {/* Filter Icon */}
-          <div className="relative ml-4">
-            <div className="bg-[#ffffff29] px-4 py-2 rounded-md border border-gray-600">
-              <FontAwesomeIcon
-                icon={faFilter}
-                className="text-customBlue text-xl cursor-pointer"
-                onClick={toggleDropdown}
-              />
-            </div>
-            {isDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 rounded-md bg-zinc-900 border z-10">
-                <ul className="text-gray-300">
-                  <li
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-700"
-                    onClick={() => handleJobTypeSelect("All")}
-                  >
-                    All
-                  </li>
-                  <hr />
-                  <li
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-700"
-                    onClick={() => handleJobTypeSelect("Janitor")}
-                  >
-                    Janitor
-                  </li>
-                  <hr />
-                  <li
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-700"
-                    onClick={() => handleJobTypeSelect("Trainer")}
-                  >
-                    Trainer
-                  </li>
-                  <hr />
-                  <li
-                    className="px-4 py-2 cursor-pointer hover:bg-gray-700"
-                    onClick={() => handleJobTypeSelect("Reception")}
-                  >
-                    Reception
-                  </li>
-                </ul>
-              </div>
-            )}
-          </div>
+          <p className="text-sm text-gray-300">Phone: {member.phone}</p>
+          <p className="text-sm text-gray-300">Start Date: {member.startDate}</p>
+          <p className="text-sm text-gray-300">Job Type: {member.jobType}</p>
         </div>
-      </div>
-
-      {/* Table Section */}
-      <div className="overflow-x-auto">
-        <table className="w-full text-sm text-left text-gray-400">
-          <thead className="bg-black text-gray-300 uppercase">
-            <tr>
-              <th scope="col" className="px-6 py-3 border-b border-t border-[#D9D9D93B]">Name</th>
-              <th scope="col" className="px-6 py-3 border border-[#D9D9D93B]">Phone no.</th>
-              <th scope="col" className="px-6 py-3 border border-[#D9D9D93B]">Start Date</th>
-              <th scope="col" className="px-6 py-3 border border-[#D9D9D93B]">Job Type</th>
-              <th scope="col" className="px-6 py-3 text-center border-b border-t border-[#D9D9D93B]">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredMembers.map((member) => (
-              <tr
-                key={member.id}
-                className="border-b border-[#D9D9D93B] hover:bg-[#1d1d1d]"
-              >
-                <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.name}</td>
-                <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.phone}</td>
-                <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.startDate}</td>
-                <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.jobType}</td>
-                <td className="text-center py-4">
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className="text-red-500 cursor-pointer"
-                    onClick={() => deleteMember(member.id)}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {/* Add Employee Button */}
-      <div className="flex justify-end mt-4">
-        <button
-          className="bg-customBlue text-black font-light px-5 py-1 rounded-lg hover:bg-customHoverBlue"
-          onClick={openModal}
-        >
-          <FontAwesomeIcon icon={faPlus} className="mr-2" />
-          Add Employee
-        </button>
-      </div>
-
-      {/* Add Employee Modal */}
-      {isModalOpen && <AddEmployeeModal closeModal={closeModal} addNewMember={addNewMember} />}
+      ))}
     </div>
+  </div>
+
+  {/* Add Employee Button */}
+  <div className="flex justify-center sm:justify-end mt-4">
+    <button
+      className="bg-customBlue text-black font-light px-5 py-1 rounded-lg hover:bg-customHoverBlue"
+      onClick={openModal}
+    >
+      <FontAwesomeIcon icon={faPlus} className="mr-2" />
+      Add Employee
+    </button>
+  </div>
+
+  {/* Add Employee Modal */}
+  {isModalOpen && <AddEmployeeModal closeModal={closeModal} addNewMember={addNewMember} />}
+</div>
   );
 };
 

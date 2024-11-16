@@ -42,7 +42,7 @@ const Stock: React.FC = () => {
         setStockData(prevStockData => [...prevStockData, newItem]);
         setShowAddForm(false);
     };
-    
+
 
     const handleDeleteItem = async (id: string) => {
         try {
@@ -93,25 +93,27 @@ const Stock: React.FC = () => {
     };
 
     return (
-        <div className="p-6 bg-black text-white rounded-lg shadow-lg">
-            <div className="flex justify-between items-center mb-6">
-                <h1 className="text-2xl font-bold text-black">Stock Inventory</h1>
+        <div className="p-4 sm:p-6 bg-black text-white rounded-lg shadow-lg">
+            <div className="flex flex-wrap justify-between items-center mb-6 gap-4">
+                <h1 className="text-lg sm:text-2xl font-bold text-black">Stock Inventory</h1>
                 <button
-                    className="bg-customBlue text-black font-light px-5 py-1 rounded-lg hover:bg-customHoverBlue "
+                    className="bg-customBlue text-black font-light px-4 py-2 rounded-lg hover:bg-customHoverBlue flex items-center"
                     onClick={() => setShowAddForm(true)}
                 >
-                    <FontAwesomeIcon icon={faPlus} className="mr-2 text-black" /> <span className=''>Add Item</span>
+                    <FontAwesomeIcon icon={faPlus} className="mr-2 text-black" />
+                    <span>Add Item</span>
                 </button>
             </div>
 
-            <div className="overflow-x-auto">
+            {/* table */}
+            <div className="overflow-x-auto hidden sm:block">
                 <table className="w-full text-sm text-left text-gray-400">
                     <thead className="bg-black border-t border-[#D9D9D93B] text-gray-300 uppercase">
                         <tr>
                             <th className="px-6 py-6">Items</th>
                             <th className="px-6 py-6">Category</th>
                             <th className="px-6 py-6">Quantity</th>
-                            <th className="px-6 py-6 text-center">Actions</th>
+                            <th className="px-6 py-6 text-center"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -159,9 +161,54 @@ const Stock: React.FC = () => {
                 </table>
             </div>
 
+            {/* Card Layout */}
+            <div className="sm:hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                
+                {stockData.length ? (
+                    stockData.map((item, index) => (
+                        <div
+                            key={item.id}
+                            className={`p-4 bg-[#1d1d1d] rounded-lg border ${
+                                index % 2 === 0 ? 'border-[#ffffff12]' : 'border-gray-700'
+                            }`}
+                        >
+                            <div className="mb-2">
+                                <h2 className="text-xl font-semibold text-customBlue">{item.itemName}</h2>
+                                <p className="text-sm text-gray-400">{item.category}</p>
+                            </div>
+                            <p className="text-gray-300 mb-4">Quantity: {item.quantity}</p>
+                            <div className="flex justify-between items-center">
+                                <button
+                                    className="text-customBlue border border-customBlue rounded-md p-2 hover:bg-customBlue hover:text-black transition-colors"
+                                    onClick={() => handleDecreaseQuantity(item.id, index)}
+                                >
+                                    <FontAwesomeIcon icon={faMinus} className="text-sm" />
+                                </button>
+                                <button
+                                    className="text-red-500 border border-red-500 rounded-md p-2 hover:text-red-600 hover:underline"
+                                    onClick={() => handleDeleteItem(item.id)}
+                                >
+                                    <FontAwesomeIcon icon={faTrash} className="text-sm" />
+                                </button>
+                                <button
+                                    className="text-black bg-customBlue rounded-md p-2 hover:bg-opacity-80 transition-colors"
+                                    onClick={() => handleIncreaseQuantity(item.id, index)}
+                                >
+                                    <FontAwesomeIcon icon={faPlus} className="text-sm" />
+                                </button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
+                    <p className="text-center text-gray-500 col-span-full">
+                        No stock data available
+                    </p>
+                )}
+            </div>
+    
             {showAddForm && <AddItemForm onAddItem={handleAddItem} onClose={() => setShowAddForm(false)} />}
         </div>
     );
-};
+    };
 
 export default Stock;
