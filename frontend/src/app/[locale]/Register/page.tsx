@@ -36,6 +36,7 @@ const Register = () => {
     emergencyContact: "",
     gender: "",
     profileImage: null as string | File | null,
+    password:"",
   });
   const [services, setServices] = useState<Record<string, Service[]>>({});
   const [isLoading, setIsLoading] = useState<boolean>(true); // Track loading state
@@ -132,18 +133,19 @@ const Register = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/members",
+        "http://localhost:5000/api/auth/register",
         formDataToSend,
         {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
+      console.log(response.status); // Check response status
 
       if (response.status !== 200) {
         setError(response.data.message);
       } else {
         setError(null);
-        router.push("admin");
+        router.replace("/Login");
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
@@ -218,6 +220,14 @@ const Register = () => {
                 type="tel"
                 className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 text-gray-400"
                 placeholder={t('fields.phone_number')}
+              />
+              <input
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                type="password"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 text-gray-400"
+                placeholder="password"
               />
               <input
                 name="address"
