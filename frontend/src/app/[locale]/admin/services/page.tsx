@@ -3,8 +3,6 @@ import React, { useState, ChangeEvent } from 'react';
 import axios from 'axios';
 import { useFetchServices } from '../../hooks/usefetchServices';
 import ServiceCard from '../../services/ServicesCards';
-import AdminSidebar from '../components/AdminSideBar';
-import AdminHeader from '../components/AdminHeader';
 import EditServiceModal from './EditServiceModal';
 
 const Services: React.FC = () => {

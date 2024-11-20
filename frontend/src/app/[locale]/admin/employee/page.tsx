@@ -2,10 +2,10 @@
 import { faFilter, faSearch, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect, useCallback } from "react";
-import AdminSidebar from "../components/AdminSideBar";
-import AdminHeader from "../components/AdminHeader";
 import AddEmployeeModal from "../components/AddEmployeeForm";
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
+import axios from "axios";
+
 
 // Define the type for the Employee member
 interface Member {
@@ -14,13 +14,20 @@ interface Member {
   phone: string;
   startDate: string;
   jobType: string;
+  profileImage?: string; 
 }
 const Employee = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedJobType, setSelectedJobType] = useState("All");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [members, setMembers] = useState<Member[]>([]);
+  const [memberToDelete, setMemberToDelete] = useState<Member | null>(null);
+  const [modalError, setModalError] = useState<string | null>(null);
+
+
+
 
   // Fetch employees from backend
   const fetchEmployees = useCallback(async () => {
@@ -44,46 +51,62 @@ const Employee = () => {
   }, [fetchEmployees]);
 
   // Function to open the Add Employee modal
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  // Function to close the Add Employee modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   // Function to add a new member and immediately fetch updated members
-  const addNewMember = async (newMember: Member) => {
+  const addNewMember = async (newMember: Member):Promise<void> => {
     try {
-      // Send the new member to the backend and trigger re-fetch after success
-      await fetchEmployees();
-      closeModal();
-    } catch (error) {
-      console.error("Error adding employee:", error);
+      const response = await axios.post("http://localhost:5000/api/employees/", newMember);
+  
+      if (response.data.success) {
+        await fetchEmployees(); // Refresh employee list
+        closeModal();
+      } else {
+        setModalError(response.data.message || "Failed to add employee. Please try again.");
+      }
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || "An error occurred. Please try again.";
+      setModalError(errorMessage);
     }
   };
+  
 
 
-  // Function to delete a member
+  const cancelDelete = () => {
+    setMemberToDelete(null);
+    setIsDeleteModalOpen(false);
+  };
 
-  const deleteMember = async (id: string) => {
+  const confirmDelete = (member: Member) => {
+    setMemberToDelete(member);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!memberToDelete) return;
+
     try {
-      const response = await fetch(`http://localhost:5000/api/employees/${id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/employees/${memberToDelete.id}`,
+        {
+          method: "DELETE",
+        }
+      );
       const data = await response.json();
 
       if (data.success) {
-        // Refresh the list after successful deletion
         fetchEmployees();
       } else {
         console.error("Error deleting employee:", data.message);
       }
     } catch (error) {
       console.error("Error deleting employee:", error);
+    } finally {
+      setMemberToDelete(null);
+      setIsDeleteModalOpen(false);
     }
   };
+
 
 
   // Filter members by name and job type
@@ -178,6 +201,7 @@ const Employee = () => {
     <table className="hidden sm:table w-full text-sm text-left text-gray-400">
       <thead className="bg-black text-gray-300 uppercase">
         <tr>
+        <th scope="col" className="px-6 py-3 border-b border-t border-[#D9D9D93B]">Photo</th>
           <th scope="col" className="px-6 py-3 border-b border-t border-[#D9D9D93B]">Name</th>
           <th scope="col" className="px-6 py-3 border border-[#D9D9D93B]">Phone no.</th>
           <th scope="col" className="px-6 py-3 border border-[#D9D9D93B]">Start Date</th>
@@ -191,6 +215,13 @@ const Employee = () => {
             key={member.id}
             className="border-b border-[#D9D9D93B] hover:bg-[#1d1d1d]"
           >
+                            <td>
+                  <img
+                    src={typeof member.profileImage === 'string' ? member.profileImage : "/placeholder.png"}
+                    alt="Profile"
+                    className="w-10 h-10 rounded-full"
+                  /> </td>
+
             <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.name}</td>
             <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.phone}</td>
             <td className="px-6 py-4 border-r border-[#D9D9D93B]">{member.startDate}</td>
@@ -199,13 +230,15 @@ const Employee = () => {
               <FontAwesomeIcon
                 icon={faTrash}
                 className="text-red-500 cursor-pointer"
-                onClick={() => deleteMember(member.id)}
-              />
+                onClick={() => confirmDelete(member)}
+                />
             </td>
           </tr>
         ))}
       </tbody>
     </table>
+
+
 
     {/* Responsive Cards for Small Screens */}
     <div className="sm:hidden">
@@ -219,8 +252,8 @@ const Employee = () => {
             <FontAwesomeIcon
               icon={faTrash}
               className="text-red-500 cursor-pointer"
-              onClick={() => deleteMember(member.id)}
-            />
+              onClick={() => confirmDelete(member)}
+              />
           </div>
           <p className="text-sm text-gray-300">Phone: {member.phone}</p>
           <p className="text-sm text-gray-300">Start Date: {member.startDate}</p>
@@ -242,8 +275,24 @@ const Employee = () => {
   </div>
 
   {/* Add Employee Modal */}
-  {isModalOpen && <AddEmployeeModal closeModal={closeModal} addNewMember={addNewMember} />}
+  {isModalOpen && (
+        <AddEmployeeModal
+        closeModal={closeModal} 
+        addNewMember={addNewMember} 
+        errorModal={modalError} 
+        errorMessage={modalError} 
+              />
+      )}
+        {/* Delete Confirmation Modal */}
+        <ConfirmDeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        itemName={memberToDelete?.name}
+      />
+
 </div>
+
   );
 };
 

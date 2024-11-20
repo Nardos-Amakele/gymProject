@@ -10,7 +10,6 @@ import {
 import PieChartComponent from "./PieChartComponent";
 import BarChartComponent from "./BarChartComponent";
 
-// Define a type for Member
 type Member = {
   id: string;
   fullName: string;
@@ -34,6 +33,8 @@ const getIcon = (label: string) => {
 
 const DashboardContent: React.FC = () => {
   const [pendingMembers, setPendingMembers] = useState<Member[]>([]);
+  const [selectedMember, setSelectedMember] = useState<Member | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchPendingMembers = async () => {
@@ -52,10 +53,13 @@ const DashboardContent: React.FC = () => {
 
     fetchPendingMembers();
   }, []);
-  const handleStatusChange = async (id: string) => {
+
+  const handleStatusChange = async () => {
+    if (!selectedMember) return;
+
     try {
       const response = await axios.put(
-        `http://localhost:5000/api/memberManagement/${id}/status`,
+        `http://localhost:5000/api/memberManagement/${selectedMember.id}/status`,
         {
           status: "active",
           startDate: new Date(),
@@ -63,12 +67,17 @@ const DashboardContent: React.FC = () => {
       );
 
       if (response.data.success) {
-        setPendingMembers((prev) => prev.filter((member) => member.id !== id));
+        setPendingMembers((prev) =>
+          prev.filter((member) => member.id !== selectedMember.id)
+        );
+        setIsModalOpen(false);
+        setSelectedMember(null);
       }
     } catch (error) {
       console.error("Error updating status:", error);
     }
   };
+
   return (
     <div className="flex flex-col lg:flex-row gap-6 min-h-screen">
       <div className="flex flex-col gap-6 lg:w-1/2">
@@ -107,7 +116,7 @@ const DashboardContent: React.FC = () => {
               <tbody>
                 {pendingMembers.map((member) => (
                   <tr key={member.id} className="hover:bg-[#333]">
-                    <td className="text-zinc-600 text-tiny md:text-small  font-medium py-2">
+                    <td className="text-zinc-600 text-tiny md:text-small font-medium py-2">
                       {member.fullName}
                     </td>
                     <td className="text-zinc-600 text-tiny md:text-small font-medium py-2">
@@ -117,11 +126,14 @@ const DashboardContent: React.FC = () => {
                       {member.status}
                     </td>
                     <td className="py-2">
-                      <input
-                        type="checkbox"
-                        className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
-                        onChange={() => handleStatusChange(member.id)}
-                      />
+                      <button
+                        className="w-5 h-5 flex justify-center items-center border-2 border-customBlue rounded text-customBlue hover:bg-customBlue hover:text-white transition"
+                        onClick={() => {
+                          setSelectedMember(member);
+                          setIsModalOpen(true);
+                        }}
+                      >
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -141,6 +153,38 @@ const DashboardContent: React.FC = () => {
           <BarChartComponent />
         </div>
       </div>
+
+      {/* Confirmation Modal */}
+      {isModalOpen && selectedMember && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-[#121212] p-6 rounded-lg text-white max-w-md w-full">
+            <h2 className="text-xl font-bold mb-4">
+              Confirm Status Update
+            </h2>
+            <p className="text-sm mb-6">
+              Are you sure you want to update the status of{" "}
+              <span className="font-semibold">
+                {selectedMember.fullName}
+              </span>{" "}
+              to active?
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 bg-gray-600 rounded hover:bg-gray-700 transition"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-customBlue text-white rounded hover:bg-customHoverBlue transition"
+                onClick={handleStatusChange}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
