@@ -36,22 +36,30 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ setActiveNav }) => {
           <Link
             key={item.name}
             href={item.path}
-            className={`w-full flex items-center px-4 font-extralight py-2 rounded-lg transition-all duration-200 ${
+            className={`relative w-full flex items-center px-4 font-extralight py-2 transition-all duration-200 ${
               activeNav === item.name
-                ? "bg-customBlue text-black"
-                : "hover:bg-customBlue/20 hover:text-customBlue"
+                ? "text-customBlue"
+                : "hover:text-customBlue"
             }`}
             onClick={() => {
               setActiveNav(item.name);
               setActive(item.name);
             }}
           >
+            {/* Right Blue Box */}
+            <span
+              className={`absolute right-0 top-0 h-full w-1 bg-customBlue rounded-l-md transition-all duration-200 ${
+                activeNav === item.name ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+              }`}
+            ></span>
+            {/* Icon */}
             <FontAwesomeIcon
               icon={iconMapping[item.icon]}
-              className={`text-2xl font-light px-2 py-1 rounded-lg ${
-                activeNav === item.name ? "text-black" : "text-customBlue"
+              className={`text-2xl font-light px-2 py-1 ${
+                activeNav === item.name ? "text-customBlue" : "text-white"
               }`}
             />
+            {/* Name */}
             <span className="ml-3">{item.name}</span>
           </Link>
         ))}
