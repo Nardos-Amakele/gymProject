@@ -1,18 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import logo from "@/assets/logos/logo.svg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTableCells, faPersonRunning, faCalendarCheck, faFlag, IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 interface UserSidebarProps {
   setActiveNav: (nav: string) => void;
 }
 
+const iconMapping: { [key: string]: IconDefinition } = {
+  faTableCells: faTableCells,
+  faPersonRunning: faPersonRunning,
+  faCalendarCheck: faCalendarCheck,
+  faFlag: faFlag,
+};
+
 const UserSidebar: React.FC<UserSidebarProps> = ({ setActiveNav }) => {
+  const [activeNav, setActive] = useState<string>("Dashboard");
+
   const navItems = [
-    { name: "Dashboard", path: "/en/user" },
-    { name: "Plan", path: "/en/user/plan" },
-    { name: "My plans", path: "/en/user/my-plans" },
-    { name: "Progress", path: "/en/user/progress" },
+    { name: "Dashboard", icon: "faTableCells", path: "/en/user" },
+    { name: "Plan", icon: "faPersonRunning", path: "/en/user/plan" },
+    { name: "My plans", icon: "faCalendarCheck", path: "/en/user/my-plans" },
+    { name: "Progress", icon: "faFlag", path: "/en/user/progress" },
   ];
 
   return (
@@ -25,10 +36,23 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ setActiveNav }) => {
           <Link
             key={item.name}
             href={item.path}
-            className="w-full text-left px-4 font-extralight py-2 hover:text-customBlue focus:text-customBlue"
-            onClick={() => setActiveNav(item.name)}
+            className={`w-full flex items-center px-4 font-extralight py-2 rounded-lg transition-all duration-200 ${
+              activeNav === item.name
+                ? "bg-customBlue text-black"
+                : "hover:bg-customBlue/20 hover:text-customBlue"
+            }`}
+            onClick={() => {
+              setActiveNav(item.name);
+              setActive(item.name);
+            }}
           >
-            {item.name}
+            <FontAwesomeIcon
+              icon={iconMapping[item.icon]}
+              className={`text-2xl font-light px-2 py-1 rounded-lg ${
+                activeNav === item.name ? "text-black" : "text-customBlue"
+              }`}
+            />
+            <span className="ml-3">{item.name}</span>
           </Link>
         ))}
       </nav>
