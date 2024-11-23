@@ -129,7 +129,7 @@ const GymMembersList = ({
       ) : (
         <>
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-bold text-black">Gym Members</h1>
+            <h1 className="hidden sm:block text-2xl font-bold text-black">Gym Members</h1>
 
             <div className="relative">
               <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -145,120 +145,213 @@ const GymMembersList = ({
             </div>
           </div>
           <div>
-            <table className="min-w-full text-left text-sm text-gray-400">
-              <thead className="text-gray-300">
-                <tr>
-                  <th className="px-6 py-4 border-b border-t border-[#D9D9D93B]">
-                    Name
-                  </th>
-                  <th className="px-6 py-4 border border-[#D9D9D93B]">
-                    Phone no.
-                  </th>
-                  <th className="px-6 py-4 border border-[#D9D9D93B]">
-                    Status
-                  </th>
-                  <th className="px-6 py-4 border-b border-t border-[#D9D9D93B]">
-                    Days Left{" "}
-                  </th>
-                  <th className="px-6 py-4 border-b border-t border-[#D9D9D93B]">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredMembers.length > 0 ? (
-                  filteredMembers.map((member, index) => (
-                    <tr
-                      key={member.id}
-                      className={`border-b border-[#D9D9D93B] ${member.status === "Expired" ? "bg-red-800" : ""
-                        } hover:bg-[#1d1d1d]`}
-                    >
-                      <td
-                        className="px-4 py-3 border-r border-b border-[#D9D9D93B] hover:underline cursor-pointer"
-                        onClick={() => handleNameClick(member)}
-                      >
-                        {member.fullName}
-                      </td>
-                      <td className="px-4 py-3 border border-[#D9D9D93B]">
-                        {member.phoneNumber}
-                      </td>
-                      <td className="px-4 py-3 border border-[#D9D9D93B]">
-                        {member.status}
-                      </td>
-                      <td className="px-4 py-3 border-b border-[#D9D9D93B]">
-                        {member.countDown}
-                      </td>
-                      <td className="relative px-4 py-3 border-b border-[#D9D9D93B]">
+  {/* Table for larger screens */}
+  <div className="hidden sm:block">
+    <table className="min-w-full text-left text-sm text-gray-400">
+      <thead className="text-gray-300">
+        <tr>
+          <th className="px-6 py-4 border-b border-t border-[#D9D9D93B]">
+            Name
+          </th>
+          <th className="px-6 py-4 border border-[#D9D9D93B]">
+            Phone no.
+          </th>
+          <th className="px-6 py-4 border border-[#D9D9D93B]">
+            Status
+          </th>
+          <th className="px-6 py-4 border-b border-t border-[#D9D9D93B]">
+            Days Left
+          </th>
+          <th className="px-6 py-4 border-b border-t border-[#D9D9D93B]">
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {filteredMembers.length > 0 ? (
+          filteredMembers.map((member, index) => (
+            <tr
+              key={member.id}
+              className={`border-b border-[#D9D9D93B] ${
+                member.status === "Expired" ? "bg-red-800" : ""
+              } hover:bg-[#1d1d1d]`}
+            >
+              <td
+                className="px-4 py-3 border-r border-b border-[#D9D9D93B] hover:underline cursor-pointer"
+                onClick={() => handleNameClick(member)}
+              >
+                {member.fullName}
+              </td>
+              <td className="px-4 py-3 border border-[#D9D9D93B]">
+                {member.phoneNumber}
+              </td>
+              <td className="px-4 py-3 border border-[#D9D9D93B]">
+                {member.status}
+              </td>
+              <td className="px-4 py-3 border-b border-[#D9D9D93B]">
+                {member.countDown}
+              </td>
+              <td className="relative px-4 py-3 border-b border-[#D9D9D93B]">
+                <button
+                  onClick={() => toggleDropdown(index)}
+                  className="text-gray-300 hover:text-white"
+                >
+                  ⋮
+                </button>
+                {dropdownIndex === index && (
+                  <div className="absolute left-0 w-32 bg-gray-700 rounded-md shadow-lg z-50">
+                    {member.status === "active" ? (
+                      <>
                         <button
-                          onClick={() => toggleDropdown(index)}
-                          className="text-gray-300 hover:text-white"
+                          onClick={() =>
+                            handleDropdownAction("Deactivate", member)
+                          }
+                          className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
                         >
-                          ⋮
+                          Deactivate
                         </button>
-                        {dropdownIndex === index && (
-                          <div className="absolute left-0 w-32 bg-gray-700 rounded-md shadow-lg z-50">
-                            {member.status === "active" ? (
-                              <>
-                                <button
-                                  onClick={() =>
-                                    handleDropdownAction("Deactivate", member)
-                                  }
-                                  className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
-                                >
-                                  Deactivate
-                                </button>
-                                <button
-                                  onClick={() =>
-                                    handleDropdownAction("Freeze", member)
-                                  }
-                                  className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
-                                >
-                                  Freeze
-                                </button>
-                              </>
-                            ) : member.status === "inactive" || "pending" ? (
-                              <button
-                                onClick={() =>
-                                  handleDropdownAction("Activate", member)
-                                }
-                                className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
-                              >
-                                Activate
-                              </button>
-                            ) : member.status === "Freeze" ? (
-                              <button
-                                onClick={() =>
-                                  handleDropdownAction("Activate", member)
-                                }
-                                className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
-                              >
-                                Unfreeze
-                              </button>
-                            ) : null}
-                            {/* Delete Button */}
-                            <button
-                              onClick={() =>
-                                handleDropdownAction("Delete", member)
-                              }
-                              className="w-full text-left px-4 py-2 text-sm text-white hover:bg-red-600"
-                            >
-                              Delete
-                            </button>
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={5} className="px-4 py-2 text-center">
-                      No members found
-                    </td>
-                  </tr>
+                        <button
+                          onClick={() =>
+                            handleDropdownAction("Freeze", member)
+                          }
+                          className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
+                        >
+                          Freeze
+                        </button>
+                      </>
+                    ) : member.status === "inactive" || "pending" ? (
+                      <button
+                        onClick={() =>
+                          handleDropdownAction("Activate", member)
+                        }
+                        className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
+                      >
+                        Activate
+                      </button>
+                    ) : member.status === "Freeze" ? (
+                      <button
+                        onClick={() =>
+                          handleDropdownAction("Activate", member)
+                        }
+                        className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
+                      >
+                        Unfreeze
+                      </button>
+                    ) : null}
+                    {/* Delete Button */}
+                    <button
+                      onClick={() =>
+                        handleDropdownAction("Delete", member)
+                      }
+                      className="w-full text-left px-4 py-2 text-sm text-white hover:bg-red-600"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 )}
-              </tbody>
-            </table>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={5} className="px-4 py-2 text-center">
+              No members found
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  </div>
+
+  {/* Cards for smaller screens */}
+  <div className="block sm:hidden">
+    {filteredMembers.length > 0 ? (
+      filteredMembers.map((member, index) => (
+        <div
+          key={member.id}
+          className={`rounded-lg w-[15rem] p-4 mb-4 ${
+            member.status === "Expired" ? "bg-red-800" : "bg-gray-800"
+          }`}
+        >
+          <div
+            className="text-white font-bold hover:underline cursor-pointer mb-2"
+            onClick={() => handleNameClick(member)}
+          >
+            {member.fullName}
           </div>
+          <div className="text-sm text-gray-400 mb-1">
+            <strong>Phone no.:</strong> {member.phoneNumber}
+          </div>
+          <div className="text-sm text-gray-400 mb-1">
+            <strong>Status:</strong> {member.status}
+          </div>
+          <div className="text-sm text-gray-400 mb-3">
+            <strong>Days Left:</strong> {member.countDown}
+          </div>
+          <button
+            onClick={() => toggleDropdown(index)}
+            className="text-gray-300  hover:text-white"
+          >
+            ⋮
+          </button>
+          {dropdownIndex === index && (
+            <div className="mt-2 w-full bg-gray-700 rounded-md shadow-lg z-50">
+              {member.status === "active" ? (
+                <>
+                  <button
+                    onClick={() =>
+                      handleDropdownAction("Deactivate", member)
+                    }
+                    className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
+                  >
+                    Deactivate
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleDropdownAction("Freeze", member)
+                    }
+                    className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
+                  >
+                    Freeze
+                  </button>
+                </>
+              ) : member.status === "inactive" || "pending" ? (
+                <button
+                  onClick={() =>
+                    handleDropdownAction("Activate", member)
+                  }
+                  className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
+                >
+                  Activate
+                </button>
+              ) : member.status === "Freeze" ? (
+                <button
+                  onClick={() =>
+                    handleDropdownAction("Activate", member)
+                  }
+                  className="w-full text-left px-4 py-2 text-sm text-white hover:bg-gray-600"
+                >
+                  Unfreeze
+                </button>
+              ) : null}
+              {/* Delete Button */}
+              <button
+                onClick={() =>
+                  handleDropdownAction("Delete", member)
+                }
+                className="w-full text-left px-4 py-2 text-sm text-white hover:bg-red-600"
+              >
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
+      ))
+    ) : (
+      <div className="text-center text-gray-400">No members found</div>
+    )}
+  </div>
+</div>
         </>
       )}
     </div>

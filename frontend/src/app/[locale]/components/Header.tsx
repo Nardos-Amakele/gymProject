@@ -20,7 +20,6 @@ const Header: React.FC = () => {
       <div className="w-40">
         <Image src={logo} alt="logo" className=""></Image>
       </div>
-      <LanguageSwitcher />
 
       {/* Mobile Menu Icon */}
       <div className="relative md:hidden z-20">
@@ -102,7 +101,9 @@ const Header: React.FC = () => {
 
       {/* Sign-up and Login Buttons for Desktop */}
       <div className="hidden md:flex">
-        <button className={`${styles.customButton}`}>
+      <LanguageSwitcher />
+
+        <button className={`${styles.customButton} `}>
           <Link href="/Register">{t('home_Page.nav.links.5')}</Link> {/* Translation for SignUp */}
         </button>
         <button className="bg-black py-[0.38rem] px-[1.8rem] rounded-br-[1rem] font-bold text-customBlue hover:shadow-[rgba(0, 0, 0, .3) 2px 8px 8px -5px] hover:translate-y-1">
