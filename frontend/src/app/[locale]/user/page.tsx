@@ -1,7 +1,7 @@
 'use client';
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import LoadingPage from './loading';
-// const DashboardContent = lazy(() => import("./components/DashboardContent")); 
+const DashboardContent = lazy(() => import("./components/UserDashBoardContent")); 
 
 const UserDashboard: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -14,7 +14,7 @@ const UserDashboard: React.FC = () => {
 
   return (
     <Suspense >
-        <h1>Hi</h1>
+        <DashboardContent />
     </Suspense>
   );
 };
