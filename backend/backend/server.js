@@ -17,7 +17,6 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// Use this middleware to serve static files from the "uploads" directory
 app.use("/uploads", express.static("uploads"));
 
 app.use("/api/employees", require("./routes/employeesRoutes"));
@@ -29,7 +28,8 @@ app.use("/api/members", require("./routes/membersRoutes"));
 app.use("/api/memberManagement", require("./routes/memberManagementRoutes"));
 app.use("/api/dashboard", require("./routes/dashboardRoutes"));
 app.use("/api/inventory", require("./routes/inventoryRoutes"));
-
+app.use("/api/workouts", require('./routes/workoutRoutes'));
+app.use("/api/exercises", require("./routes/exerciseRoutes"))
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));

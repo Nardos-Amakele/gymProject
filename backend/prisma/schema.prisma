@@ -5,36 +5,36 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["native", "debian-openssl-1.0.x"]
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL") 
+  url      = env("DATABASE_URL")
 }
-
 
 model Employee {
-  id         String   @id @default(uuid())
-  name       String
-  phone      String   
-  startDate  String  
-  jobType    String
-  photoUrl   String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-}
-model Product {
   id        String   @id @default(uuid())
   name      String
-  price     Float
-  category  String
+  phone     String
+  startDate String
+  jobType   String
+  photoUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  price       Float
+  category    String
   description String
-  imageUrl String?
-  orders    Order[]  
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  imageUrl    String?
+  orders      Order[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model Order {
@@ -45,26 +45,29 @@ model Order {
   phoneNumber  String
   quantity     Int
   status       String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }
+
 model Stock {
-  id       String      @id @default(uuid())
-  itemName String
-  category String
-  quantity Int      @default(0)
+  id        String   @id @default(uuid())
+  itemName  String
+  category  String
+  quantity  Int      @default(0)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 model Transaction {
-  id        String   @id @default(uuid()) 
-  name      String   
-  category  String   
-  amount    Float    
-  type      String   
-  createdAt DateTime @default(now()) 
-  updatedAt DateTime @updatedAt       
+  id        String   @id @default(uuid())
+  name      String
+  category  String
+  amount    Float
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
+
 model Service {
   id          String   @id @default(uuid())
   name        String
@@ -77,22 +80,22 @@ model Service {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  users       User[]
+  users User[]
 }
 
 model User {
-  id                String      @id @default(uuid())
+  id                String       @id @default(uuid())
   fullName          String
   gender            String
-  phoneNumber       String      @unique
+  phoneNumber       String       @unique
   email             String?
   address           String
   dob               DateTime
   emergencyContact  String
-  firstRegisteredAt DateTime    @default(now())
-  startDate         DateTime    @default(now())
-  totalAttendance   Int         @default(0)
-  remainingDays     Int         @default(0)
+  firstRegisteredAt DateTime     @default(now())
+  startDate         DateTime     @default(now())
+  totalAttendance   Int          @default(0)
+  remainingDays     Int          @default(0)
   countDown         Int?
   height            Float?
   weight            Float?
@@ -100,22 +103,93 @@ model User {
   healthConditions  Json?
   level             String?
   goal              String?
-  status            String      @default("pending")
+  status            String       @default("pending")
   freezeDate        DateTime?
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
   serviceId         String?
-  service           Service?    @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  service           Service?     @relation(fields: [serviceId], references: [id], onDelete: SetNull)
   attendance        Attendance[]
 
-  profileImageUrl   String?     
+  profileImageUrl String?
 }
 
 model Attendance {
-  id        String   @id @default(uuid())
-  memberId  String
-  date      DateTime @default(now())
-  user      User     @relation(fields: [memberId], references: [id])
+  id       String   @id @default(uuid())
+  memberId String
+  date     DateTime @default(now())
+  user     User     @relation(fields: [memberId], references: [id])
 
   @@unique([memberId, date])
+}
+
+model Workout {
+  id             String     @id @default(uuid())
+  name           String     @unique
+  difficulty     String
+  mainGoal       String
+  workoutType    String
+  duration       Int
+  daysPerWeek    Int
+  timePerWorkout Int
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @default(now()) @updatedAt
+  targetGender   String?
+  exercises      Exercise[] @relation("WorkoutExercises")
+}
+
+model Exercise {
+  id          String      @id @default(cuid())
+  slug        String      @unique
+  name        String      @unique
+  description String
+  reps        Int?
+  sets        Int?
+  duration    Int
+  videoUrl    String?
+  focusArea   FocusArea?
+  equipments  Equipment[]
+  workouts    Workout[]   @relation("WorkoutExercises")
+}
+
+enum FocusArea {
+  Chest
+  Back
+  Legs
+  Arms
+  Core
+  Shoulders
+  FullBody
+  Other
+}
+
+model Equipment {
+  id         String   @id @default(cuid())
+  name       String
+  exerciseId String
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+}
+
+model Meal {
+  id           String       @id @default(cuid())
+  name         String
+  description  String
+  calories     Int
+  protein      Float?
+  carbs        Float?
+  fats         Float?
+  category     String
+  ingredients  Ingredient[]
+  instructions String
+  imageUrl     String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+}
+
+model Ingredient {
+  id       String  @id @default(cuid())
+  name     String
+  quantity String?
+  mealId   String
+  meal     Meal    @relation(fields: [mealId], references: [id])
 }
