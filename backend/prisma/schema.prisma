@@ -126,6 +126,7 @@ model Attendance {
 model Workout {
   id             String     @id @default(uuid())
   name           String     @unique
+  slug           String
   difficulty     String
   mainGoal       String
   workoutType    String
@@ -161,6 +162,8 @@ enum FocusArea {
   Shoulders
   FullBody
   Other
+  UpperBody
+  LowerBody
 }
 
 model Equipment {
@@ -170,20 +173,38 @@ model Equipment {
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
 }
 
+model MealPlan {
+  id          String   @id @default(cuid())
+  slug        String
+  name        String
+  description String
+  calories    Int
+  protein     Float?
+  carbs       Float?
+  fats        Float?
+  category    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Meals       Meal[]   @relation("MealPlanMeal")
+}
+
 model Meal {
-  id           String       @id @default(cuid())
-  name         String
-  description  String
-  calories     Int
-  protein      Float?
-  carbs        Float?
-  fats         Float?
-  category     String
-  ingredients  Ingredient[]
-  instructions String
-  imageUrl     String?
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  id              String       @id @default(cuid())
+  slug            String
+  name            String
+  description     String
+  category        String
+  ingredients     Ingredient[]
+  instructions    String
+  calories        MealCategory
+  vegan           Boolean
+  preparationTime Int
+  protein         Float?
+  carbs           Float?
+  fats            Float?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+  MealPlans       MealPlan[]   @relation("MealPlanMeal")
 }
 
 model Ingredient {
@@ -192,4 +213,12 @@ model Ingredient {
   quantity String?
   mealId   String
   meal     Meal    @relation(fields: [mealId], references: [id])
+}
+
+enum MealCategory {
+  Breakfast
+  lunch
+  dinner
+  snack
+  other
 }
