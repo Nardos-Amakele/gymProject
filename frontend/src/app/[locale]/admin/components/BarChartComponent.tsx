@@ -39,7 +39,7 @@ export function BarChartComponent() {
       setChartData(weeklyData);
     } else if (selectedPeriod === "Monthly") {
       const monthlyData = data.monthly.map((item: any) => ({
-        day: new Date(item.date).getDate(), // Extract day number
+        day: new Date(item.date).getDate(), 
         attendance: item.count,
       }));
       setChartData(monthlyData);
@@ -71,8 +71,7 @@ export function BarChartComponent() {
         <select
   value={selectedPeriod}
   onChange={handlePeriodChange}
-  className="text-gray-400 bg-[#121212] border border-gray-500 px-3 py-1 rounded-full text-sm cursor-pointer
-  focus:outline-none focus:ring-[0.5px] focus:ring-customBlue-500 focus:border-customBlue-500
+  className="text-gray-400 bg-[#121212] border border-gray-500 px-3 py-1 rounded-full text-sm cursor-pointer] focus:ring-customBlue-500 focus:border-customBlue-500
   hover:bg-gray-800 active:bg-gray-700"
 >
   <option className="bg-[#121212] text-white hover:bg-gray-800">Weekly</option>
