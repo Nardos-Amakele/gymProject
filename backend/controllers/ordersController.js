@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const prisma = require("../../prisma/client");
+const prisma = require("../prisma/client");
 
 // Get all orders with aggregated quantities for the dashboard
 const getOrders = asyncHandler(async (req, res) => {

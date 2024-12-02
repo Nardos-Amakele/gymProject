@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const prisma = require("../../prisma/client");
+const prisma = require("../prisma/client");
 
 const getExercises = asyncHandler(async (req, res) => {
     try {

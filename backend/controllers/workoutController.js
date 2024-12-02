@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const prisma = require("../../prisma/client");
+const prisma = require("../prisma/client");
 
 const getWorkouts = asyncHandler(async (req, res) => {
     const workouts = await prisma.workout.findMany({include: {exercises: true}});

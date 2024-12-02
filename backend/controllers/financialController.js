@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const prisma = require("../../prisma/client");
+const prisma = require("../prisma/client");
 
 // Get all financial transactions
 const getTransactions = asyncHandler(async (req, res) => {

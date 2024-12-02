@@ -1,6 +1,5 @@
-const express = require("express");
 const asyncHandler = require("express-async-handler");
-const prisma = require("../../prisma/client");
+const prisma = require("../prisma/client");
 
 // Helper function for card data (total members, employees, and new members)
 const getCardData = asyncHandler(async (req, res) => {
