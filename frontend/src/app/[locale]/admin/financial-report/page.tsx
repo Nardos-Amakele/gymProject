@@ -72,201 +72,206 @@ const FinancialReport = () => {
       setError("All fields are required!");
       return;
     }
-
+    
     axios
-      .post(apiUrl, { name, category, amount: transactionAmount, type })
+      .post(apiUrl, {
+        name,
+        category,
+        amount: transactionAmount.toString(),
+        type,
+      })
       .then((response) => {
-        setTransactions((prev) => [...prev, response.data.transaction]);
-        setChartData(calculateMonthlyData([...transactions, response.data.transaction]));
+        const addedTransaction = response.data.data;
+        setTransactions((prev) => [...prev, addedTransaction]);
+
+        if (type === "Income") {
+          setIncome((prev) => prev + transactionAmount);
+          setNet((prev) => prev + transactionAmount);
+        } else {
+          setExpense((prev) => prev + transactionAmount);
+          setNet((prev) => prev - transactionAmount);
+        }
+
+        setChartData(calculateMonthlyData([...transactions, addedTransaction]));
+
         setNewTransaction({ name: "", category: "", amount: "", type: "Expense" });
         setError("");
       })
       .catch((error) => {
         console.error("Error adding transaction:", error);
-        setError("Failed to add transaction.");
+        setError("Failed to add transaction. Please try again.");
       });
   };
 
   return (
-<div className="text-white p-4 md:p-6 bg-black">
-  {error && <div className="text-red-500 mb-4">{error}</div>}
-  
-  {/* Chart Section */}
-  <div className="p-4 bg-[#121212] rounded-lg my-4">
-    <LineChart data={chartData} width={970} height={300}>
-      <CartesianGrid stroke="#333" strokeDasharray="4 4" strokeOpacity={0.3} />
-      <Tooltip
-        contentStyle={{
-          backgroundColor: "#121212",
-          border: "1px solid #333",
-          borderRadius: "8px",
-        }}
-        itemStyle={{ color: "#00bfff", fontSize: "12px" }}
-      />
-      <Line
-        type="monotone"
-        dataKey="amount"
-        stroke="#00bfff"
-        dot={{ r: 5, fill: "#00bfff" }}
-      />
-    </LineChart>
-  </div>
-  
-  {/* Summary Section */}
-  <div className="flex flex-col md:flex-row justify-between items-center text-lg mt-4 p-4 bg-[#121212] rounded-lg gap-4">
-    <div className="text-sm font-extralight">
-      Income: <span className="text-xl font-bold">{income} Birr</span>
-    </div>
-    <div className="text-sm font-extralight">
-      Expense: <span className="text-xl font-bold">{expense} Birr</span>
-    </div>
-    <div className="text-sm font-extralight">
-      Net: <span className="text-xl font-bold">{net} Birr</span>
-    </div>
-  </div>
-
-  {/* Main Content */}
-  <div className="flex flex-col lg:flex-row gap-6 mt-6">
-    {/* Transactions Table */}
-    <div className="w-full lg:flex-1">
-      <div className="overflow-x-auto bg-[#121212] rounded-lg">
-        <table className="min-w-full text-white">
-          <thead>
-            <tr className="p-4 bg-[#1c1c1c]">
-              <th className="px-4 py-2 text-left text-sm font-semibold">Name</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold">Date</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold">Category</th>
-              <th className="px-4 py-2 text-left text-sm font-semibold">Amount</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((transaction, index) => (
-              <tr
-                key={index}
-                className="font-extralight text-sm cursor-pointer hover:bg-zinc-800"
-                onClick={() => handleRowClick(transaction)}
-              >
-                <td
-                  className={`px-4 py-2 ${
-                    transaction.type === "Expense" ? "text-red-500" : "text-green-500"
-                  }`}
-                >
-                  {transaction.name}
-                </td>
-                <td
-                  className={`px-4 py-2 ${
-                    transaction.type === "Expense" ? "text-red-500" : "text-green-500"
-                  }`}
-                >
-                  {new Date(transaction.createdAt).toLocaleDateString()}
-                </td>
-                <td
-                  className={`px-4 py-2 ${
-                    transaction.type === "Expense" ? "text-red-500" : "text-green-500"
-                  }`}
-                >
-                  {transaction.category}
-                </td>
-                <td
-                  className={`px-4 py-2 ${
-                    transaction.type === "Expense" ? "text-red-500" : "text-green-500"
-                  }`}
-                >
-                  {transaction.amount} Birr
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="text-white p-6 bg-black">
+      {error && <div className="text-red-500 mb-4">{error}</div>}
+      {/* Chart Section */}
+      <div className="p-4 bg-[#121212] rounded-lg my-4">
+        <LineChart data={chartData} width={970} height={300}>
+          <CartesianGrid stroke="#333" strokeDasharray="4 4" strokeOpacity={0.3} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#121212",
+              border: "1px solid #333",
+              borderRadius: "8px",
+            }}
+            itemStyle={{ color: "#00bfff", fontSize: "12px" }}
+          />
+          <Line
+            type="monotone"
+            dataKey="amount"
+            stroke="#00bfff"
+            dot={{ r: 5, fill: "#00bfff" }}
+          />
+        </LineChart>
       </div>
-    </div>
-
-    {/* New Transaction Form */}
-    <div className="w-full lg:flex-1 p-4 bg-[#121212] rounded-lg">
-      <div className="font-bold text-sm mb-2">New Transaction</div>
-      <div className="flex flex-col gap-2 mb-2 text-sm font-extralight">
-        <input
-          type="text"
-          placeholder="Name"
-          name="name"
-          value={newTransaction.name}
-          onChange={handleInputChange}
-          className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-        />
-        <input
-          type="text"
-          placeholder="Category"
-          name="category"
-          value={newTransaction.category}
-          onChange={handleInputChange}
-          className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-        />
-        <input
-          type="number"
-          placeholder="Amount"
-          name="amount"
-          value={newTransaction.amount}
-          onChange={handleInputChange}
-          className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-        />
-      </div>
-      <div className="flex justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <h2 className="text-sm font-extralight">Type:</h2>
-          <label className="text-sm font-extralight flex items-center gap-2">
-            <input
-              type="radio"
-              name="type"
-              value="Expense"
-              checked={newTransaction.type === "Expense"}
-              onChange={handleInputChange}
-              className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
-            />
-            Expense
-          </label>
-          <label className="text-sm font-extralight flex items-center gap-2">
-            <input
-              type="radio"
-              name="type"
-              value="Income"
-              checked={newTransaction.type === "Income"}
-              onChange={handleInputChange}
-              className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
-            />
-            Income
-          </label>
+      <div className="flex justify-between items-center text-lg mt-4 p-4 bg-[#121212] rounded-lg">
+        <div className="text-sm font-extralight">
+          Income: <span className="text-xl font-bold">{income} Birr</span>
         </div>
-        <button
-          className="px-6 py-2 rounded bg-customBlue text-sm text-black font-bold"
-          onClick={addTransaction}
-        >
-          Add
-        </button>
+        <div className="text-sm font-extralight">
+          Expense: <span className="text-xl font-bold">{expense} Birr</span>
+        </div>
+        <div className="text-sm font-extralight">
+          Net: <span className="text-xl font-bold">{net} Birr</span>
+        </div>
       </div>
-    </div>
-  </div>
 
-  {isModalOpen && (
-    <TransactionModal
-      transaction={selectedTransaction}
-      closeModal={() => setIsModalOpen(false)}
-      updateTransactions={(updatedTransaction, deleted = false) => {
-        console.log("Updated Transaction:", updatedTransaction);
-        if (deleted) {
-          const updatedList = transactions.filter((t) => t.id !== updatedTransaction.id);
-          setTransactions(updatedList);
-          setChartData(calculateMonthlyData(updatedList));
-        } else {
-          const updatedList = transactions.map((t) =>
-            t.id === updatedTransaction.id ? updatedTransaction : t
-          );
-          setTransactions(updatedList);
-          setChartData(calculateMonthlyData(updatedList));
-        }
-      }}
-    />
-  )}
-</div>
+      <div className="bg-black flex flex-col lg:flex-row gap-6 mt-6">
+        <div className="w-full lg:flex-1">
+          <table className="min-w-full text-white">
+            <thead>
+              <tr className="p-4 bg-[#121212] rounded-lg">
+                <th className="px-4 py-2 text-left text-sm font-semibold">Name</th>
+                <th className="px-4 py-2 text-left text-sm font-semibold">Date</th>
+                <th className="px-4 py-2 text-left text-sm font-semibold">Category</th>
+                <th className="px-4 py-2 text-left text-sm font-semibold">Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactions.map((transaction, index) => (
+                <tr
+                  key={index}
+                  className="font-extralight text-sm cursor-pointer hover:bg-zinc-800"
+                  onClick={() => handleRowClick(transaction)}
+                >
+                  <td
+                    className={`px-4 py-2 ${
+                      transaction.type === "Expense" ? "text-red-500" : "text-green-500"
+                    }`}
+                  >
+                    {transaction.name}
+                  </td>
+                  <td
+                    className={`px-4 py-2 ${
+                      transaction.type === "Expense" ? "text-red-500" : "text-green-500"
+                    }`}
+                  >
+                    {new Date(transaction.createdAt).toLocaleDateString()}
+                  </td>
+                  <td
+                    className={`px-4 py-2 ${
+                      transaction.type === "Expense" ? "text-red-500" : "text-green-500"
+                    }`}
+                  >
+                    {transaction.category}
+                  </td>
+                  <td
+                    className={`px-4 py-2 ${
+                      transaction.type === "Expense" ? "text-red-500" : "text-green-500"
+                    }`}
+                  >
+                    {transaction.amount} Birr
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="w-full lg:flex-1 p-4 bg-[#121212] rounded-lg">
+          <div className="font-bold text-sm mb-2">New Transaction</div>
+          <div className="flex flex-col gap-2 mb-2 text-sm font-extralight">
+            <input
+              type="text"
+              placeholder="Name"
+              name="name"
+              value={newTransaction.name}
+              onChange={handleInputChange}
+              className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+            />
+            <input
+              type="text"
+              placeholder="Category"
+              name="category"
+              value={newTransaction.category}
+              onChange={handleInputChange}
+              className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+            />
+            <input
+              type="number"
+              placeholder="Amount"
+              name="amount"
+              value={newTransaction.amount}
+              onChange={handleInputChange}
+              className="px-3 py-2 rounded bg-[#1c1c1c] w-full focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+            />
+          </div>
+          <div className="flex justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <h2 className="text-sm font-extralight">Type:</h2>
+              <label className="text-sm font-extralight flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="type"
+                  value="Expense"
+                  checked={newTransaction.type === "Expense"}
+                  onChange={handleInputChange}
+                  className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
+                />
+                Expense
+              </label>
+              <label className="text-sm font-extralight flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="type"
+                  value="Income"
+                  checked={newTransaction.type === "Income"}
+                  onChange={handleInputChange}
+                  className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
+                />
+                Income
+              </label>
+            </div>
+            <button
+              className="px-6 py-2 rounded bg-customBlue text-sm text-black font-bold"
+              onClick={addTransaction}
+            >
+              Add
+            </button>
+          </div>
+        </div>
+      </div>
+      {isModalOpen && (
+        <TransactionModal
+          transaction={selectedTransaction}
+          closeModal={() => setIsModalOpen(false)}
+          updateTransactions={(updatedTransaction, deleted = false) => {
+            console.log("Updated Transaction:", updatedTransaction);
+            if (deleted) {
+              setTransactions(transactions.filter((t) => t.id !== updatedTransaction.id));
+              setChartData(calculateMonthlyData(transactions.filter((t) => t.id !== updatedTransaction.id)));
+            } else {
+              setTransactions((prev) =>
+                prev.map((t) => (t.id === updatedTransaction.id ? updatedTransaction : t))
+              );
+              setChartData(calculateMonthlyData(transactions));
+            }
+          }}
+        />
+      )}
+    </div>
   );
 };
 

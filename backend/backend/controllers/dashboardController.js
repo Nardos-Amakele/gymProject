@@ -34,6 +34,7 @@ const getPendingMembers = asyncHandler(async (req, res) => {
           name: true,
         },
       },
+      status: true,
     },
   });
 

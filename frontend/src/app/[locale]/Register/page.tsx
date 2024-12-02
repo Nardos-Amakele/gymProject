@@ -3,9 +3,10 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import axios from "axios";
-import { Link } from "../../../i18n/routing";
 import WebcamCapture from "./PhotoUpload";
 import PhotoUploadModal from "./PhotoUploadModal";
+import TermsAndConditionsModal from "../components/TermsAndConditionsModal"
+import LoadingPage from "./loading";
 
 
 interface Service {
@@ -14,7 +15,7 @@ interface Service {
   price: string;
   benefits: string[];
   category: string;
-  description?: string[]; 
+  description?: string[];
 }
 
 const Register = () => {
@@ -42,6 +43,12 @@ const Register = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUsingCamera, setIsUsingCamera] = useState(false);
   const [photo, setPhoto] = useState<string | null>(null);
+  const [isTermsModalOpen, setIsTermsModalOpen] = useState(false);
+
+  const openTermsModal = () => setIsTermsModalOpen(true);
+  const closeTermsModal = () => setIsTermsModalOpen(false);
+
+
 
   useEffect(() => {
     axios
@@ -156,39 +163,39 @@ const Register = () => {
     if (option === "camera") {
       setIsUsingCamera(true);
     } else {
-      document.getElementById('fileInput')?.click(); 
+      document.getElementById('fileInput')?.click();
     }
-    setIsModalOpen(false); 
-    };
+    setIsModalOpen(false);
+  };
 
-    const handleCapture = (capturedPhoto: string | null) => {
-      setPhoto(capturedPhoto);
+  const handleCapture = (capturedPhoto: string | null) => {
+    setPhoto(capturedPhoto);
+    setFormData((prev) => ({
+      ...prev,
+      profileImage: capturedPhoto,
+    }));
+    setIsModalOpen(false);
+  };
+
+  const closeModal = () => {
+    setIsUsingCamera(false);
+    setIsModalOpen(false);
+  };
+
+  const handleGallerySelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      const selectedFile = event.target.files[0];
       setFormData((prev) => ({
         ...prev,
-        profileImage: capturedPhoto,
+        profileImage: selectedFile,
       }));
-      setIsModalOpen(false);
-    };
-  
-    const closeModal = () => {
-      setIsUsingCamera(false);
-      setIsModalOpen(false);
-    };
-  
-    const handleGallerySelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (event.target.files && event.target.files[0]) {
-        const selectedFile = event.target.files[0];
-        setFormData((prev) => ({
-          ...prev,
-          profileImage: selectedFile,
-        }));
-        setPhoto(URL.createObjectURL(selectedFile));
-      }
-    };
-    if (isLoading) {
+      setPhoto(URL.createObjectURL(selectedFile));
+    }
+  };
+  if (isLoading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
-        <p className="text-white">Loading...</p>
+        <LoadingPage />
       </div>
     );
   }
@@ -246,7 +253,7 @@ const Register = () => {
               {/* Upload Photo Section */}
               <div className="">
                 <button
-                  onClick={(e) => {e.preventDefault(); setIsModalOpen(true)}}
+                  onClick={(e) => { e.preventDefault(); setIsModalOpen(true) }}
                   className="p-3 bg-customBlue text-black rounded-lg"
                 >
                   Upload Photo
@@ -254,14 +261,14 @@ const Register = () => {
 
                 {/* Modal for photo upload options */}
                 <PhotoUploadModal
-    isOpen={isModalOpen}
-    onClose={closeModal}
-    onOptionSelect={handleOptionSelect}
+                  isOpen={isModalOpen}
+                  onClose={closeModal}
+                  onOptionSelect={handleOptionSelect}
                 />
 
                 {/* Webcam capture or gallery selection */}
                 {isUsingCamera ? (
-                  <WebcamCapture onCapture={handleCapture}  onClose={closeModal} />
+                  <WebcamCapture onCapture={handleCapture} onClose={closeModal} />
                 ) : (
                   <input
                     id="fileInput"
@@ -326,8 +333,8 @@ const Register = () => {
                     key={category}
                     onClick={() => setSelectedCategory(category)}
                     className={`py-2 px-4 rounded-md ${selectedCategory === category
-                        ? 'bg-white text-black'
-                        : 'bg-customBlue text-black'
+                      ? 'bg-white text-black'
+                      : 'bg-customBlue text-black'
                       }`}
                   >
                     {category}
@@ -340,8 +347,8 @@ const Register = () => {
                     <label
                       key={service.id}
                       className={`relative flex items-center p-4 border rounded-lg cursor-pointer transition-all duration-200 ${selectedPackage && selectedPackage.includes(service.name)
-                          ? 'border-customBlue shadow-md'
-                          : 'border-zinc-600'
+                        ? 'border-customBlue shadow-md'
+                        : 'border-zinc-600'
                         } hover:border-customBlue`}
                       onClick={() => handlePackageSelect(service)}
                     >
@@ -371,23 +378,27 @@ const Register = () => {
                     </label>
                   ))
                 ) : (
-                  <p className="text-gray-500">Loading services...</p>
+                  <LoadingPage />
                 )}
               </div>
             </div>
             <label className="text-gray-400">
               <input
+                className="form-checkbox m-1 mb-[-2px]"
                 type="checkbox"
                 checked={isTermsChecked}
                 onChange={(e) => setIsTermsChecked(e.target.checked)}
               />{' '}
               I agree to the{' '}
-              <Link href="/terms" className="underline hover:text-customBlue">
-                terms and conditions
-              </Link>
-            </label>
+              <button onClick={openTermsModal} className="mr-6 hover:underline hover:text-customBlue">
+                  Terms and conditions
+                </button>
+                              {/* Modal component */}
+              <TermsAndConditionsModal isOpen={isTermsModalOpen} onClose={closeTermsModal} />
+
+              </label>
           </div>
-        </div>
+          </div>
       </div>
     </div>
   );
