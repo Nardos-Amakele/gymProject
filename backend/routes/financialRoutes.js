@@ -3,7 +3,7 @@ const {
   getTransactions,
   addTransaction,
   deleteTransaction,
-  getTransactionDataForGraph,
+  // getTransactionDataForGraph,
 } = require("../controllers/financialController");
 
 const router = express.Router();
