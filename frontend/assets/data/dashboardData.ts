@@ -13,7 +13,6 @@ export const dashboardData = {
       { name: "Tewodros Abebe", phone: "0987654321", type: "Premium" },
       { name: "Tewodros Abebe", phone: "0987654321", type: "Premium" },
       { name: "Tewodros Abebe", phone: "0987654321", type: "Premium" },
-      // Add more mock data here
     ],
     attendance: [10, 30, 25, 5, 35, 40, 15], 
     categories: [
