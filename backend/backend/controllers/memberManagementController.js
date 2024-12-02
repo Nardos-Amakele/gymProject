@@ -1,17 +1,14 @@
 const asyncHandler = require("express-async-handler");
 const prisma = require("../../prisma/client");
-const bwipjs = require("bwip-js");
 
 // Helper function to calculate days between two dates
 const calculateDaysBetween = (date1, date2) =>
   Math.ceil((date2 - date1) / (1000 * 3600 * 24));
 
 // Helper function to adjust start date for frozen duration
-const adjustStartDateForFreeze = (startDate, freezeDate) => {
-  if (!freezeDate) return startDate;
-  const frozenDuration = calculateDaysBetween(new Date(freezeDate), new Date());
-  const adjustedStartDate = new Date(startDate);
-  adjustedStartDate.setDate(adjustedStartDate.getDate() + frozenDuration);
+const adjustStartDateForFreeze = (preFreezeDaysCount) => {
+  const adjustedStartDate = new Date();
+  adjustedStartDate.setDate(adjustedStartDate.getDate() - preFreezeDaysCount);
   return adjustedStartDate;
 };
 
@@ -44,24 +41,6 @@ const fetchUserWithDetails = async (userId) => {
   });
 };
 
-// Generate barcode
-const generateBarcode = async (userId) => {
-  try {
-    const barcodeBuffer = await bwipjs.toBuffer({
-      bcid: "code128",
-      text: userId,
-      scale: 3,
-      height: 10,
-      includetext: true,
-      textxalign: "center",
-    });
-    return `data:image/png;base64,${barcodeBuffer.toString("base64")}`;
-  } catch (error) {
-    console.error("Barcode generation error:", error);
-    throw new Error("Failed to generate barcode");
-  }
-};
-
 // Get user profile with attendance details, countdown, profile picture, and status check
 const getUserProfile = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -80,110 +59,54 @@ const getUserProfile = asyncHandler(async (req, res) => {
     });
   }
 
-  const { startDate, service, FreezeDate, profilePicture } = user;
+  const { startDate, service, preFreezeAttendance, preFreezeDaysCount } = user;
   const expirationDate = new Date(startDate);
   expirationDate.setDate(expirationDate.getDate() + service.period);
-  const adjustedStartDate = adjustStartDateForFreeze(startDate, FreezeDate);
+  const adjustedStartDate = adjustStartDateForFreeze(preFreezeDaysCount);
 
   const attendanceCountSinceStart = await prisma.attendance.count({
     where: { memberId: id, date: { gte: adjustedStartDate } },
   });
-  const countdown = calculateCountdown(
-    expirationDate,
-    service.maxDays,
-    attendanceCountSinceStart
-  );
+
+  const remainingDays =
+    service.maxDays - attendanceCountSinceStart - preFreezeAttendance;
+
+  const countdown = calculateCountdown(expirationDate, remainingDays);
 
   // Update countdown and auto-deactivate status if countdown is below zero
   await prisma.user.update({
     where: { id: id },
     data: {
-      countDown: countdown,
+      daysLeft: countdown,
       ...(countdown < 0 && { status: "inactive" }),
     },
   });
 
-  // Generate barcode
-  const barcode = await generateBarcode(id);
-  const bmi = user.bmi || (user.weight / (user.height / 100) ** 2).toFixed(1);
-
   res.status(200).json({
     success: true,
-    data: { ...user, bmi, barcode, profilePicture },
+    data: { user },
   });
 });
 
-// Record attendance for a user and update countdown
-const recordAttendance = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const existingAttendance = await prisma.attendance.findFirst({
-    where: { memberId: id, date: today },
-  });
-  if (existingAttendance) {
-    return res.status(400).json({
-      success: false,
-      message: "Attendance already recorded for today",
-    });
-  }
-
-  const user = await fetchUserWithDetails(id);
-  if (!user || user.status !== "active") {
-    return res.status(400).json({
-      success: false,
-      message: "User not active or service not found",
-    });
-  }
-
-  // Check if remainingDays is above zero
-  if (calculateCountdown(user.expirationDate, user.remainingDays) <= 0) {
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { status: "inactive" },
-    });
-    return res.status(400).json({
-      success: false,
-      message: "User's membership has expired.",
-    });
-  }
-  // Record attendance and decrement remainingDays
-  await prisma.attendance.create({ data: { memberId: id, date: today } });
-  const updatedUser = await prisma.user.update({
-    where: { id },
-    data: {
-      totalAttendance: { increment: 1 },
-      remainingDays: { decrement: 1 },
-    },
-  });
-
-  res.status(201).json({
-    success: true,
-    message: "Attendance recorded successfully",
-    data: {
-      totalAttendance: updatedUser.totalAttendance,
-      remainingDays: updatedUser.remainingDays,
-    },
-  });
-});
-
-// Admin updates user's status with freezing/unfreezing support
 const updateUserStatus = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { status, startDate } = req.body;
 
-  if (!["active", "inactive", "freeze", "pending"].includes(status)) {
+  // Validate status
+  if (
+    !["active", "inactive", "frozen", "pending", "unfreeze"].includes(status)
+  ) {
     return res.status(400).json({ success: false, message: "Invalid status" });
   }
 
+  // Fetch user with relevant fields
   const user = await prisma.user.findUnique({
-    where: { id: id },
+    where: { id },
     select: {
       startDate: true,
       freezeDate: true,
-      countDown: true,
-      service: { select: { maxDays: true } },
+      preFreezeAttendance: true,
+      preFreezeDaysCount: true,
     },
   });
 
@@ -191,46 +114,56 @@ const updateUserStatus = asyncHandler(async (req, res) => {
     return res.status(404).json({ success: false, message: "User not found" });
   }
 
-  const data = { status };
+  // Initialize update data
+  const updateData = { status };
 
-  if (status === "active" && startDate) {
-    // Activating user with a provided start date: reset countdown to maxDays
-    const parsedStartDate = new Date(startDate);
+  if (status === "active") {
+    const parsedStartDate = startDate ? new Date(startDate) : new Date();
     if (isNaN(parsedStartDate.getTime())) {
       return res
         .status(400)
         .json({ success: false, message: "Invalid start date" });
     }
-    data.startDate = parsedStartDate;
-    data.freezeDate = null;
-    data.countDown = user.service.maxDays;
-  } else if (status === "active" && !startDate) {
-    // Unfreezing the user: just remove freezeDate, keep remaining countdown
+
+    updateData.startDate = parsedStartDate;
+    updateData.freezeDate = null;
+    updateData.preFreezeAttendance = 0;
+    updateData.preFreezeDaysCount = 0;
+  } else if (status === "unfreeze") {
     if (!user.freezeDate) {
       return res
         .status(400)
         .json({ success: false, message: "User is not currently frozen" });
     }
 
-    // Adjust startDate by frozen duration without resetting countDown
-    data.startDate = adjustStartDateForFreeze(user.startDate, user.freezeDate);
-    data.freezeDate = null;
-  } else if (status === "freeze") {
-    // Freezing user: record the freeze date
-    data.freezeDate = new Date();
+    // Adjust startDate by frozen duration using the calculateDaysBetween function
+    updateData.startDate = adjustStartDateForFreeze(user.preFreezeDaysCount);
+    updateData.freezeDate = null;
+    updateData.status = "active";
+  } else if (status === "frozen") {
+    const attendanceCountSinceStart = await prisma.attendance.count({
+      where: { memberId: id, date: { gte: user.startDate } },
+    });
+
+    // Use the calculateDaysBetween function to calculate the days since the startDate
+    const daysSinceStart = calculateDaysBetween(user.startDate, new Date());
+
+    updateData.freezeDate = new Date();
+    updateData.preFreezeAttendance = attendanceCountSinceStart;
+    updateData.preFreezeDaysCount = daysSinceStart;
   }
 
-  // Update the user status in the database
+  // Update user
   const updatedUser = await prisma.user.update({
-    where: { id: id },
-    data,
+    where: { id },
+    data: updateData,
   });
 
   res.status(200).json({
     success: true,
-    message: `User status updated to ${status}`,
+    message: `User status updated successfully`,
     data: updatedUser,
   });
 });
 
-module.exports = { getUserProfile, recordAttendance, updateUserStatus };
+module.exports = { getUserProfile, updateUserStatus };

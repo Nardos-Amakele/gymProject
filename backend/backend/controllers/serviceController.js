@@ -11,6 +11,55 @@ const getServices = asyncHandler(async (req, res) => {
   });
 });
 
+const addMultipleServices = asyncHandler(async (req, res) => {
+  const { services } = req.body;
+
+  // Ensure services array is provided
+  if (!Array.isArray(services) || services.length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: "An array of services is required.",
+    });
+  }
+
+  // Validate each service
+  for (const service of services) {
+    const { name, period, maxDays, price, category, description } = service;
+    if (
+      !name ||
+      period == null ||
+      maxDays == null ||
+      !price ||
+      !category ||
+      !description
+    ) {
+      return res.status(400).json({
+        success: false,
+        message:
+          "Each service must have all fields (name, period, maxDays, price, category, description).",
+      });
+    }
+  }
+
+  // Create multiple services
+  const addedServices = await prisma.service.createMany({
+    data: services.map((service) => ({
+      name: service.name,
+      period: service.period,
+      maxDays: service.maxDays,
+      price: parseFloat(service.price), // Ensure price is a float
+      category: service.category,
+      description: service.description,
+      preferred: service.preferred || false,
+    })),
+  });
+
+  res.status(201).json({
+    success: true,
+    message: `${addedServices.count} services added successfully.`,
+  });
+});
+
 // Add a new service
 const addService = asyncHandler(async (req, res) => {
   const { name, period, maxDays, price, category, description, preferred } =
@@ -121,6 +170,8 @@ const deleteService = asyncHandler(async (req, res) => {
 
 module.exports = {
   getServices,
+  addMultipleServices,
+
   addService,
   editService,
   deleteService,

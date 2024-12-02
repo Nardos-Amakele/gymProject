@@ -3,7 +3,7 @@ const {
   getTransactions,
   addTransaction,
   deleteTransaction,
-  getTransactionDataForGraph,
+  updateTransaction,
 } = require("../controllers/financialController");
 
 const router = express.Router();
@@ -11,6 +11,7 @@ const router = express.Router();
 router.get("/", getTransactions);
 
 router.post("/", addTransaction);
+router.patch("/:id", updateTransaction);
 
 router.delete("/:id", deleteTransaction);
 
