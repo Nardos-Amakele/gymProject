@@ -1,3 +1,4 @@
+'use client';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faInstagram,
@@ -7,14 +8,21 @@ import {
   faTiktok,
   faTelegram,
 } from "@fortawesome/free-brands-svg-icons";
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import logo from "@/assets/logos/logo-second.svg";
 import { useTranslations } from "next-intl";
 import { Link } from "../../../i18n/routing";
+import TermsAndConditionsModal from "./TermsAndConditionsModal";
+
 
 
 const Footer: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   const t = useTranslations("home_Page.footerSection");
 
   return (
@@ -119,11 +127,16 @@ const Footer: React.FC = () => {
         </div>
         <hr className="border-t border-black my-6 mt-20" />
         <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="text-sm mb-4 md:mb-0">
-            <Link href="/terms" className="mr-6 hover:underline">
-              {t('support.links.5')}
-            </Link>
-          </div>
+        <div>
+      <div className="text-sm mb-4 md:mb-0">
+        <button onClick={openModal} className="mr-6 hover:underline">
+          {t('support.links.5')}
+        </button>
+      </div>
+
+      {/* Modal component */}
+      <TermsAndConditionsModal isOpen={isModalOpen} onClose={closeModal} />
+    </div>
           <div className="flex space-x-4">
             <a
               href="https://www.instagram.com/robifitnesscentre/"

@@ -82,6 +82,7 @@ model Service {
 
 model User {
   id                String      @id @default(uuid())
+  barcode           String?
   fullName          String
   gender            String
   phoneNumber       String      @unique
@@ -90,24 +91,26 @@ model User {
   dob               DateTime
   emergencyContact  String
   firstRegisteredAt DateTime    @default(now())
-  startDate         DateTime    @default(now())
+  startDate         DateTime    @default(now()) 
   totalAttendance   Int         @default(0)
-  remainingDays     Int         @default(0)
-  countDown         Int?
+  preFreezeAttendance Int   @default(0) 
+  preFreezeDaysCount Int    @default(0)  
+  daysLeft          Int?
   height            Float?
   weight            Float?
   bmi               Float?
   healthConditions  Json?
   level             String?
   goal              String?
-  status            String      @default("pending")
-  freezeDate        DateTime?
+  role              String      @default("user")
+  password          String      
+  status            String      @default("pending") 
+  freezeDate        DateTime? 
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
   serviceId         String?
   service           Service?    @relation(fields: [serviceId], references: [id], onDelete: SetNull)
   attendance        Attendance[]
-
   profileImageUrl   String?     
 }
 
@@ -115,7 +118,7 @@ model Attendance {
   id        String   @id @default(uuid())
   memberId  String
   date      DateTime @default(now())
-  user      User     @relation(fields: [memberId], references: [id])
+  user      User     @relation(fields: [memberId], references: [id],onDelete: Cascade)
 
   @@unique([memberId, date])
 }

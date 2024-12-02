@@ -1,9 +1,40 @@
 const asyncHandler = require("express-async-handler");
 const prisma = require("../../prisma/client");
 
-// Get all financial transactions
 const getTransactions = asyncHandler(async (req, res) => {
-  const transactions = await prisma.transaction.findMany();
+  const { filter } = req.query; // Get filter from query params
+  const now = new Date();
+  let startDate;
+
+  // Determine the start date based on the filter
+  if (filter === "daily") {
+    startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  } else if (filter === "weekly") {
+    const weekAgo = new Date();
+    weekAgo.setDate(now.getDate() - 7);
+    startDate = weekAgo;
+  } else if (filter === "monthly") {
+    const monthAgo = new Date();
+    monthAgo.setMonth(now.getMonth() - 1);
+    startDate = monthAgo;
+  } else if (filter === "yearly") {
+    const yearAgo = new Date();
+    yearAgo.setFullYear(now.getFullYear() - 1);
+    startDate = yearAgo;
+  }
+  // Fetch transactions with filtering (if a filter is provided)
+  let transactions;
+  if (startDate) {
+    transactions = await prisma.transaction.findMany({
+      where: {
+        createdAt: {
+          gte: startDate, // Greater than or equal to the start date
+        },
+      },
+    });
+  } else {
+    transactions = await prisma.transaction.findMany(); // Default: all-time
+  }
 
   // Calculate income, expenses, and net balance
   const income = transactions

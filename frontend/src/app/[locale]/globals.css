@@ -47,7 +47,7 @@ body {
   animation-play-state: paused;
 }
 
-/* Customize scrollbar for Webkit browsers (optional, if needed) */
+/* Customize scrollbar for Webkit browsers */
 ::-webkit-scrollbar {
   width: 4px;
 }

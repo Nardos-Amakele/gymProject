@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   getServices,
   addService,
+  addMultipleServices,
   editService,
   deleteService,
 } = require("../controllers/serviceController");
@@ -10,7 +11,7 @@ const {
 router.get("/", getServices);
 
 router.post("/", addService);
-
+router.post("/bulk", addMultipleServices);
 router.patch("/:id", editService);
 
 router.delete("/:id", deleteService);

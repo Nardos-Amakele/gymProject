@@ -3,11 +3,18 @@ const prisma = require("../../prisma/client");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const bcrypt = require("bcryptjs");
+const bwipjs = require("bwip-js");
 
 // Multer configuration for image uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/users/");
+    // Ensure the folder exists
+    const dir = "uploads/users/";
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    cb(null, dir);
   },
   filename: (req, file, cb) => {
     cb(null, `${Date.now()}_${file.originalname}`);
@@ -36,13 +43,28 @@ const isValidDate = (dateStr) => {
   return !isNaN(date.getTime()) && dateStr === date.toISOString().split("T")[0];
 };
 
+const generateBarcode = async (userId) => {
+  try {
+    const barcodeBuffer = await bwipjs.toBuffer({
+      bcid: "code128",
+      text: userId,
+      scale: 3,
+      height: 10,
+      includetext: true,
+      textxalign: "center",
+    });
+    return `data:image/png;base64,${barcodeBuffer.toString("base64")}`;
+  } catch (error) {
+    console.error("Barcode generation error:", error);
+    throw new Error("Failed to generate barcode");
+  }
+};
+
 // Get all users
 const getUsers = asyncHandler(async (req, res) => {
   const users = await prisma.user.findMany();
   res.status(200).json({ success: true, data: { users } });
 });
-
-// Add a new user
 const addUser = [
   upload.single("profileImage"),
   asyncHandler(async (req, res) => {
@@ -55,7 +77,6 @@ const addUser = [
       dob,
       emergencyContact,
       startDate,
-      countDown,
       height,
       weight,
       bmi,
@@ -64,16 +85,25 @@ const addUser = [
       goal,
       status,
       freezeDate,
-      serviceId,
+      serviceId, // Ensure serviceId is provided
+      password,
+      role, // Role should be part of the request body
     } = req.body;
 
+    // Default role to "user" if not provided
+    const userRole =
+      role && (role === "admin" || role === "user") ? role : "user";
+
+    // Check for required fields
     if (
       !fullName ||
       !gender ||
       !phoneNumber ||
       !address ||
       !dob ||
-      !emergencyContact
+      !emergencyContact ||
+      !serviceId || // Make sure serviceId is provided
+      !password // Ensure password is provided
     ) {
       return res.status(400).json({
         success: false,
@@ -81,6 +111,7 @@ const addUser = [
       });
     }
 
+    // Validate phone number format
     if (!/^\d{10}$/.test(phoneNumber)) {
       return res.status(400).json({
         success: false,
@@ -88,15 +119,18 @@ const addUser = [
       });
     }
 
+    // Check if the phone number is already taken
     const existingUser = await prisma.user.findUnique({
       where: { phoneNumber },
     });
     if (existingUser) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Phone number is already taken." });
+      return res.status(400).json({
+        success: false,
+        message: "Phone number is already taken.",
+      });
     }
 
+    // Validate date of birth format
     if (!isValidDate(dob)) {
       return res.status(400).json({
         success: false,
@@ -104,7 +138,10 @@ const addUser = [
       });
     }
 
-    // Check if serviceId exists in the Service table
+    // Hash the password before saving
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Ensure serviceId corresponds to an existing service
     const service = await prisma.service.findUnique({
       where: { id: serviceId },
     });
@@ -112,15 +149,18 @@ const addUser = [
     if (!service) {
       return res.status(400).json({
         success: false,
-        message: `Invalid service ID. ${serviceId}`,
+        message: `Invalid service ID: ${serviceId}.`,
       });
     }
 
+    // Handle profile image upload
     let profileImageUrl = null;
     if (req.file) {
       profileImageUrl = `/uploads/users/${req.file.filename}`;
     }
 
+    const daysLeft = service.maxDays;
+    // Create the new user
     const newUser = await prisma.user.create({
       data: {
         fullName,
@@ -131,7 +171,7 @@ const addUser = [
         dob: new Date(dob),
         emergencyContact,
         startDate: startDate ? new Date(startDate) : undefined,
-        countDown,
+        daysLeft,
         height,
         weight,
         bmi,
@@ -142,15 +182,27 @@ const addUser = [
         goal,
         status,
         freezeDate: freezeDate ? new Date(freezeDate) : undefined,
-        serviceId,
+        serviceId: service.id, // Use the validated serviceId
         profileImageUrl,
+        password: hashedPassword, // Save the hashed password
+        role: userRole, // Set the role (defaults to "user" if not provided or invalid
       },
     });
 
+    // Generate barcode for the user
+    const barcode = await generateBarcode(newUser.id);
+
+    // Update the user with the generated barcode
+    const updatedUser = await prisma.user.update({
+      where: { id: newUser.id },
+      data: { barcode },
+    });
+
+    // Return a successful response
     res.status(201).json({
       success: true,
       message: "User added successfully.",
-      data: newUser,
+      data: updatedUser,
     });
   }),
 ];
@@ -179,6 +231,7 @@ const editUser = [
       status,
       freezeDate,
       serviceId,
+      password, // Password field added here
     } = req.body;
 
     const user = await prisma.user.findUnique({ where: { id } });
@@ -210,10 +263,19 @@ const editUser = [
     if (req.file) {
       if (profileImageUrl) {
         fs.unlink(path.join(__dirname, `../../${profileImageUrl}`), (err) => {
-          if (err) console.log(err);
+          if (err) {
+            console.log("Error deleting old profile image:", err);
+          } else {
+            console.log("Old profile image deleted successfully.");
+          }
         });
       }
       profileImageUrl = `/uploads/users/${req.file.filename}`;
+    }
+
+    let hashedPassword = user.password; // If no new password, keep the existing one
+    if (password) {
+      hashedPassword = await bcrypt.hash(password, 10); // Hash new password if provided
     }
 
     const updatedUser = await prisma.user.update({
@@ -240,6 +302,7 @@ const editUser = [
         freezeDate: freezeDate ? new Date(freezeDate) : user.freezeDate,
         serviceId: serviceId || user.serviceId,
         profileImageUrl,
+        password: hashedPassword, // Save the hashed password
       },
     });
 
@@ -261,7 +324,11 @@ const deleteUser = asyncHandler(async (req, res) => {
 
   if (user.profileImageUrl) {
     fs.unlink(path.join(__dirname, `../../${user.profileImageUrl}`), (err) => {
-      if (err) console.log(err);
+      if (err) {
+        console.log("Error deleting file:", err);
+      } else {
+        console.log("File deleted successfully");
+      }
     });
   }
 
