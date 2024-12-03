@@ -7,6 +7,7 @@ import lower from "../../../../../assets/images/lower.png";
 import shoulder from "../../../../../assets/images/shoulder.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
 
 const plans = [
   {
@@ -16,6 +17,7 @@ const plans = [
     goal: "Weight Loss",
     duration: "6 Months, 5 weeks per day",
     image: strength,
+    path: '/en/user/plan/upper-strength'
   },
   {
     title: "Lower Body - Strength",
@@ -24,6 +26,8 @@ const plans = [
     goal: "Weight Loss",
     duration: "3 Months, 3 weeks per day",
     image: lower,
+    path: '/en/user/plan/lower-strength'
+
   },
   {
     title: "Cardio",
@@ -32,6 +36,8 @@ const plans = [
     goal: "Weight Loss",
     duration: "1 Month, 4 weeks per day",
     image: cardio,
+    path: '/en/user/plan/cardio'
+
   },
   {
     title: "Upper Body - Endurance",
@@ -40,6 +46,8 @@ const plans = [
     goal: "Weight Loss",
     duration: "3 Months, 3 weeks per day",
     image: endurance,
+    path: '/en/user/plan/upper-endurance'
+
   },
   {
     title: "Shoulder and Chest",
@@ -48,6 +56,8 @@ const plans = [
     goal: "Weight Loss",
     duration: "3 Months, 3 weeks per day",
     image: shoulder,
+    path: '/en/user/plan/shoulder'
+
   },
   {
     title: "Lower Body - Endurance",
@@ -55,7 +65,8 @@ const plans = [
     difficulty: "Easy",
     goal: "Weight Loss",
     duration: "6 Months, 3 weeks per day",
-    image: endurance,
+    image: lower,
+    path: '/en/user/plan/lower-endurance'
   },
 ];
 
@@ -73,28 +84,40 @@ const Page: React.FC = () => {
       {/* Card */}
       <main className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-[#252525] rounded-lg">
         {plans.map((plan, index) => (
-          <div
-            key={index}
-            className="bg-black p-4 rounded-lg shadow-lg flex flex-col  space-y-2"
-          >
-            <Image
-              src={plan.image}
-              alt={plan.title}
-              className="w-60 justify-end  h-40 object-cover rounded-lg"
-            />
-            <h2 className="text-lg font-semibold">{plan.title}</h2>
-            <p className="text-sm">{plan.description}</p>
-            <p className="text-sm">
-              <span className="font-semibold"></span> {plan.difficulty}
-            </p>
-            <p className="text-sm">
-              <span className="font-semibold"></span> {plan.goal}
-            </p>
-            <p className="text-sm flex items-center gap-2">
-              <FontAwesomeIcon icon={faClock} className="text-customBlue" />
-              {plan.duration}
-            </p>
-          </div>
+          <Link href={plan.path}>
+            <div
+              key={index}
+              className="bg-black p-4 rounded-lg shadow-lg flex flex-row  space-y-2"
+            >
+              <div className="flex flex-col justify-between">
+                <div>
+                  <h2 className="text-sm font-semibold">{plan.title}</h2>
+                  <p className="text-xs font-extralight">{plan.description}</p>
+                  <p className="text-xs font-extralight">
+                    <span className="font-semibold"></span> {plan.difficulty}
+                  </p>
+                  <p className="text-sm font-extralight">
+                    <span className="font-semibold"></span> {plan.goal}
+                  </p>
+                  </div>
+
+                  <p className="text-xs flex items-center gap-2 font-extralight">
+                    <FontAwesomeIcon icon={faClock} className="text-customBlue" />
+                    {plan.duration}
+                  </p>
+
+
+              </div>
+              <Image
+                src={plan.image}
+                alt={plan.title}
+                className="w-60 justify-end  h-40 object-contain rounded-lg"
+              />
+
+            </div>
+
+          </Link>
+
         ))}
       </main>
     </div>
