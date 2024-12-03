@@ -40,7 +40,7 @@ export default async function WorkoutPlanPage() {
         <div className="text-8xl"> Workout Plan Page</div>
       {workoutPlans.map((workoutPlan, index) => (
         <div key={index}>
-          <Link href={`/workoutPlan/${workoutPlan.id}`}>
+          <Link href={`workoutPlan/${workoutPlan.id}`}>
           <div className="text-4xl">{workoutPlan.name}</div>
           </Link>
         </div>

@@ -95,6 +95,7 @@ const createWorkout = asyncHandler(async (req, res) => {
 
 const updateWorkout = asyncHandler(async (req, res) => {
     const {id} = req.params;
+    console.log(id.workoutPlanId)
     const {
         name,
         difficulty,
@@ -109,7 +110,7 @@ const updateWorkout = asyncHandler(async (req, res) => {
 
     try {
         const workoutExists = await prisma.workout.findUnique({
-            where: {id},
+            where: {id:id},
         });
 
         if (!workoutExists) {
@@ -129,24 +130,25 @@ const updateWorkout = asyncHandler(async (req, res) => {
         if (daysPerWeek) updateData.daysPerWeek = daysPerWeek;
         if (timePerWorkout) updateData.timePerWorkout = timePerWorkout;
         if (targetGender) updateData.targetGender = targetGender;
-
-        if (exercises?.length) {
-            updateData.exercises = {
-                update: exercises.map((exercise) => ({
-                    where: {id: exercise.id},
-                    data: {
-                        name: exercise.name,
-                        description: exercise.description,
-                        reps: exercise.reps,
-                        sets: exercise.sets,
-                        duration: exercise.duration,
-                        videoUrl: exercise.videoUrl,
-                        thumbnailUrl: exercise.thumbnailUrl,
-                        focusArea: exercise.focusArea,
-                    },
-                })),
-            };
-        }
+        if (exercises) updateData.exercises = exercises;
+        // if (exercises?.length) {
+        //     updateData.exercises = {
+        //         update: exercises.map((exercise) => ({
+        //             where: {slug: exercise.slug},
+        //             data: {
+        //                 name: exercise.name,
+        //                 slug: exercise.slug,
+        //                 description: exercise.description,
+        //                 reps: exercise.reps,
+        //                 sets: exercise.sets,
+        //                 duration: exercise.duration,
+        //                 videoUrl: exercise.videoUrl,
+        //                 thumbnailUrl: exercise.thumbnailUrl,
+        //                 focusArea: exercise.focusArea,
+        //             },
+        //         })),
+        //     };
+        // }
         const updatedWorkout = await prisma.workout.update({
             where: {id},
             data: updateData,
@@ -169,7 +171,6 @@ const updateWorkout = asyncHandler(async (req, res) => {
 
 const deleteWorkout = asyncHandler(async (req, res) => {
     const {id} = req.params;
-
     try {
         const workoutExists = await prisma.workout.findUnique({
             where: {id},
