@@ -4,7 +4,7 @@ const router = express.Router();
 const {
     getMeals,
     getMeal, createMeal, updateMeal, deleteMeal
-} = require("../controllers/exerciseController");
+} = require("../controllers/mealController");
 
 router.get("/", getMeals);
 router.get("/:id", getMeal);
