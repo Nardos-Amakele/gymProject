@@ -1,11 +1,10 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import AdminSidebar from "../components/AdminSideBar";
 import AdminHeader from "../components/AdminHeader";
 
 interface MemberDetailsProps {
-  memberId: string; // Accept memberId as a prop
+  memberId: string;
   onClose: () => void;
 }
 
@@ -75,12 +74,9 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold p-1">Gym Member</h1>
         <div className="flex space-x-4">
-          {/* <button className="bg-customBlue px-6 py-2 rounded text-black ">
-            Edit Profile
-          </button> */}
           <button
             onClick={onClose}
-            className="bg-customBlue px-6 py-2 rounded text-black "
+            className="bg-customBlue px-6 py-2 rounded text-black"
           >
             Back to Home
           </button>
@@ -106,22 +102,19 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
 
           <div className="grid grid-cols-1 gap-4 bg-[#111111] p-4 rounded-lg">
             <p>
-              <span className="text-gray-400">Phone number:</span>{" "}
-              {member.phoneNumber}
+              <span className="text-gray-400">Phone number:</span> {member.phoneNumber}
             </p>
             <p>
-              <span className="text-gray-400">Email Address:</span>{" "}
-              {member.email || "N/A"}
+              <span className="text-gray-400">Email Address:</span> {member.email || "N/A"}
             </p>
             <p>
               <span className="text-gray-400">Address:</span> {member.address}
             </p>
             <p>
-              <span className="text-gray-400">DOB:</span> {member.dob}
+              <span className="text-gray-400">DOB:</span> {member.dob ? member.dob.substring(0, 10) : "N/A"}
             </p>
             <p>
-              <span className="text-gray-400">Emergency Contact:</span>{" "}
-              {member.emergencyContact || "N/A"}
+              <span className="text-gray-400">Emergency Contact:</span> {member.emergencyContact || "N/A"}
             </p>
           </div>
         </div>
@@ -148,86 +141,63 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
               </p>
               <p className="text-white">Member Since</p>
             </div>
-            {/* <button className="bg-customBlue p-2 rounded text-black px-4 ">
-              Freeze Account
-            </button>
-            <button className="bg-customBlue p-2 rounded text-black px-4">
-              Download
-            </button>
-          </div> */}
+          </div>
 
           {/* Attendance, weight, height, BMI */}
-          <div className="bg-[#111111]">
-            <div className="grid grid-cols-5 gap-2 bg-[#111111] p-4 rounded-lg text-center">
-              <div>
-                <p className="text-lg font-bold">Details</p>
-              </div>
-              <div>
-                <p className="text-3xl text-customBlue font-jost font-extrabold">
-                  {member.totalAttendance}
-                </p>
-                <p className="text-xs text-customBlue">Days</p>
-                <p className=" text-gray-400">Total Attendance</p>
-              </div>
-              <div>
-                <p className="text-3xl text-customBlue font-jost font-extrabold">
-                  {member.weight}
-                </p>
-                <p className="text-xs text-customBlue">kg</p>
-                <p className=" text-gray-400">Weight</p>
-              </div>
-              <div>
-                <p className="text-3xl text-customBlue font-jost font-extrabold">
-                  {member.height}
-                </p>
-                <p className="text-xs text-customBlue">cm</p>
-                <p className=" text-gray-400">Height</p>
-              </div>
-              <div>
-                <p className="text-3xl text-customBlue font-jost font-extrabold">
-                  {member.bmi}
-                </p>
-                <p className="text-xs text-customBlue">Kg/m²</p>
-                <p className=" text-gray-400">BMI</p>
-              </div>
+          <div className="grid grid-cols-5 gap-2 bg-[#111111] p-4 rounded-lg text-center">
+            <div>
+              <p className="text-lg font-bold">Details</p>
             </div>
-
-            {/* Health Information */}
-            <div className="bg-[#111111] p-4 rounded-lg flex">
-              <h3 className="text-lg font-bold mb-2">Health Info.</h3>
-              <div>
-                <p>
-                  <span className="text-gray-400">Medical conditions:</span>{" "}
-                  {member.healthConditions || "N/A"}
-                </p>
-                <p>
-                  <span className="text-gray-400">Allergies:</span>{" "}
-                  {member.healthConditions || "N/A"}
-                </p>
-                <p>
-                  <span className="text-gray-400">Injuries:</span>{" "}
-                  {member.healthConditions || "N/A"}
-                </p>
-                <p>
-                  <span className="text-gray-400">Medications:</span>{" "}
-                  {member.healthConditions || "N/A"}
-                </p>
-              </div>
+            <div>
+              <p className="text-3xl text-customBlue font-jost font-extrabold">
+                {member.totalAttendance}
+              </p>
+              <p className="text-xs text-customBlue">Days</p>
+              <p className="text-gray-400">Total Attendance</p>
             </div>
+            <div>
+              <p className="text-3xl text-customBlue font-jost font-extrabold">
+                {member.weight}
+              </p>
+              <p className="text-xs text-customBlue">kg</p>
+              <p className="text-gray-400">Weight</p>
+            </div>
+            <div>
+              <p className="text-3xl text-customBlue font-jost font-extrabold">
+                {member.height}
+              </p>
+              <p className="text-xs text-customBlue">cm</p>
+              <p className="text-gray-400">Height</p>
+            </div>
+            <div>
+              <p className="text-3xl text-customBlue font-jost font-extrabold">
+                {member.bmi}
+              </p>
+              <p className="text-xs text-customBlue">Kg/m²</p>
+              <p className="text-gray-400">BMI</p>
+            </div>
+          </div>
 
-            {/* Status */}
-            <div className="bg-[#111111] p-4 rounded-lg flex">
-              <h3 className="text-lg font-bold mb-2">Status</h3>
-              <div>
-                <p>
-                  <span className="text-gray-400">Level:</span>{" "}
-                  {member.level || "N/A"}
-                </p>
-                <p>
-                  <span className="text-gray-400">Goal:</span>{" "}
-                  {member.goal || "N/A"}
-                </p>
-              </div>
+          {/* Health Information */}
+          <div className="bg-[#111111] p-4 rounded-lg flex">
+            <h3 className="text-lg font-bold mb-2">Health Info.</h3>
+            <div>
+              <p>
+                <span className="text-gray-400">Medical conditions:</span> {member.healthConditions || "N/A"}
+              </p>
+            </div>
+          </div>
+
+          {/* Status */}
+          <div className="bg-[#111111] p-4 rounded-lg flex">
+            <h3 className="text-lg font-bold mb-2">Status</h3>
+            <div>
+              <p>
+                <span className="text-gray-400">Level:</span> {member.level || "N/A"}
+              </p>
+              <p>
+                <span className="text-gray-400">Goal:</span> {member.goal || "N/A"}
+              </p>
             </div>
           </div>
         </div>
@@ -237,29 +207,29 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
 };
 
 const Page = () => {
-  const memberId = "4"; // This would be dynamic, e.g., from a URL param
+  const memberId = "4"; // Replace with dynamic member ID
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const handleOpen = () => setShowModal(true);
   const handleClose = () => setShowModal(false);
 
   return (
-    <div className="flex flex-col bg-[#111111] min-h-screen">
-      <AdminHeader />
-      <AdminSidebar />
-      <div className="pt-24">
-        <div>
-          <button
-            onClick={handleOpen}
-            className="bg-customBlue p-2 rounded text-black"
-          >
-            Show Member Details
-          </button>
-          {showModal && (
-            <MemberDetails memberId={memberId} onClose={handleClose} />
-          )}
+    <div className="h-screen bg-dark-background">
+      <AdminSidebar setActiveNav={function (nav: string): void {
+        throw new Error("Function not implemented.");
+      }} />
+      <AdminHeader activeNav={""} />
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <MemberDetails memberId={memberId} onClose={handleClose} />
         </div>
-      </div>
+      )}
+      <button
+        onClick={handleOpen}
+        className="bg-customBlue px-6 py-2 rounded text-black"
+      >
+        Show Member Details
+      </button>
     </div>
   );
 };

@@ -1,89 +1,90 @@
+'use client'
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Link } from "../../../i18n/routing";
-import shopItem1 from "@/assets/images/shop_item2.png";
-import shopItem2 from "@/assets/images/shop_item1.png";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { useTranslations } from "next-intl";
 import NeonLine from "./NeonLine";
-import { useTranslations } from "next-intl"; 
+
+// Define the Product type
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  description: string;
+  imageUrl: string | null;
+}
 
 const Shop = () => {
-  const t = useTranslations("home_Page.shopSection"); 
+  const t = useTranslations("home_Page.shopSection");
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/inventory/");
+        const data = await response.json();
+        console.log("Fetched data:", data); // Log the response
+  
+        if (data.success && Array.isArray(data.data)) {
+          setProducts(data.data); // Set fetched products
+        } else {
+          console.error("Invalid data structure", data);
+          throw new Error("Invalid data structure from API");
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unknown error");
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchProducts();
+  }, []);
+  
+  
 
   return (
     <section
       className="bg-black text-white pt-40 py-16 px-4 sm:px-8 md:px-16 lg:px-[9rem] font-jost"
       id="shop"
     >
-      <div className="flex flex-col md:flex-row md:space-x-16">
-        {/* First column */}
-        <div className="flex flex-col justify-between mb-8 md:mb-0">
-          <div className="container mx-auto">
-            {/* Link the Shop header */}
-            <Link href="/Shop">
-              <h2 className="text-6xl font-bold mb-4 text-[#2596BE]">
-                {t("title")} {/* Use translated title */}
-              </h2>
-            </Link>
-            <p className="mb-12 text-gray-300 max-w-sm text-sm font-thin">
-              {t("subtext")} {/* Use translated subtext */}
-            </p>
-          </div>
+      <div className="container mx-auto">
+        <h2 className="text-6xl font-bold mb-4 text-[#2596BE]">
+          {t("title")}
+        </h2>
+        <p className="mb-12 text-gray-300 max-w-sm text-sm font-thin">
+          {t("subtext")}
+        </p>
 
-          {/* Shop Item 1 */}
-          <Link
-            href="/Shop"
-            className="relative mt-6 transition-transform transform hover:scale-105 hover:border-2 hover:border-none"
-          >
-            <div>
+        {loading && <p>Loading...</p>}
+        {error && <p className="text-red-500">{error}</p>}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {products.map((product) => (
+            <div
+              key={product.id}
+              className="relative transition-transform transform hover:scale-105"
+            >
               <Image
-                src={shopItem1}
-                alt={t("products.0.name")} 
-                className="rounded-lg w-full md:w-[35rem] h-auto md:h-[245.59px]"
+                src={product.imageUrl || "/placeholder.png"} // Use a placeholder image if imageUrl is null
+                alt={product.name}
+                width={400}
+                height={300}
+                className="rounded-lg"
               />
               <div className="absolute bottom-4 left-4 flex justify-between items-center w-[95%]">
-                <div className="flex items-baseline space-x-1">
-                  <p className="text-white text-lg font-bold">
-                    {t("products.0.price")}
-                  </p>
-                  <p className="font-thin text-sm text-white">{t("products.0.ctaButton")}</p> {/* Use translated CTA button */}
+                <div className="flex flex-col">
+                  <p className="text-white text-lg font-bold">{product.name}</p>
+                  <p className="text-gray-400">${product.price.toFixed(2)}</p>
                 </div>
-                <span className="button-custom text-sm text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-3 py-1">
-                  {t("products.0.ctaButton")}
-                </span>
+                <button className="button-custom text-sm text-[#2596BE] border border-solid border-[#2596BE] rounded-md px-3 py-1">
+                  {t("ctaButton")}
+                </button>
               </div>
             </div>
-          </Link>
-        </div>
-
-        {/* Second column */}
-        <div className="flex flex-col justify-between">
-          {/* Shop Item 2 */}
-          <Link href="/Shop">
-            <div className="relative transition-transform transform hover:scale-105 hover:border-2 hover:border-none">
-              <Image
-                src={shopItem2}
-                alt={t("products.1.name")} 
-                className="rounded-tl-[6px] rounded-tr-[111px] rounded-br-[6px] rounded-bl-[6px] w-full md:w-[22rem]"
-              />
-              <div className="absolute bottom-4 left-4 flex space-x-4">
-                <p className="text-red-500 line-through text-lg font-bold">
-                  {t("products.1.originalPrice")} 
-                </p>
-                <p className="text-white text-lg font-bold">
-                  {t("products.1.discountedPrice")} 
-                </p>
-              </div>
-            </div>
-          </Link>
-
-          {/* New Arrival and Discount */}
-          <div className="flex justify-between mt-4">
-            <p className="text-2xl text-white">{t("products.1.badge")}</p> {/* Use translated badge */}
-            <p className="text-sm text-gray-400 font-thin">
-              {t("products.1.discountText")} {/* Use translated discount text */}
-            </p>
-          </div>
+          ))}
         </div>
       </div>
 
