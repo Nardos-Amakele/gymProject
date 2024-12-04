@@ -110,8 +110,12 @@ model User {
   serviceId         String?
   service           Service?     @relation(fields: [serviceId], references: [id], onDelete: SetNull)
   attendance        Attendance[]
-
   profileImageUrl String?
+  workouts          UserWorkout[]
+  exercisesCompleted ExerciseCompletion[]
+  lastWorkoutDate   DateTime?
+  currentStreak     Int          @default(0)
+  highestStreak     Int          @default(0)
 }
 
 model Attendance {
@@ -137,6 +141,7 @@ model Workout {
   updatedAt      DateTime   @default(now()) @updatedAt
   targetGender   String?
   exercises      Exercise[] @relation("WorkoutExercises")
+  users          UserWorkout[]
 }
 
 model Exercise {
@@ -151,6 +156,7 @@ model Exercise {
   focusArea   FocusArea?
   equipments  Equipment[]
   workouts    Workout[]   @relation("WorkoutExercises")
+  exerciseCompletions ExerciseCompletion[]
 }
 
 enum FocusArea {
@@ -171,6 +177,28 @@ model Equipment {
   name       String
   exerciseId String
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
+}
+
+model UserWorkout {
+  id             String         @id @default(uuid())
+  userId         String
+  workoutId      String
+  startedAt      DateTime        @default(now()) // When the workout was started
+  progress       Int?            // Percentage or stage of workout completion
+  finishedAt     DateTime?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workout        Workout         @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+}
+
+model ExerciseCompletion {
+  id          String     @id @default(uuid())
+  userId      String
+  exerciseId  String
+  completedAt DateTime    @default(now()) // When the exercise was completed
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exercise    Exercise    @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
 }
 
 model MealPlan {

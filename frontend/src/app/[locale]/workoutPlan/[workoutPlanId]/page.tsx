@@ -1,6 +1,5 @@
 "use client";
-import { WorkoutPlanType } from "../page";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface Exercise {
   id: string;
@@ -14,6 +13,17 @@ interface Exercise {
   focusArea: string;
 }
 
+interface WorkoutPlanType {
+  id: string;
+  name: string;
+  difficulty: string;
+  mainGoal: string;
+  workoutType: string;
+  duration: number;
+  daysPerWeek: number;
+  exercises: Exercise[];
+}
+
 export default function WorkoutPlan({ params }: { params: { locale: string; workoutPlanId: string } }) {
   const [exercise, setExercise] = useState<Exercise | null>(null);
   const [plan, setPlan] = useState<WorkoutPlanType | null>(null);
@@ -21,7 +31,8 @@ export default function WorkoutPlan({ params }: { params: { locale: string; work
   const [error, setError] = useState<string | null>(null);
   const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null);
 
-  console.log(params);
+  const videoRef = useRef<HTMLDivElement | null>(null);
+  const [isYouTubeLoaderReady, setYouTubeLoaderReady] = useState(false);
 
   const getWorkoutPlan = async (id: string) => {
     try {
@@ -31,8 +42,7 @@ export default function WorkoutPlan({ params }: { params: { locale: string; work
         throw new Error(`Failed to fetch workout plan: ${res.statusText}`);
       }
       const data = await res.json();
-      const plan: WorkoutPlanType = data.data.workout;
-      setPlan(plan);
+      setPlan(data.data.workout);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An unknown error occurred");
     } finally {
@@ -41,8 +51,39 @@ export default function WorkoutPlan({ params }: { params: { locale: string; work
   };
 
   useEffect(() => {
+    // @ts-ignore
+    if (!window.YT) {
+      const script = document.createElement("script");
+      script.src = "https://www.youtube.com/iframe_api";
+      script.async = true;
+      document.body.appendChild(script);
+
+      (window as any).onYouTubeIframeAPIReady = () => {
+        setYouTubeLoaderReady(true);
+      };
+    } else {
+      setYouTubeLoaderReady(true);
+    }
+  }, []);
+
+  useEffect(() => {
     getWorkoutPlan(params.workoutPlanId);
   }, [params.workoutPlanId]);
+
+  const handlePlayVideo = () => {
+    // @ts-ignore
+    if (isYouTubeLoaderReady && window.YT && videoRef.current && exercise?.videoUrl) {
+      // @ts-ignore
+      new window.YT.Player(videoRef.current, {
+        videoId: exercise.videoUrl.split("v=")[1],
+        events: {
+          onReady: (event: any) => {
+            event.target.playVideo();
+          },
+        },
+      });
+    }
+  };
 
   if (isLoading) {
     return (
@@ -84,7 +125,7 @@ export default function WorkoutPlan({ params }: { params: { locale: string; work
       <div className="text-md">{plan.mainGoal}</div>
       <div className="text-md">{plan.workoutType}</div>
       <div className="flex gap-x-5">
-        <div className="text-md font mt-10">{plan.duration} weeks,</div>
+        <div className="text-md font mt-10">{plan.duration} weeks</div>
         <div className="text-md font mt-10">{plan.daysPerWeek} days per week</div>
       </div>
       <div className="flex">
@@ -95,43 +136,28 @@ export default function WorkoutPlan({ params }: { params: { locale: string; work
               {Array.from({ length: 4 }).map((_, weekIndex) => (
                 <div className="px-10 py-3 text-md" key={weekIndex}>
                   Week {weekIndex + 1}
-                  {Array.from({ length: plan.daysPerWeek }).map((_, dayIndex) => (
-                    <div className="px-10 py-0.5 flex gap-x-5 text-sm" key={dayIndex}>
-                      <div>Day {dayIndex + 1}:</div>
-                      <div>
+                  {Array.from({ length: plan.daysPerWeek }).map((_, dayIndex) => {
+                    const currentExercise =
+                      plan.exercises[
+                      (monthIndex * 4 * plan.daysPerWeek + weekIndex * plan.daysPerWeek + dayIndex) %
+                      plan.exercises.length
+                        ];
+                    return (
+                      <div className="px-10 py-0.5 flex gap-x-5 text-sm" key={dayIndex}>
+                        <div>Day {dayIndex + 1}:</div>
                         <button
                           onClick={() => {
-                            const selectedExercise =
-                              plan.exercises[
-                              (monthIndex * 4 * plan.daysPerWeek + weekIndex * plan.daysPerWeek + dayIndex) %
-                              plan.exercises.length
-                                ];
-                            setSelectedExerciseId(selectedExercise.id);
-                            setExercise(selectedExercise);
+                            setSelectedExerciseId(currentExercise.id);
+                            setExercise(currentExercise);
                           }}
                         >
-                          <div
-                            className={
-                              selectedExerciseId ===
-                              plan.exercises[
-                              (monthIndex * 4 * plan.daysPerWeek + weekIndex * plan.daysPerWeek + dayIndex) %
-                              plan.exercises.length
-                                ].id
-                                ? "text-green-500"
-                                : ""
-                            }
-                          >
-                            {
-                              plan.exercises[
-                              (monthIndex * 4 * plan.daysPerWeek + weekIndex * plan.daysPerWeek + dayIndex) %
-                              plan.exercises.length
-                                ].name
-                            }
+                          <div className={selectedExerciseId === currentExercise.id ? "text-green-500" : ""}>
+                            {currentExercise.name}
                           </div>
                         </button>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               ))}
             </div>
@@ -143,6 +169,13 @@ export default function WorkoutPlan({ params }: { params: { locale: string; work
             <>
               <div className="text-xl">{exercise.name}</div>
               <div className="text-md">{exercise.description}</div>
+              <button
+                onClick={handlePlayVideo}
+                className="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg"
+              >
+                Play Video
+              </button>
+              <div ref={videoRef} style={{ marginTop: "20px" }} />
             </>
           ) : (
             <div className="text-md">No exercise selected</div>
