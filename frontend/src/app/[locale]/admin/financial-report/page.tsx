@@ -22,25 +22,29 @@ const FinancialReport = () => {
 
   const apiUrl = "http://localhost:5000/api/finance";
 
+  const fetchTransactions = async () => {
+    try {
+      const response = await axios.get(apiUrl);
+      const data = response.data.data;
+  
+      setTransactions(data.transactions);
+      setIncome(data.summary.income);
+      setExpense(data.summary.expense);
+      setNet(data.summary.net);
+  
+      const monthlyData = calculateMonthlyData(data.transactions);
+      setChartData(monthlyData);
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+      setError("Failed to load transactions. Please try again later.");
+    }
+  };
+
   useEffect(() => {
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        const data = response.data.data;
-        setTransactions(data.transactions);
-        setIncome(data.summary.income);
-        setExpense(data.summary.expense);
-        setNet(data.summary.net);
-
-        const monthlyData = calculateMonthlyData(data.transactions);
-        setChartData(monthlyData);
-      })
-      .catch((error) => {
-        console.error("Error fetching transactions:", error);
-        setError("Failed to load transactions. Please try again later.");
-      });
+    fetchTransactions();
   }, []);
-
+  
+  
   const calculateMonthlyData = (transactions: any[]) => {
     const monthlyTotals = Array.from({ length: 12 }, (_, month) => {
       const monthName = new Date(2024, month).toLocaleString("default", {
@@ -72,7 +76,7 @@ const FinancialReport = () => {
       setError("All fields are required!");
       return;
     }
-    
+  
     axios
       .post(apiUrl, {
         name,
@@ -83,7 +87,7 @@ const FinancialReport = () => {
       .then((response) => {
         const addedTransaction = response.data.data;
         setTransactions((prev) => [...prev, addedTransaction]);
-
+  
         if (type === "Income") {
           setIncome((prev) => prev + transactionAmount);
           setNet((prev) => prev + transactionAmount);
@@ -91,11 +95,13 @@ const FinancialReport = () => {
           setExpense((prev) => prev + transactionAmount);
           setNet((prev) => prev - transactionAmount);
         }
-
+  
         setChartData(calculateMonthlyData([...transactions, addedTransaction]));
-
+  
         setNewTransaction({ name: "", category: "", amount: "", type: "Expense" });
         setError("");
+  
+        fetchTransactions(); 
       })
       .catch((error) => {
         console.error("Error adding transaction:", error);
@@ -103,6 +109,8 @@ const FinancialReport = () => {
       });
   };
 
+  
+  
   return (
     <div className="text-white p-6 bg-black">
       {error && <div className="text-red-500 mb-4">{error}</div>}
@@ -258,18 +266,36 @@ const FinancialReport = () => {
           transaction={selectedTransaction}
           closeModal={() => setIsModalOpen(false)}
           updateTransactions={(updatedTransaction, deleted = false) => {
-            console.log("Updated Transaction:", updatedTransaction);
-            if (deleted) {
-              setTransactions(transactions.filter((t) => t.id !== updatedTransaction.id));
-              setChartData(calculateMonthlyData(transactions.filter((t) => t.id !== updatedTransaction.id)));
-            } else {
-              setTransactions((prev) =>
-                prev.map((t) => (t.id === updatedTransaction.id ? updatedTransaction : t))
-              );
-              setChartData(calculateMonthlyData(transactions));
+            if (!updatedTransaction?.id) {
+              console.error("Updated transaction is invalid:", updatedTransaction);
+              return;
             }
+          
+            setTransactions((prev) => {
+              if (!Array.isArray(prev)) {
+                console.error("Transactions state is not an array:", prev);
+                return prev; 
+              }
+          
+              let updatedTransactions = prev;
+          
+              if (deleted) {
+                updatedTransactions = prev.filter((t) => t.id !== updatedTransaction.id);
+              } else {
+                updatedTransactions = prev.map((t) =>
+                  t.id === updatedTransaction.id ? updatedTransaction : t
+                );
+              }
+          
+              setChartData(calculateMonthlyData(updatedTransactions)); 
+          
+              return updatedTransactions;
+            });
+          
+            console.log("Updated Transaction:", updatedTransaction);
           }}
-        />
+          
+                  />
       )}
     </div>
   );

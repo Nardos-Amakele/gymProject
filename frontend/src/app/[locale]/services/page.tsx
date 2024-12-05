@@ -12,24 +12,25 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 
-// Define the ServiceType interface based on the expected properties of each service
+
+
 interface ServiceType {
   id: number;
   name: string;
   price: number;
-  description: string[];
+  description: {
+    benefits: string[];
+  };
   preferred: boolean;
   category: TabName;
 }
 
-// Define the union type for tabs
 type TabName =
   | "Body Building"
   | "Exercise"
   | "Group Fitness"
   | "Personal Training";
 
-// Use TabName as the type for activeTab and tabs
 const Page = () => {
   const t = useTranslations("services_page");
   const router = useRouter();
@@ -185,7 +186,7 @@ const Page = () => {
               key={index}
               title={service.name}
               price={`Birr ${service.price}`}
-              benefits={service.description}
+              benefits={service.description.benefits}
               isPremium={service.preferred}
               onClick={() => handleServiceClick(service.name)}
             />

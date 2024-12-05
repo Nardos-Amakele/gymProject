@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from "react";
 import axios from "axios";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
@@ -28,15 +29,17 @@ const TransactionModal: React.FC<TransactionModalProps> = ({
     axios
       .patch(`http://localhost:5000/api/finance/${transaction.id}`, editedTransaction)
       .then((response) => {
-        updateTransactions(response.data.transaction);
+        const updatedTransaction = response.data.transaction;
+        updateTransactions(updatedTransaction); 
         closeModal();
+        window.location.reload();
       })
       .catch((error) => {
         console.error("Error updating transaction:", error);
         setError("Failed to update the transaction. Please try again.");
       });
   };
-
+    
   const handleDelete = () => {
     axios
       .delete(`http://localhost:5000/api/finance/${transaction.id}`)

@@ -18,7 +18,6 @@ const Services: React.FC = () => {
     details: '',
     isPremium: false
   });
-
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const checked = type === 'checkbox' ? (e.target as HTMLInputElement).checked : false;
@@ -164,15 +163,15 @@ const Services: React.FC = () => {
         <div className="grid grid-cols-2 ">
           {services[activeTab]?.map((service, index) => (
             <div key={index} onClick={() => handleCardClick(service)}>
-              <ServiceCard
-                title={service.name}
-                price={`${service.price} Birr`}
-                benefits={service.description}
-                isPremium={service.isPremium}
-                isPerDay={service.isPerDay}
-                className='scale-75'
-                onClick={() => {}}
-              />
+                <ServiceCard
+                    title={service.name}
+                    price={`${service.price} Birr`}
+                    benefits={Array.isArray(service.description) ? service.description : [service.description]}
+                    isPremium={service.isPremium}
+                    isPerDay={service.isPerDay}
+                    className="scale-75"
+                    onClick={() => {}}
+                />
             </div>
           ))}
           {modalService && (
