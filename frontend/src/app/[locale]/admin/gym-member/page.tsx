@@ -1,5 +1,11 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import MemberDetails from "../components/membersDetails";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+
 export type Member = {
   id: string;
   fullName: string;
@@ -28,12 +34,6 @@ export type Member = {
   profileImageUrl: string | null;
 };
 
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import MemberDetails from "../components/membersDetails";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-
 const GymMembersList = ({
   onMemberSelected,
 }: {
@@ -59,10 +59,12 @@ const GymMembersList = ({
         setMemberList(users);
       } catch (error) {
         console.error("Error fetching members:", error);
+        alert("Failed to load members. Please try again.");
       }
     };
     fetchMembers();
   }, []);
+
 
   const filteredMembers = memberList.filter((member) => {
     const matchesSearchTerm = member.fullName
@@ -70,13 +72,17 @@ const GymMembersList = ({
       .includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter
       ? member.status.toLowerCase() === statusFilter.toLowerCase()
-      : true; // If no status filter, include all statuses
+      : true;
     return matchesSearchTerm && matchesStatus;
   });
 
+
   const handleNameClick = (member: Member) => {
-    setSelectedMember(member);
-    onMemberSelected(member);
+    if (selectedMember?.id === member.id) {
+      setSelectedMember(null); // Deselect if the same name is clicked
+    } else {
+      setSelectedMember(member);
+    }
   };
 
   const updateUserStatus = async (
@@ -123,8 +129,8 @@ const GymMembersList = ({
     } else if (action === "Deactivate") {
       updateUserStatus(id, "inactive");
     } else if (action === "Freeze" && status === "active") {
-      updateUserStatus(id, "freeze");
-    } else if (action === "Unfreeze" && status === "freeze") {
+      updateUserStatus(id, "frozen");
+    } else if (action === "Unfreeze" && status === "frozen") {
       updateUserStatus(id, "active");
     } else if (action === "Delete") {
       setMemberToDelete(member); // Set member to delete
@@ -165,12 +171,11 @@ const GymMembersList = ({
 
   return (
     <div className="text-white flex flex-col h-full">
-      {selectedMember ? (
+      {selectedMember && selectedMember.id ? (
         <MemberDetails
           memberId={selectedMember.id}
           onClose={() => {
             setSelectedMember(null);
-            onMemberSelected(null);
           }}
         />
       ) : (
@@ -195,14 +200,14 @@ const GymMembersList = ({
               <div className="relative">
                 <div className="bg-[#ffffff29] px-4 py-2 rounded-md border border-gray-600">
                   <select
-                    className="bg-transparent text-gray-300 focus:outline-none"
+                    className="bg-transparent text-gray-300  focus:outline-none"
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                   >
                     <option value="">All Statuses</option>
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
-                    <option value="freeze">Frozen</option>
+                    <option value="frozen">Frozen</option>
                     <option value="expired">Expired</option>
                   </select>
                 </div>
@@ -224,10 +229,10 @@ const GymMembersList = ({
                 {filteredMembers.length > 0 ? (
                   filteredMembers.map((member, index) => {
                     const statusColors: { [key: string]: string } = {
-                      active: "bg-green-500/30",
-                      inactive: "bg-red-500/30",
-                      freeze: "bg-blue-500/30",
-                      expired: "bg-gray-500/30",
+                      active: "bg-green-500/20",
+                      inactive: "bg-red-500/20",
+                      freeze: "bg-blue-500/20",
+                      expired: "bg-gray-500/20",
                     };
 
                     const bgColor = statusColors[member.status.toLowerCase()] || "bg-gray-400/30";
@@ -238,19 +243,21 @@ const GymMembersList = ({
                         className={`border-b hover:bg-[#1d1d1d] ${bgColor}`}
                       >
                         <td
-                          className="px-4 py-3 hover:underline cursor-pointer"
+                          className={`px-4 py-3 hover:underline cursor-pointer ${selectedMember?.id === member.id ? "text-customBlue font-bold" : ""
+                            }`}
                           onClick={() => handleNameClick(member)}
                         >
                           {member.fullName}
                         </td>
+
                         <td className="px-4 py-3">{member.phoneNumber}</td>
                         <td className="px-4 py-3">{member.status}</td>
                         <td className="px-4 py-3">
                           <button
                             onClick={() => toggleDropdown(index)}
-                            className="text-customBlue hover:text-gray-300"
+                            className="text-customBlue hover:text-gray-300 ml-8"
                           >
-                            Actions
+                              ⋮
                           </button>
                           {dropdownIndex === index && (
                             <div className="absolute bg-gray-800 shadow-lg rounded-lg mt-2 w-40 py-2 z-10">
@@ -318,7 +325,7 @@ const GymMembersList = ({
       {/* Delete Confirmation Modal */}
       {showDeleteModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg w-80">
+          <div className="bg-black p-6 rounded-lg w-80">
             <h3 className="text-lg font-semibold mb-4">Are you sure you want to delete?</h3>
             <div className="flex justify-between">
               <button
@@ -341,7 +348,7 @@ const GymMembersList = ({
       {/* Date Modal */}
       {showDateModal && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg w-80">
+          <div className="bg-black p-6 rounded-lg w-80">
             <h3 className="text-lg font-semibold mb-4">
               Select Activation Date for {selectedMemberForDate?.fullName}
             </h3>
@@ -349,7 +356,7 @@ const GymMembersList = ({
               type="date"
               value={activationDate}
               onChange={(e) => setActivationDate(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded-md mb-4"
+              className="w-full p-2 border bg-[#ffffff29] border-gray-300 rounded-md mb-4"
             />
             <div className="flex justify-between">
               <button
