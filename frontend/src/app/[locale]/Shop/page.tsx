@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +14,7 @@ import { HeroSection } from "./_components/Hero";
 import Cart from "./_components/Cart";
 import { Item } from "./_components/Item";
 
+// Define the Product type
 interface Product {
   id: string;
   title: string;
@@ -22,64 +23,6 @@ interface Product {
   image: string;
   description?: string;
 }
-
-// Mocked Product Data
-const productData: Product[] = [
-  {
-    id: "a",
-    title: "Gym T-Shirt",
-    price: 19.99,
-    category: "clothing",
-    image:
-      "https://media.istockphoto.com/id/587819694/photo/wetsuit-isolated-on-white.jpg?s=1024x1024&w=is&k=20&c=kPCOWZw-nJHoV1NmFrHstg3BwA34rkJr4_mM50nf0NE=",
-    description: "Comfortable and stylish gym t-shirt.",
-  },
-  {
-    id: "b",
-    title: "Running Shorts",
-    price: 24.99,
-    category: "clothing",
-    image:
-      "https://media.istockphoto.com/id/1308845005/photo/blue-sport-shorts.jpg?s=1024x1024&w=is&k=20&c=9w8CcyUi4e_ek-hE772LJ9Pfm6lU_Ep4LZFt24t-Fts=",
-    description: "Breathable running shorts.",
-  },
-  {
-    id: "c",
-    title: "Dumbbells Set",
-    price: 49.99,
-    category: "equipment",
-    image:
-      "https://media.istockphoto.com/id/1325558282/vector/barbell-dumbbells-and-kettlebell-vector.jpg?s=1024x1024&w=is&k=20&c=2qpajxGe6UYOoudZubvd9rl6DLynl-vRnIWXfA9OeVo=",
-    description: "A complete set of dumbbells for strength training.",
-  },
-  {
-    id: "d",
-    title: "Kettlebell",
-    price: 34.99,
-    category: "equipment",
-    image:
-      "https://media.istockphoto.com/id/147804317/photo/kettlebell.jpg?s=1024x1024&w=is&k=20&c=b11YI0moM8rrk4dJS0q3C4dC80qpyEHgA0dDYD5w1N4=",
-    description: "High-quality kettlebell.",
-  },
-  {
-    id: "e",
-    title: "Cycling Gloves",
-    price: 14.99,
-    category: "supplement",
-    image:
-      "https://media.istockphoto.com/id/526706209/photo/bicycle-gloves.webp?s=1024x1024&w=is&k=20&c=sNA5BC0nedg3TLPX85SRAc2B7VYc_mN7MTNiTiH82_s=",
-    description: "Durable cycling gloves to enhance your grip.",
-  },
-  {
-    id: "f",
-    title: "Sports Water Bottle",
-    price: 9.99,
-    category: "supplement",
-    image:
-      "https://images.unsplash.com/photo-1601937286283-1c4550e05f58?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    description: "Stay hydrated with this lightweight sports water bottle.",
-  },
-];
 
 // Categories for the Shop Page
 const categories = [
@@ -91,19 +34,43 @@ const categories = [
 
 const ShopPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/inventory/");
+        const data: { success: boolean; data: Product[] } = await response.json();
+
+        if (data.success && Array.isArray(data.data)) {
+          setProducts(data.data); // Set fetched products
+        } else {
+          console.error("Invalid data structure", data);
+          throw new Error("Invalid data structure from API");
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unknown error");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   const handleCategoryClick = (category: string) => {
     setSelectedCategory(category === selectedCategory ? "" : category);
   };
 
   const filteredProducts = selectedCategory
-    ? productData.filter((product) => product.category === selectedCategory)
-    : productData;
+    ? products.filter((product) => product.category === selectedCategory)
+    : products;
 
   return (
     <>
       <Header />
-
       <HeroSection />
 
       <div className="w-full pl-10 pr-10 pb-10">
@@ -138,7 +105,11 @@ const ShopPage: React.FC = () => {
                 : "All Products For You!"}
             </h2>
 
-            {filteredProducts.length > 0 ? (
+            {loading ? (
+              <p className="text-center">Loading...</p>
+            ) : error ? (
+              <p className="text-center text-red-500">{error}</p>
+            ) : filteredProducts.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {filteredProducts.map((product) => (
                   <Item
@@ -167,4 +138,3 @@ const ShopPage: React.FC = () => {
 };
 
 export default ShopPage;
-//NAROS AMAKELE fix this ish. duplicate items issue!
