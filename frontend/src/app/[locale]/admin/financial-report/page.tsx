@@ -19,12 +19,13 @@ const FinancialReport = () => {
   const [error, setError] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+  const [filter, setFilter] = useState("monthly"); 
 
   const apiUrl = "http://localhost:5000/api/finance";
 
   const fetchTransactions = async () => {
     try {
-      const response = await axios.get(apiUrl);
+      const response = await axios.get(`${apiUrl}?filter=${filter}`);
       const data = response.data.data;
   
       setTransactions(data.transactions);
@@ -32,8 +33,8 @@ const FinancialReport = () => {
       setExpense(data.summary.expense);
       setNet(data.summary.net);
   
-      const monthlyData = calculateMonthlyData(data.transactions);
-      setChartData(monthlyData);
+      const filteredData = calculateData(data.transactions);
+      setChartData(filteredData);
     } catch (error) {
       console.error("Error fetching transactions:", error);
       setError("Failed to load transactions. Please try again later.");
@@ -42,20 +43,51 @@ const FinancialReport = () => {
 
   useEffect(() => {
     fetchTransactions();
-  }, []);
+  }, [filter]); // Re-fetch when filter changes
   
-  
+  const calculateData = (transactions: any[]) => {
+    if (filter === "weekly") {
+      return calculateWeeklyData(transactions);
+    } else if (filter === "monthly") {
+      return calculateMonthlyData(transactions);
+    } else {
+      return calculateYearlyData(transactions);
+    }
+  };
+
+  const calculateWeeklyData = (transactions: any[]) => {
+    const weeklyTotals = Array.from({ length: 52 }, (_, week) => {
+      const startOfWeek = new Date(new Date().setDate(new Date().getDate() - week * 7));
+      const endOfWeek = new Date(startOfWeek);
+      endOfWeek.setDate(endOfWeek.getDate() + 6);
+      
+      const total = transactions
+        .filter((t) => {
+          const transactionDate = new Date(t.createdAt);
+          return transactionDate >= startOfWeek && transactionDate <= endOfWeek;
+        })
+        .reduce((sum, t) => sum + t.amount, 0);
+        
+      return { week: `Week ${week + 1}`, amount: total };
+    });
+    return weeklyTotals;
+  };
+
   const calculateMonthlyData = (transactions: any[]) => {
     const monthlyTotals = Array.from({ length: 12 }, (_, month) => {
-      const monthName = new Date(2024, month).toLocaleString("default", {
-        month: "long",
-      });
+      const monthName = new Date(2024, month).toLocaleString("default", { month: "long" });
       const total = transactions
         .filter((t) => new Date(t.createdAt).getMonth() === month)
         .reduce((sum, t) => sum + t.amount, 0);
       return { month: monthName, amount: total };
     });
     return monthlyTotals;
+  };
+
+  const calculateYearlyData = (transactions: any[]) => {
+    const yearlyTotal = transactions
+      .reduce((sum, t) => sum + t.amount, 0);
+    return [{ year: "2024", amount: yearlyTotal }];
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,7 +128,7 @@ const FinancialReport = () => {
           setNet((prev) => prev - transactionAmount);
         }
   
-        setChartData(calculateMonthlyData([...transactions, addedTransaction]));
+        setChartData(calculateData([...transactions, addedTransaction]));
   
         setNewTransaction({ name: "", category: "", amount: "", type: "Expense" });
         setError("");
@@ -109,11 +141,17 @@ const FinancialReport = () => {
       });
   };
 
-  
-  
   return (
     <div className="text-white p-6 bg-black">
       {error && <div className="text-red-500 mb-4">{error}</div>}
+      
+      {/* Filter options */}
+      <div className="flex gap-4 mb-4">
+        <button onClick={() => setFilter("weekly")} className={`px-4 py-2 ${filter === "weekly" ? "bg-customBlue" : "bg-gray-700"}`}>Weekly</button>
+        <button onClick={() => setFilter("monthly")} className={`px-4 py-2 ${filter === "monthly" ? "bg-customBlue" : "bg-gray-700"}`}>Monthly</button>
+        <button onClick={() => setFilter("yearly")} className={`px-4 py-2 ${filter === "yearly" ? "bg-customBlue" : "bg-gray-700"}`}>Yearly</button>
+      </div>
+      
       {/* Chart Section */}
       <div className="p-4 bg-[#121212] rounded-lg my-4">
         <LineChart data={chartData} width={970} height={300}>

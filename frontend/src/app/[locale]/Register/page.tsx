@@ -31,6 +31,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
+    password: "",
     email: "",
     address: "",
     dob: "",
@@ -70,11 +71,11 @@ const Register = () => {
         });
 
         setServices(categorizedServices);
-        setIsLoading(false); // Set loading to false when services are loaded
+        setIsLoading(false); 
       })
       .catch((error) => {
         setError("Failed to fetch services.");
-        setIsLoading(false); // Also stop loading if there's an error
+        setIsLoading(false); 
       });
 
     const categoryFromUrl = searchParams.get("category") || "Body Building";
@@ -101,33 +102,32 @@ const Register = () => {
     setSelectedPackage(service.name);
     setSelectedServiceId(service.id);
   };
-
   const handleNextClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
+  
     if (!selectedPackage) {
       setError("Please choose a package.");
       return;
     }
-
+  
     if (!isTermsChecked) {
       setError("Please agree to the terms and conditions.");
       return;
     }
-
+  
     const totalPrice = parseFloat(
       services[selectedCategory].find(
         (service) => service.id === selectedServiceId
       )?.price || "0"
     );
-
+  
     const newUser = {
       ...formData,
       selectedPackage,
       totalPrice,
       serviceId: selectedServiceId || "",
     };
-
+  
     const formDataToSend = new FormData();
     Object.entries(newUser).forEach(([key, value]) => {
       if (key === "profileImage" && value) {
@@ -136,7 +136,7 @@ const Register = () => {
         formDataToSend.append(key, value as string);
       }
     });
-
+  
     try {
       const response = await axios.post(
         "http://localhost:5000/api/members",
@@ -145,20 +145,24 @@ const Register = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-
+    
+      console.log('Response status:', response.status);  // Debug log
       if (response.status !== 200) {
         setError(response.data.message);
       } else {
+        console.log('Redirecting to summary page');  // Debug log
         setError(null);
-        router.push("admin");
+        router.push(
+          `/Register/register-summary?packages=${JSON.stringify([selectedPackage])}&total=${totalPrice}`
+        );
       }
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         setError(error.response.data.message || null);
       }
     }
-  };
-
+      };
+    
   const handleOptionSelect = (option: "camera" | "gallery") => {
     if (option === "camera") {
       setIsUsingCamera(true);
@@ -226,6 +230,15 @@ const Register = () => {
                 className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 text-gray-400"
                 placeholder={t('fields.phone_number')}
               />
+                            <input
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                type="password"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 text-gray-400"
+                placeholder={t('fields.password')}
+              />
+
               <input
                 name="address"
                 value={formData.address}
@@ -402,7 +415,7 @@ const Register = () => {
       </div>
     </div>
   );
- 
+
 };
 
 export default Register;

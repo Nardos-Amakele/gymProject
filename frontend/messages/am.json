@@ -436,6 +436,7 @@
     "fields": {
       "full_name": "ሙሉ ስም",
       "phone_number": "ስልክ ቁጥር",
+      "password": "ስልክ ቁጥር",
       "email": "ኢሜል",
       "address": "አድራሻ",
       "birthdate": "ቀን/ወር/አመት",
