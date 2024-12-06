@@ -68,6 +68,15 @@ model Transaction {
   updatedAt DateTime @updatedAt
 }
 
+model Attendance {
+  id       String   @id @default(uuid())
+  memberId String
+  date     DateTime @default(now())
+  user     User     @relation(fields: [memberId], references: [id])
+
+  @@unique([memberId, date])
+}
+
 model Service {
   id          String   @id @default(uuid())
   name        String
@@ -84,52 +93,43 @@ model Service {
 }
 
 model User {
-  id                String       @id @default(uuid())
-  fullName          String
-  gender            String
-  phoneNumber       String       @unique
-  email             String?
-  address           String
-  dob               DateTime
-  emergencyContact  String
-  firstRegisteredAt DateTime     @default(now())
-  startDate         DateTime     @default(now())
-  totalAttendance   Int          @default(0)
-  remainingDays     Int          @default(0)
-  countDown         Int?
-  height            Float?
-  weight            Float?
-  bmi               Float?
-  healthConditions  Json?
-  level             String?
-  goal              String?
-  status            String       @default("pending")
-  freezeDate        DateTime?
-  createdAt         DateTime     @default(now())
-  updatedAt         DateTime     @updatedAt
-  serviceId         String?
-  service           Service?     @relation(fields: [serviceId], references: [id], onDelete: SetNull)
-  attendance        Attendance[]
-  profileImageUrl String?
-  workouts          UserWorkout[]
+  id                 String               @id @default(uuid())
+  fullName           String
+  gender             String
+  phoneNumber        String               @unique
+  email              String?
+  address            String
+  dob                DateTime
+  emergencyContact   String
+  firstRegisteredAt  DateTime             @default(now())
+  startDate          DateTime             @default(now())
+  totalAttendance    Int                  @default(0)
+  remainingDays      Int                  @default(0)
+  countDown          Int?
+  height             Float?
+  weight             Float?
+  bmi                Float?
+  healthConditions   Json?
+  level              String?
+  goal               String?
+  status             String               @default("pending")
+  freezeDate         DateTime?
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  serviceId          String?
+  service            Service?             @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  attendance         Attendance[]
+  profileImageUrl    String?
+  workouts           UserWorkout[]
   exercisesCompleted ExerciseCompletion[]
-  lastWorkoutDate   DateTime?
-  currentStreak     Int          @default(0)
-  highestStreak     Int          @default(0)
-}
-
-model Attendance {
-  id       String   @id @default(uuid())
-  memberId String
-  date     DateTime @default(now())
-  user     User     @relation(fields: [memberId], references: [id])
-
-  @@unique([memberId, date])
+  lastWorkoutDate    DateTime?
+  currentStreak      Int                  @default(0)
+  highestStreak      Int                  @default(0)
 }
 
 model Workout {
-  id             String     @id @default(uuid())
-  name           String     @unique
+  id             String        @id @default(uuid())
+  name           String        @unique
   slug           String
   difficulty     String
   mainGoal       String
@@ -137,26 +137,48 @@ model Workout {
   duration       Int
   daysPerWeek    Int
   timePerWorkout Int
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @default(now()) @updatedAt
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now()) @updatedAt
   targetGender   String?
-  exercises      Exercise[] @relation("WorkoutExercises")
+  exercises      Exercise[]    @relation("WorkoutExercises")
   users          UserWorkout[]
 }
 
 model Exercise {
-  id          String      @id @default(cuid())
-  slug        String      @unique
-  name        String      @unique
-  description String
-  reps        Int?
-  sets        Int?
-  duration    Int
-  videoUrl    String?
-  focusArea   FocusArea?
-  equipments  Equipment[]
-  workouts    Workout[]   @relation("WorkoutExercises")
+  id                  String               @id @default(cuid())
+  slug                String               @unique
+  name                String               @unique
+  description         String
+  reps                Int?
+  sets                Int?
+  duration            Int
+  videoUrl            String?
+  focusArea           FocusArea?
+  equipments          Equipment[]
+  workouts            Workout[]            @relation("WorkoutExercises")
   exerciseCompletions ExerciseCompletion[]
+}
+
+model UserWorkout {
+  id         String    @id @default(uuid())
+  userId     String
+  workoutId  String
+  startedAt  DateTime  @default(now()) // When the workout was started
+  progress   Int? // Percentage or stage of workout completion
+  finishedAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workout    Workout   @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+}
+
+model ExerciseCompletion {
+  id          String   @id @default(uuid())
+  userId      String
+  exerciseId  String
+  completedAt DateTime @default(now()) // When the exercise was completed
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  exercise    Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
 }
 
 enum FocusArea {
@@ -177,28 +199,6 @@ model Equipment {
   name       String
   exerciseId String
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
-}
-
-model UserWorkout {
-  id             String         @id @default(uuid())
-  userId         String
-  workoutId      String
-  startedAt      DateTime        @default(now()) // When the workout was started
-  progress       Int?            // Percentage or stage of workout completion
-  finishedAt     DateTime?
-  createdAt      DateTime        @default(now())
-  updatedAt      DateTime        @updatedAt
-  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  workout        Workout         @relation(fields: [workoutId], references: [id], onDelete: Cascade)
-}
-
-model ExerciseCompletion {
-  id          String     @id @default(uuid())
-  userId      String
-  exerciseId  String
-  completedAt DateTime    @default(now()) // When the exercise was completed
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  exercise    Exercise    @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
 }
 
 model MealPlan {

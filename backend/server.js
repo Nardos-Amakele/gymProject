@@ -29,8 +29,10 @@ app.use("/api/dashboard", require("./routes/dashboardRoutes"));
 app.use("/api/inventory", require("./routes/inventoryRoutes"));
 app.use("/api/workouts", require('./routes/workoutRoutes'));
 app.use("/api/exercises", require("./routes/exerciseRoutes"));
-app.use("/api/meals", require("./routes/mealRoutes"))
-app.use("/api/mealPlans", require("./routes/mealPlanRoutes"))
+app.use("/api/meals", require("./routes/mealRoutes"));
+app.use("/api/mealPlans", require("./routes/mealPlanRoutes"));
+app.use("/api/markAsCompleted", require("./routes/exerciseCompletionRoute"));
+
 app.use(errorHandler);
 
 app.listen(port, () => console.log(`Server started on port ${port}`));
