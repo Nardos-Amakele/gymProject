@@ -1,12 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import axios from "axios";
 import WebcamCapture from "./PhotoUpload";
 import PhotoUploadModal from "./PhotoUploadModal";
 import TermsAndConditionsModal from "../components/TermsAndConditionsModal"
 import LoadingPage from "./loading";
+import { routing } from "@/src/i18n/routing";
 
 
 interface Service {
@@ -48,6 +49,13 @@ const Register = () => {
 
   const openTermsModal = () => setIsTermsModalOpen(true);
   const closeTermsModal = () => setIsTermsModalOpen(false);
+  const pathname = usePathname();
+
+
+  const currentLocale = pathname.split("/")[1] || routing.defaultLocale; // Get the current locale from the pathname
+const segments = pathname.split("/");
+const pathnameWithoutLocale = segments.slice(2).join("/"); // Extract path after locale
+
 
 
 
@@ -116,7 +124,7 @@ const Register = () => {
     }
   
     const totalPrice = parseFloat(
-      services[selectedCategory].find(
+      services[selectedCategory]?.find(
         (service) => service.id === selectedServiceId
       )?.price || "0"
     );
@@ -132,7 +140,7 @@ const Register = () => {
     Object.entries(newUser).forEach(([key, value]) => {
       if (key === "profileImage" && value) {
         formDataToSend.append(key, value as File);
-      } else {
+      } else if (value) {
         formDataToSend.append(key, value as string);
       }
     });
@@ -145,25 +153,29 @@ const Register = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-    
-      console.log('Response status:', response.status);  // Debug log
-      if (response.status !== 200) {
-        setError(response.data.message);
-      } else {
-        console.log('Redirecting to summary page');  // Debug log
+  
+      if (response.status === 201) {
         setError(null);
+        console.log("Redirecting to summary page...");
         router.push(
-          `/Register/register-summary?packages=${JSON.stringify([selectedPackage])}&total=${totalPrice}`
+          `/${currentLocale}/Register/registerSummary?packages=${encodeURIComponent(
+            JSON.stringify([selectedPackage])
+          )}&total=${totalPrice}`
         );
+                } else {
+        setError(response.data.message);
       }
     } catch (error) {
+      console.error("Error during POST request:", error);
       if (axios.isAxiosError(error) && error.response) {
-        setError(error.response.data.message || null);
+        setError(error.response.data.message || "An unknown error occurred.");
+      } else {
+        setError("Network error. Please try again later.");
       }
     }
-      };
-    
-  const handleOptionSelect = (option: "camera" | "gallery") => {
+  };
+  
+    const handleOptionSelect = (option: "camera" | "gallery") => {
     if (option === "camera") {
       setIsUsingCamera(true);
     } else {

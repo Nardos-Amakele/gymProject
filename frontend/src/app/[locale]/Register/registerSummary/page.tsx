@@ -1,3 +1,4 @@
+'use client'
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -69,7 +70,7 @@ const RegisterSummary = () => {
           <h3 className="text-xl font-semibold text-customBlue">Payment Instructions</h3>
           <div className="bg-[#c0ebff] p-4 mt-2 rounded-lg border border-customBlue">
             <p className="mb-2 text-black">
-              Please transfer 50% of the total amount --- ETB {total ? (+total / 2).toFixed(2) : "0.00"} --- to one of the following accounts:
+              Please transfer 50% of the total amount to one of the following accounts:
             </p>
             <ul className="list-none text-black">
               <li><strong>CBE:</strong> Account Number 123456789</li>
