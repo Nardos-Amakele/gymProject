@@ -1,9 +1,9 @@
 import React from 'react'
-import strength from "../../../../../../assets/images/strength.png";
+import strength from "../../../../../../../assets/images/strength.png";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClock, faPlay } from "@fortawesome/free-solid-svg-icons";
-import videoThumbnail from "../../../../../../assets/images/video.png"; 
+import videoThumbnail from "../../../../../../../assets/images/video.png"; 
 
 
 const page = () => {
@@ -26,7 +26,7 @@ const page = () => {
   <Image
     src={strength}
     alt="Upper body - Strength"
-    className="w-60 h-40 object-contain rounded-lg"
+    className="w-60 h-40 object-contain  rounded-lg"
   />
 </div>
       <div>
