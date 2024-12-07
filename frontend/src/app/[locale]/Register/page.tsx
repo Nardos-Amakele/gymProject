@@ -1,12 +1,13 @@
 "use client";
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import axios from "axios";
 import WebcamCapture from "./PhotoUpload";
 import PhotoUploadModal from "./PhotoUploadModal";
 import TermsAndConditionsModal from "../components/TermsAndConditionsModal"
 import LoadingPage from "./loading";
+import { routing } from "@/src/i18n/routing";
 
 
 interface Service {
@@ -31,6 +32,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
+    password: "",
     email: "",
     address: "",
     dob: "",
@@ -47,6 +49,13 @@ const Register = () => {
 
   const openTermsModal = () => setIsTermsModalOpen(true);
   const closeTermsModal = () => setIsTermsModalOpen(false);
+  const pathname = usePathname();
+
+
+  const currentLocale = pathname.split("/")[1] || routing.defaultLocale; // Get the current locale from the pathname
+const segments = pathname.split("/");
+const pathnameWithoutLocale = segments.slice(2).join("/"); // Extract path after locale
+
 
 
 
@@ -70,11 +79,11 @@ const Register = () => {
         });
 
         setServices(categorizedServices);
-        setIsLoading(false); // Set loading to false when services are loaded
+        setIsLoading(false); 
       })
       .catch((error) => {
         setError("Failed to fetch services.");
-        setIsLoading(false); // Also stop loading if there's an error
+        setIsLoading(false); 
       });
 
     const categoryFromUrl = searchParams.get("category") || "Body Building";
@@ -101,42 +110,41 @@ const Register = () => {
     setSelectedPackage(service.name);
     setSelectedServiceId(service.id);
   };
-
   const handleNextClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-
+  
     if (!selectedPackage) {
       setError("Please choose a package.");
       return;
     }
-
+  
     if (!isTermsChecked) {
       setError("Please agree to the terms and conditions.");
       return;
     }
-
+  
     const totalPrice = parseFloat(
-      services[selectedCategory].find(
+      services[selectedCategory]?.find(
         (service) => service.id === selectedServiceId
       )?.price || "0"
     );
-
+  
     const newUser = {
       ...formData,
       selectedPackage,
       totalPrice,
       serviceId: selectedServiceId || "",
     };
-
+  
     const formDataToSend = new FormData();
     Object.entries(newUser).forEach(([key, value]) => {
       if (key === "profileImage" && value) {
         formDataToSend.append(key, value as File);
-      } else {
+      } else if (value) {
         formDataToSend.append(key, value as string);
       }
     });
-
+  
     try {
       const response = await axios.post(
         "http://localhost:5000/api/members",
@@ -145,21 +153,29 @@ const Register = () => {
           headers: { "Content-Type": "multipart/form-data" },
         }
       );
-
-      if (response.status !== 200) {
-        setError(response.data.message);
-      } else {
+  
+      if (response.status === 201) {
         setError(null);
-        router.push("admin");
+        console.log("Redirecting to summary page...");
+        router.push(
+          `/${currentLocale}/Register/registerSummary?packages=${encodeURIComponent(
+            JSON.stringify([selectedPackage])
+          )}&total=${totalPrice}`
+        );
+                } else {
+        setError(response.data.message);
       }
     } catch (error) {
+      console.error("Error during POST request:", error);
       if (axios.isAxiosError(error) && error.response) {
-        setError(error.response.data.message || null);
+        setError(error.response.data.message || "An unknown error occurred.");
+      } else {
+        setError("Network error. Please try again later.");
       }
     }
   };
-
-  const handleOptionSelect = (option: "camera" | "gallery") => {
+  
+    const handleOptionSelect = (option: "camera" | "gallery") => {
     if (option === "camera") {
       setIsUsingCamera(true);
     } else {
@@ -226,6 +242,15 @@ const Register = () => {
                 className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 text-gray-400"
                 placeholder={t('fields.phone_number')}
               />
+                            <input
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                type="password"
+                className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 text-gray-400"
+                placeholder={t('fields.password')}
+              />
+
               <input
                 name="address"
                 value={formData.address}

@@ -9,27 +9,29 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { routing } from "@/src/i18n/routing";
 
-// Define the ServiceType interface based on the expected properties of each service
+
+
 interface ServiceType {
   id: number;
   name: string;
   price: number;
-  description: string[];
+  description: {
+    benefits: string[];
+  };
   preferred: boolean;
   category: TabName;
 }
 
-// Define the union type for tabs
 type TabName =
   | "Body Building"
   | "Exercise"
   | "Group Fitness"
   | "Personal Training";
 
-// Use TabName as the type for activeTab and tabs
 const Page = () => {
   const t = useTranslations("services_page");
   const router = useRouter();
@@ -56,8 +58,16 @@ const Page = () => {
     "Personal Training":
       "Get personalized attention with our 1-on-1 coaching and tailored plans.",
   };
+  const pathname = usePathname();
+
+
+  const currentLocale = pathname.split("/")[1] || routing.defaultLocale; // Get the current locale from the pathname
+const segments = pathname.split("/");
+const pathnameWithoutLocale = segments.slice(2).join("/"); // Extract path after locale
+
 
   const fetchServices = async () => {
+    
     try {
       const response = await axios.get("http://localhost:5000/api/services");
       const data = response.data.data;
@@ -84,13 +94,16 @@ const Page = () => {
   }, []);
 
   const handleServiceClick = (packageName: string) => {
+    const queryParams = new URLSearchParams({
+      category: activeTab,
+      package: encodeURIComponent(packageName),
+    }).toString();
+  
     router.push(
-      `/Register?category=${activeTab}&package=${encodeURIComponent(
-        packageName
-      )}`
+      `/${currentLocale}/Register`
     );
-  };
-
+      };
+  
   const nextSectionRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToNextSection = () => {
@@ -185,7 +198,7 @@ const Page = () => {
               key={index}
               title={service.name}
               price={`Birr ${service.price}`}
-              benefits={service.description}
+              benefits={service.description.benefits}
               isPremium={service.preferred}
               onClick={() => handleServiceClick(service.name)}
             />

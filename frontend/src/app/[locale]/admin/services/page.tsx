@@ -1,12 +1,34 @@
 'use client'
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import axios from 'axios';
-import { useFetchServices } from '../../hooks/usefetchServices';
 import ServiceCard from '../../services/ServicesCards';
 import EditServiceModal from './EditServiceModal';
+import ConfirmDeleteModal from '../components/ConfirmDeleteModal';
+
+interface ServiceType {
+  id: number;
+  name: string;
+  price: number;
+  description: {
+    benefits: string[];
+  };
+  preferred: boolean;
+  category: TabName;
+}
+
+type TabName =
+  | "Body Building"
+  | "Exercise"
+  | "Group Fitness"
+  | "Personal Training";
+
 
 const Services: React.FC = () => {
-  const { services, loading, error } = useFetchServices();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [serviceToDelete, setServiceToDelete] = useState<ServiceType | null>(null);
+  const [services, setServices] = useState<{
+    [key in TabName]?: ServiceType[];
+  }>({});
   const [activeTab, setActiveTab] = useState<keyof typeof services>("Exercise");
   const [modalService, setModalService] = useState(null);
   const [formData, setFormData] = useState({
@@ -19,6 +41,32 @@ const Services: React.FC = () => {
     isPremium: false
   });
 
+
+  const fetchServices = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/services");
+      const data = response.data.data;
+      const categorizedServices: { [key in TabName]?: ServiceType[] } = {};
+      data.forEach((service: ServiceType) => {
+        const category = normalizeCategory(service.category);
+        if (category) {
+          categorizedServices[category] = [
+            ...(categorizedServices[category] || []),
+            service,
+          ];
+        }
+              });
+      console.log("Categorized Services:", categorizedServices);
+      setServices(categorizedServices); 
+          } catch (error) {
+      console.error("Error fetching services:", error);
+    }
+  };
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+
   const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target;
     const checked = type === 'checkbox' ? (e.target as HTMLInputElement).checked : false;
@@ -29,25 +77,55 @@ const Services: React.FC = () => {
   };
 
   const handleAddService = async () => {
-    const newService = { ...formData };
-
+    const { name, period, daysAllocated, price, category, details, isPremium } = formData;
+  
+    // Prepare payload
+    const newService = {
+      name,
+      period: parseInt(period),
+      maxDays: parseInt(daysAllocated),
+      price: parseFloat(price),
+      category,
+      description: {
+        benefits: details.split(',').map((benefit) => benefit.trim()), // Assume comma-separated benefits
+      },
+      preferred: isPremium,
+    };
+  
     try {
-      const formDataToSend = new FormData();
-      Object.entries(newService).forEach(([key, value]) => {
-        formDataToSend.append(key, value as string | Blob);
+      const response = await axios.post('http://localhost:5000/api/services', newService, {
+        headers: { 'Content-Type': 'application/json' },
       });
-
-      await axios.post('/api/services', formDataToSend, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      alert('Service added successfully!');
+  
+      // Parse response
+      const addedService = response.data.data;
+      const updatedCategory = normalizeCategory(addedService.category);
+  
+      if (updatedCategory) {
+        setServices((prevServices) => ({
+          ...prevServices,
+          [updatedCategory]: [...(prevServices[updatedCategory] || []), addedService],
+        }));
+      }
+  
     } catch (error) {
-      console.error("Failed to add service:", error);
-      alert('Failed to add service');
+      console.error('Failed to add service:', error);
+      alert('Failed to add service. Please try again.');
     }
   };
+  
+  const normalizeCategory = (category: string): TabName | null => {
+    switch (category.trim().toLowerCase()) {
+      case "body building": return "Body Building";
+      case "exercise": return "Exercise";
+      case "group fitness": return "Group Fitness";
+      case "personal training": return "Personal Training";
+      default: return null;
+    }
+  };
+  
 
-  const tabs = Object.keys(services);
+  const tabs = Object.keys(services) as TabName[];
   const handleCardClick = (service: any) => {
     setModalService(service);
   };
@@ -57,11 +135,45 @@ const Services: React.FC = () => {
   };
 
   const handleSaveService = (updatedService: any) => {
-    setModalService(null);
+    const category = normalizeCategory(updatedService.category);
+    if (category) {
+      setServices((prevServices) => ({
+        ...prevServices,
+        [category]: prevServices[category]?.map((service) =>
+          service.id === updatedService.id ? updatedService : service
+        ),
+      }));
+    }
+  };
+  
+  const handleOpenDeleteModal = (service: ServiceType) => {
+    setServiceToDelete(service);
+    setDeleteModalOpen(true);
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p style={{ color: 'red' }}>Error: {error}</p>;
+  const handleCloseDeleteModal = () => {
+    setDeleteModalOpen(false);
+    setServiceToDelete(null);
+  };
+
+  const handleDeleteService = async () => {
+    if (!serviceToDelete) return;
+    try {
+      await axios.delete(`http://localhost:5000/api/services/${serviceToDelete.id}`);
+      const category = normalizeCategory(serviceToDelete.category);
+      if (category) {
+        setServices((prevServices) => ({
+          ...prevServices,
+          [category]: prevServices[category]?.filter(
+            (service) => service.id !== serviceToDelete.id
+          ),
+        }));
+      }
+      handleCloseDeleteModal(); 
+    } catch (error) {
+      console.error("Failed to delete service:", error);
+    }
+  };
 
   return (
     <div className="flex bg-black min-h-screen text-white">
@@ -164,27 +276,36 @@ const Services: React.FC = () => {
         <div className="grid grid-cols-2 ">
           {services[activeTab]?.map((service, index) => (
             <div key={index} onClick={() => handleCardClick(service)}>
-              <ServiceCard
-                title={service.name}
-                price={`${service.price} Birr`}
-                benefits={service.description}
-                isPremium={service.isPremium}
-                isPerDay={service.isPerDay}
-                className='scale-75'
-                onClick={() => {}}
-              />
+            <ServiceCard
+              key={index}
+              title={service.name}
+              price={`Birr ${service.price}`}
+              benefits={service.description.benefits}
+              isPremium={service.preferred}
+              onClick={() => {}}
+              className='scale-75'
+            />
             </div>
           ))}
           {modalService && (
-            <EditServiceModal
-              service={modalService}
-              onClose={handleCloseModal}
-              onSave={handleSaveService}
-              onDelete={() => {}}
-            />
-          )}
+        <EditServiceModal
+        service={modalService}
+        onClose={() => setModalService(null)}
+        onSave={handleSaveService} 
+        onDelete={() => handleOpenDeleteModal(modalService)} 
+      />
+        )}
         </div>
       </div>
+      {deleteModalOpen && serviceToDelete && (
+        <ConfirmDeleteModal
+          isOpen={deleteModalOpen}
+          onClose={handleCloseDeleteModal}
+          onConfirm={handleDeleteService}
+          itemName={serviceToDelete.name}
+        />
+      )}
+
     </div>
   );
 };

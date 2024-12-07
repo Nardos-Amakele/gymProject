@@ -1,7 +1,6 @@
-'use client';
-
-import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+'use client'
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const RegisterSummary = () => {
   const router = useRouter();
@@ -9,19 +8,24 @@ const RegisterSummary = () => {
   const [total, setTotal] = useState<string | null>(null);
 
   useEffect(() => {
-
     const searchParams = new URLSearchParams(window.location.search);
-    const packagesQuery = searchParams.get('packages');
-    const totalQuery = searchParams.get('total');
+    const packagesQuery = searchParams.get("packages");
+    const totalQuery = searchParams.get("total");
 
-    setSelectedPackages(packagesQuery ? JSON.parse(packagesQuery) : []);
-    setTotal(totalQuery || '0');
+    if (packagesQuery) {
+      try {
+        setSelectedPackages(JSON.parse(packagesQuery));
+      } catch (error) {
+        console.error("Error parsing packages:", error);
+      }
+    }
+
+    setTotal(totalQuery || "0");
   }, []);
 
   if (!selectedPackages.length) {
     return <p>Loading...</p>;
   }
-
 
   return (
     <div className="text-white flex justify-center items-center p-10 h-lvh bg-black">
@@ -34,7 +38,7 @@ const RegisterSummary = () => {
           <div className="grid grid-cols-2">
             {/* First column - Packages */}
             <ul>
-              {selectedPackages.map((pkg: string, index: number) => (
+              {selectedPackages.map((pkg, index) => (
                 <li key={index} className="mb-1">
                   {pkg}
                 </li>
@@ -43,18 +47,15 @@ const RegisterSummary = () => {
 
             {/* Second column - Prices */}
             <ul className="text-right">
-              {selectedPackages.map((pkg: string, index: number) => (
+              {selectedPackages.map((pkg, index) => (
                 <li key={index} className="mb-1">
                   {`ETB ${(1000 + index * 100).toFixed(2)}`}
                 </li>
-                
               ))}
-              <p className='text-right text-customBlue'></p>
+              <p className="text-right text-customBlue"></p>
             </ul>
           </div>
         </div>
-              
-
 
         {/* Total */}
         <div className="border-t border-customHoverBlue pt-4">
@@ -69,7 +70,7 @@ const RegisterSummary = () => {
           <h3 className="text-xl font-semibold text-customBlue">Payment Instructions</h3>
           <div className="bg-[#c0ebff] p-4 mt-2 rounded-lg border border-customBlue">
             <p className="mb-2 text-black">
-              Please transfer 50% of the total amount --- ETB {total ? (+total / 2).toFixed(2) : '0.00'} --- to one of the following accounts:
+              Please transfer 50% of the total amount to one of the following accounts:
             </p>
             <ul className="list-none text-black">
               <li><strong>CBE:</strong> Account Number 123456789</li>

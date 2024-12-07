@@ -20,7 +20,7 @@ export const Item: React.FC<ItemProps> = ({
   image,
   description,
 }) => {
-  const { addToCart } = useCart(); 
+  const { addToCart } = useCart();
 
   const handleAddToCart = () => {
     addToCart({
@@ -58,8 +58,13 @@ export const Item: React.FC<ItemProps> = ({
           </div>
         </div>
 
+        {/* Product Description */}
+        {description && (
+          <p className="text-white text-sm mt-2">{description}</p>
+        )}
+
         {/* Add to Cart Button (Icon in a row with price for smaller screens) */}
-        <div className="flex items-center justify-between md:-mt-4 sm:-mt-12  lg:hidden ">
+        <div className="flex items-center justify-between md:-mt-4 sm:-mt-12 lg:hidden">
           <p className="text-customBlue font-bold">
             ETB {price.toFixed(2)}
           </p>
@@ -79,6 +84,7 @@ export const Item: React.FC<ItemProps> = ({
           Add to Cart
         </button>
       </div>
+
     </div>
   );
 };

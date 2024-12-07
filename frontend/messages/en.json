@@ -400,6 +400,7 @@
     "fields": {
       "full_name": "Full Name",
       "phone_number": "Phone Number",
+      "password":"Password",
       "email": "Email",
       "address": "Address",
       "birthdate": "mm/dd/yyyy",
