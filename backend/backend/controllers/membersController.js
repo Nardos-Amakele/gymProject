@@ -4,7 +4,6 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const bcrypt = require("bcryptjs");
-const bwipjs = require("bwip-js");
 
 // Multer configuration for image uploads
 const storage = multer.diskStorage({
@@ -43,28 +42,16 @@ const isValidDate = (dateStr) => {
   return !isNaN(date.getTime()) && dateStr === date.toISOString().split("T")[0];
 };
 
-const generateBarcode = async (userId) => {
-  try {
-    const barcodeBuffer = await bwipjs.toBuffer({
-      bcid: "code128",
-      text: userId,
-      scale: 3,
-      height: 10,
-      includetext: true,
-      textxalign: "center",
-    });
-    return `data:image/png;base64,${barcodeBuffer.toString("base64")}`;
-  } catch (error) {
-    console.error("Barcode generation error:", error);
-    throw new Error("Failed to generate barcode");
-  }
-};
-
 // Get all users
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
   res.status(200).json({ success: true, data: { users } });
 });
+
 const addUser = [
   upload.single("profileImage"),
   asyncHandler(async (req, res) => {
@@ -155,7 +142,39 @@ const addUser = [
 
     // Handle profile image upload
     let profileImageUrl = null;
-    if (req.file) {
+
+    const profileImage = req.body.profileImage || (req.file && req.file.buffer);
+    if (
+      typeof profileImage === "string" &&
+      profileImage.startsWith("data:image/")
+    ) {
+      // Handle Base64 Image
+      try {
+        const base64Data = profileImage.replace(/^data:image\/\w+;base64,/, "");
+        const buffer = Buffer.from(base64Data, "base64");
+
+        // Validate file size
+        if (buffer.length > 10 * 1024 * 1024) {
+          throw new Error("File size exceeds 10 MB limit.");
+        }
+
+        const dir = "uploads/users/";
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir, { recursive: true });
+        }
+
+        const fileName = `${Date.now()}_profileImage.png`; // Assume PNG
+        const filePath = `${dir}${fileName}`;
+        fs.writeFileSync(filePath, buffer);
+        profileImageUrl = `/${filePath}`;
+      } catch (error) {
+        return res.status(400).json({
+          success: false,
+          message: `Error processing base64 image: ${error.message}`,
+        });
+      }
+    } else if (req.file) {
+      // Handle Binary File via Multer
       profileImageUrl = `/uploads/users/${req.file.filename}`;
     }
 
@@ -189,20 +208,11 @@ const addUser = [
       },
     });
 
-    // Generate barcode for the user
-    const barcode = await generateBarcode(newUser.id);
-
-    // Update the user with the generated barcode
-    const updatedUser = await prisma.user.update({
-      where: { id: newUser.id },
-      data: { barcode },
-    });
-
     // Return a successful response
     res.status(201).json({
       success: true,
       message: "User added successfully.",
-      data: updatedUser,
+      data: newUser,
     });
   }),
 ];

@@ -26,7 +26,11 @@ const getCardData = asyncHandler(async (req, res) => {
 const getPendingMembers = asyncHandler(async (req, res) => {
   const pendingMembers = await prisma.user.findMany({
     where: { status: "pending" },
+    orderBy: {
+      createdAt: "desc",
+    },
     select: {
+      id: true,
       fullName: true,
       phoneNumber: true,
       service: {

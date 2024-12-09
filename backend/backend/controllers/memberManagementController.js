@@ -1,5 +1,22 @@
 const asyncHandler = require("express-async-handler");
 const prisma = require("../../prisma/client");
+const bwipjs = require("bwip-js");
+
+const generateBarcode = async (userId) => {
+  try {
+    const barcodeBuffer = await bwipjs.toBuffer({
+      bcid: "code128",
+      text: userId,
+      scale: 1,
+      height: 10,
+      includetext: false,
+    });
+    return `data:image/png;base64,${barcodeBuffer.toString("base64")}`;
+  } catch (error) {
+    console.error("Barcode generation error:", error);
+    throw new Error("Failed to generate barcode");
+  }
+};
 
 // Helper function to calculate days between two dates
 const calculateDaysBetween = (date1, date2) =>
@@ -59,13 +76,21 @@ const getUserProfile = asyncHandler(async (req, res) => {
     });
   }
 
-  const { startDate, service, preFreezeAttendance, preFreezeDaysCount } = user;
+  const { startDate, service, preFreezeAttendance, status } = user;
+
+  // Return user details immediately for statuses other than active or expired
+  if (status !== "active" && status !== "expired") {
+    const barcode = await generateBarcode(user.id); // Generate barcode
+    return res.status(200).json({
+      success: true,
+      data: { ...user, barcode },
+    });
+  }
   const expirationDate = new Date(startDate);
   expirationDate.setDate(expirationDate.getDate() + service.period);
-  const adjustedStartDate = adjustStartDateForFreeze(preFreezeDaysCount);
 
   const attendanceCountSinceStart = await prisma.attendance.count({
-    where: { memberId: id, date: { gte: adjustedStartDate } },
+    where: { memberId: id, date: { gte: startDate } },
   });
 
   const remainingDays =
@@ -78,13 +103,20 @@ const getUserProfile = asyncHandler(async (req, res) => {
     where: { id: id },
     data: {
       daysLeft: countdown,
-      ...(countdown < 0 && { status: "inactive" }),
+      ...(countdown < -3
+        ? { status: "inactive" }
+        : countdown < 0
+        ? { status: "expired" }
+        : {}),
     },
   });
 
+  // Generate barcode for the user
+  const barcode = await generateBarcode(user.id);
+
   res.status(200).json({
     success: true,
-    data: { user },
+    data: { ...user, barcode },
   });
 });
 
@@ -103,6 +135,7 @@ const updateUserStatus = asyncHandler(async (req, res) => {
   const user = await prisma.user.findUnique({
     where: { id },
     select: {
+      daysLeft: true,
       startDate: true,
       freezeDate: true,
       preFreezeAttendance: true,
@@ -125,7 +158,16 @@ const updateUserStatus = asyncHandler(async (req, res) => {
         .json({ success: false, message: "Invalid start date" });
     }
 
-    updateData.startDate = parsedStartDate;
+    // Calculate the adjusted start date if daysLeft is below zero
+    if (daysLeft < 0) {
+      const adjustedStartDate = new Date();
+      adjustedStartDate.setDate(adjustedStartDate.getDate() + daysLeft); // Adjust start date by adding the negative days
+      updateData.startDate = adjustedStartDate;
+    } else {
+      updateData.startDate = parsedStartDate;
+    }
+
+    // Reset other relevant fields
     updateData.freezeDate = null;
     updateData.preFreezeAttendance = 0;
     updateData.preFreezeDaysCount = 0;

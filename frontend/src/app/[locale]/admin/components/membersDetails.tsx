@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { jsPDF } from "jspdf";
 
-
 interface Service {
   name: string;
   period: number;
@@ -63,14 +62,16 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
       setError(null);
 
       try {
-        const response = await fetch(`http://localhost:5000/api/memberManagement/${memberId}/profile`);
+        const response = await fetch(
+          `http://localhost:5000/api/memberManagement/${memberId}/profile`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch member details");
         }
 
         const data = await response.json();
         if (data.success) {
-          setMemberDetails(data.data.user);
+          setMemberDetails(data.data);
         } else {
           setError(data.message || "Failed to load member details");
         }
@@ -110,19 +111,43 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
     doc.text(`Phone Number: ${memberDetails.phoneNumber}`, 10, 20);
     doc.text(`Email: ${memberDetails.email || "N/A"}`, 10, 30);
     doc.text(`Address: ${memberDetails.address || "N/A"}`, 10, 40);
-    doc.text(`Date of Birth: ${memberDetails.dob ? new Date(memberDetails.dob).toLocaleDateString() : "N/A"}`, 10, 50);
-    doc.text(`Emergency Contact: ${memberDetails.emergencyContact || "N/A"}`, 10, 60);
+    doc.text(
+      `Date of Birth: ${
+        memberDetails.dob
+          ? new Date(memberDetails.dob).toLocaleDateString()
+          : "N/A"
+      }`,
+      10,
+      50
+    );
+    doc.text(
+      `Emergency Contact: ${memberDetails.emergencyContact || "N/A"}`,
+      10,
+      60
+    );
 
     // Add health information (you can adjust this part based on your structure)
-    doc.text(`Health Conditions: ${memberDetails.healthConditions || "N/A"}`, 10, 70);
+    doc.text(
+      `Health Conditions: ${memberDetails.healthConditions || "N/A"}`,
+      10,
+      70
+    );
     doc.text(`Goal: ${memberDetails.goal || "N/A"}`, 10, 80);
 
     // Add service info
-    doc.text(`Service: ${memberDetails.service.name || "No Service Assigned"}`, 10, 90);
+    doc.text(
+      `Service: ${memberDetails.service.name || "No Service Assigned"}`,
+      10,
+      90
+    );
     doc.text(`Days Left: ${memberDetails.daysLeft}`, 10, 100);
 
     // Add attendance, weight, height, BMI info
-    doc.text(`Total Attendance: ${memberDetails.totalAttendance} days`, 10, 110);
+    doc.text(
+      `Total Attendance: ${memberDetails.totalAttendance} days`,
+      10,
+      110
+    );
     doc.text(`Weight: ${memberDetails.weight || "N/A"} kg`, 10, 120);
     doc.text(`Height: ${memberDetails.height || "N/A"} cm`, 10, 130);
     doc.text(`BMI: ${memberDetails.bmi || "N/A"} kg/m²`, 10, 140);
@@ -138,8 +163,6 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
       link.click();
     }
   };
-
-
 
   return (
     <div className="text-white rounded-lg p-4">
@@ -168,24 +191,27 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
               <img
                 src={`http://localhost:5000${memberDetails.profileImageUrl}`}
                 alt="Profile"
-                className={`w-full h-full rounded-full transition-transform ${isZoomed ? "scale-150" : "scale-100"}`}
+                className={`w-full h-full rounded-full transition-transform ${
+                  isZoomed ? "scale-150" : "scale-100"
+                }`}
               />
             </div>
 
             <div>
-              <h2 className="text-sm text-white font-bold">{memberDetails.fullName}</h2>
+              <h2 className="text-sm text-white font-bold">
+                {memberDetails.fullName}
+              </h2>
               <p className="text-customBlue text-xs">{memberDetails.gender}</p>
             </div>
 
             <div className="w-48 h-10">
               <img
-                src={memberDetails.barcode} 
+                src={memberDetails.barcode}
                 alt="barcode"
                 className="h-full w-full filter contrast-125 cursor-pointer"
                 onClick={handleBarcodeDownload}
               />
             </div>
-
           </div>
 
           <div className="grid grid-cols-1 gap-4 bg-[#111111] p-4 rounded-lg pb-52">
@@ -195,19 +221,31 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
             </p>
             <p className="flex justify-between">
               <span className="text-gray-400 text-[10px]">Email Address:</span>
-              <span className="text-[11px]">{memberDetails.email || "N/A"}</span>
+              <span className="text-[11px]">
+                {memberDetails.email || "N/A"}
+              </span>
             </p>
             <p className="flex justify-between">
               <span className="text-gray-400 text-[10px]">Address:</span>
-              <span className="text-[11px]">{memberDetails.address || "N/A"}</span>
+              <span className="text-[11px]">
+                {memberDetails.address || "N/A"}
+              </span>
             </p>
             <p className="flex justify-between">
               <span className="text-gray-400 text-[10px]">DOB:</span>
-              <span className="text-[11px]">{memberDetails.dob ? new Date(memberDetails.dob).toLocaleDateString() : "N/A"}</span>
+              <span className="text-[11px]">
+                {memberDetails.dob
+                  ? new Date(memberDetails.dob).toLocaleDateString()
+                  : "N/A"}
+              </span>
             </p>
             <p className="flex justify-between">
-              <span className="text-gray-400 text-[10px]">Emergency Contact:</span>
-              <span className="text-[11px]">{memberDetails.emergencyContact || "N/A"}</span>
+              <span className="text-gray-400 text-[10px]">
+                Emergency Contact:
+              </span>
+              <span className="text-[11px]">
+                {memberDetails.emergencyContact || "N/A"}
+              </span>
             </p>
           </div>
         </div>
@@ -221,7 +259,9 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
               <p className="text-white text-[10px]">Service</p>
             </div>
             <div className="text-center border border-[rgb(17,17,17)] p-4 rounded-lg bg-[#1B1B1B]">
-              <p className="text-customBlue text-xs font-bold text-center">{memberDetails.daysLeft}</p>
+              <p className="text-customBlue text-xs font-bold text-center">
+                {memberDetails.daysLeft}
+              </p>
               <p className="text-white text-[10px]">Days Left</p>
             </div>
             <div className="text-center border border-[#111111] px-6 rounded-lg bg-[#1B1B1B] p-4">
@@ -239,7 +279,6 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
             >
               Download
             </button>
-
           </div>
 
           <div className="bg-[#111111] pb-6">
@@ -281,24 +320,38 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
                 <h3 className="text-xl font-bold">Health Info.</h3>
                 <div className="w-full">
                   <p className="flex items-center justify-between">
-                    <span className="text-gray-400 text-[10px]">Medical conditions:</span>
+                    <span className="text-gray-400 text-[10px]">
+                      Medical conditions:
+                    </span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span className="text-[8px]">{memberDetails.healthConditions || "N/A"}</span>
+                    <span className="text-[8px]">
+                      {memberDetails.healthConditions || "N/A"}
+                    </span>
                   </p>
                   <p className="flex items-center justify-between">
-                    <span className="text-gray-400 text-[10px]">Allergies:</span>
+                    <span className="text-gray-400 text-[10px]">
+                      Allergies:
+                    </span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span className="text-[8px]">{memberDetails.goal || "N/A"}</span>
+                    <span className="text-[8px]">
+                      {memberDetails.goal || "N/A"}
+                    </span>
                   </p>
                   <p className="flex items-center justify-between">
                     <span className="text-gray-400 text-[10px]">Injuries:</span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span className="text-[8px]">{memberDetails.goal || "N/A"}</span>
+                    <span className="text-[8px]">
+                      {memberDetails.goal || "N/A"}
+                    </span>
                   </p>
                   <p className="flex items-center justify-between">
-                    <span className="text-gray-400 text-[10px]">Medications:</span>
+                    <span className="text-gray-400 text-[10px]">
+                      Medications:
+                    </span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span className="text-[8px]">{memberDetails.goal || "N/A"}</span>
+                    <span className="text-[8px]">
+                      {memberDetails.goal || "N/A"}
+                    </span>
                   </p>
                 </div>
               </div>
@@ -310,12 +363,16 @@ const MemberDetails: React.FC<MemberDetailsProps> = ({ memberId, onClose }) => {
                   <p className="flex items-center justify-between">
                     <span className="text-gray-400 text-[10px]">Level:</span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span className="text-[10px]">{memberDetails.level || "N/A"}</span>
+                    <span className="text-[10px]">
+                      {memberDetails.level || "N/A"}
+                    </span>
                   </p>
                   <p className="flex items-center justify-between">
                     <span className="text-gray-400 text-[10px]">Goal:</span>
                     <span className="flex-grow border-dotted border-b border-gray-400 mx-2"></span>
-                    <span className="text-[10px]">{memberDetails.goal || "N/A"}</span>
+                    <span className="text-[10px]">
+                      {memberDetails.goal || "N/A"}
+                    </span>
                   </p>
                 </div>
               </div>
