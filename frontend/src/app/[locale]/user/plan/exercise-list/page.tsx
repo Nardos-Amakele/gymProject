@@ -12,6 +12,8 @@ const exercises = [
 ];
 
 const ExerciseList = () => {
+  const [selectedMeal, setSelectedMeal] = useState("Oatmeal");
+  const [showModal, setShowModal] = useState(false);
   const [selectedExercise, setSelectedExercise] = useState("Elbow Plank");
   const [filter, setFilter] = useState("All");
 
@@ -26,6 +28,11 @@ const ExerciseList = () => {
             : false
         );
 
+  const handleExcerciseClick = (exerciseName: string) => {
+    setSelectedExercise(exerciseName);
+    setShowModal(true);
+  }
+
   return (
     <div className="flex flex-col md:flex-row h-screen text-white rounded-3xl">
       {/* Sidebar */}
@@ -37,7 +44,7 @@ const ExerciseList = () => {
               key={category}
               onClick={() => setFilter(category)}
               className={`px-5 py-1 text-xs rounded-full ${
-                filter === category ? "bg-customBlue" : "bg-gray-700 hover:bg-[#555555]"
+                filter === category ? "bg-customBlue" : "bg-[#1e1e1e] hover:bg-[#555555]"
               }`}
             >
               {category}
@@ -50,7 +57,7 @@ const ExerciseList = () => {
           {filteredExercises.map((exercise) => (
             <li
               key={exercise.name}
-              onClick={() => setSelectedExercise(exercise.name)}
+              onClick={() => handleExcerciseClick(exercise.name)}
               className={`flex items-center justify-between p-3 cursor-pointer rounded-full ${
                 selectedExercise === exercise.name
                   ? "bg-customBlue"
@@ -76,9 +83,29 @@ const ExerciseList = () => {
           ))}
         </ul>
       </div>
+            {/* Modal for Small Screens */}
+            {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 md:hidden">
+          <div className="bg-[#1e1e1e] p-4 rounded-lg text-center w-11/12 max-w-md">
+            <button
+              className="absolute top-2 right-4 text-gray-300 hover:text-white"
+              onClick={() => setShowModal(false)}
+            >
+              ✕
+            </button>
+            <div className="w-full md:w-2/3 h-60 md:h-2/3 bg-black rounded-lg relative">
+          {/* Video Placeholder */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <h2 className="text-xl md:text-2xl font-bold">{selectedExercise}</h2>
+          </div>
+        </div>
+          </div>
+        </div>
+      )}
+
 
       {/* Video Preview */}
-      <div className="flex-1 flex items-center justify-center bg-[#1e1e1e] p-1">
+      <div className="hidden flex-1 md:flex items-center justify-center bg-[#1e1e1e] p-1">
         <div className="w-full md:w-2/3 h-60 md:h-2/3 bg-black rounded-lg relative">
           {/* Video Placeholder */}
           <div className="absolute inset-0 flex items-center justify-center">

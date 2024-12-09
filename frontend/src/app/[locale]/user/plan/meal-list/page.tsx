@@ -33,7 +33,7 @@ const MealList = () => {
 
   const handleMealClick = (mealName: string) => {
     setSelectedMeal(mealName);
-    setShowModal(true); // Open modal on smaller screens
+    setShowModal(true); 
   };
 
   return (
@@ -101,14 +101,20 @@ const MealList = () => {
 
       {/* Image Preview for Larger Screens */}
       <div className="hidden md:flex flex-1 flex-col items-center justify-center bg-[#1e1e1e] p-1">
-        <div className="w-full md:w-2/3 h-60 md:h-2/3 rounded-lg relative flex flex-col gap-2">
+        <div className="w-full md:w-2/3 h-60 md:h-2/3 rounded-lg relative flex flex-col gap-3">
           <Image src={macaroni} alt="{macaroni}" className="w-full rounded-md" />
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
             <h2 className="text-xl md:text-2xl font-bold">{selectedMeal}</h2>
             <p className="text-xs text-gray-300 font-extralight">
               {meals.find((meal) => meal.name === selectedMeal)?.ingredients.join(", ")}
             </p>
           </div>
+          <button>
+            <span className="text-white text-lg font-bold px-5 py-1 rounded-full bg-customBlue">
+              {meals.find((meal) => meal.name === selectedMeal)?.calories}{" "}
+              <span className="text-xs font-extralight">Kcal</span>
+            </span>
+          </button>
         </div>
       </div>
     </div>
