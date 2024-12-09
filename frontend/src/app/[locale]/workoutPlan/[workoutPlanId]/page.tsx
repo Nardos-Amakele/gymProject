@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, {useEffect, useRef, useState} from "react";
 
 interface Exercise {
   id: string;
@@ -24,20 +24,23 @@ interface WorkoutPlanType {
   exercises: Exercise[];
 }
 
-export default function WorkoutPlan({ params }: { params: { locale: string; workoutPlanId: string } }) {
+export default function WorkoutPlan({params}: { params: { locale: string; workoutPlanId: string } }) {
   const [exercise, setExercise] = useState<Exercise | null>(null);
   const [plan, setPlan] = useState<WorkoutPlanType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedExerciseId, setSelectedExerciseId] = useState<string | null>(null);
-
   const videoRef = useRef<HTMLDivElement | null>(null);
   const [isYouTubeLoaderReady, setYouTubeLoaderReady] = useState(false);
+
+//   const updateUser = async(id:string){
+// return
+//   }
 
   const getWorkoutPlan = async (id: string) => {
     try {
       setIsLoading(true);
-      const res = await fetch(`http://localhost:5000/api/workouts/${id}`, { cache: "no-store" });
+      const res = await fetch(`http://localhost:5000/api/workouts/${id}`, {cache: "no-store"});
       if (!res.ok) {
         throw new Error(`Failed to fetch workout plan: ${res.statusText}`);
       }
@@ -120,7 +123,10 @@ export default function WorkoutPlan({ params }: { params: { locale: string; work
 
   return (
     <div className="text-white bg-zinc-900 p-10 rounded-lg m-20">
-      <div className="text-4xl font-bold">{plan.name}</div>
+      <div className="flex justify-around">
+        <div className="text-4xl font-bold">{plan.name}</div>
+        <button onClick={() => {}} className="bg-blue-500 px-3 rounded-lg">select Plan</button>
+      </div>
       <div className="text-md">{plan.difficulty}</div>
       <div className="text-md">{plan.mainGoal}</div>
       <div className="text-md">{plan.workoutType}</div>
@@ -130,13 +136,13 @@ export default function WorkoutPlan({ params }: { params: { locale: string; work
       </div>
       <div className="flex">
         <div>
-          {Array.from({ length: Math.ceil(plan.duration / 4) }).map((_, monthIndex) => (
+          {Array.from({length: Math.ceil(plan.duration / 4)}).map((_, monthIndex) => (
             <div className="py-5 text-lg" key={monthIndex}>
               Month {monthIndex + 1}
-              {Array.from({ length: 4 }).map((_, weekIndex) => (
+              {Array.from({length: 4}).map((_, weekIndex) => (
                 <div className="px-10 py-3 text-md" key={weekIndex}>
                   Week {weekIndex + 1}
-                  {Array.from({ length: plan.daysPerWeek }).map((_, dayIndex) => {
+                  {Array.from({length: plan.daysPerWeek}).map((_, dayIndex) => {
                     const currentExercise =
                       plan.exercises[
                       (monthIndex * 4 * plan.daysPerWeek + weekIndex * plan.daysPerWeek + dayIndex) %
@@ -175,7 +181,7 @@ export default function WorkoutPlan({ params }: { params: { locale: string; work
               >
                 Play Video
               </button>
-              <div ref={videoRef} style={{ marginTop: "20px" }} />
+              <div ref={videoRef} style={{marginTop: "20px"}}/>
             </>
           ) : (
             <div className="text-md">No exercise selected</div>

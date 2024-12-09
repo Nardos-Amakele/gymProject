@@ -50,10 +50,8 @@ export default async function WorkoutPlanPage() {
         {/* Card */}
         <main className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 bg-[#252525] rounded-lg">
           {plans.map((plan, index) => (
-            <Link  href={`workoutPlan/${plan.id}`}>
-              <div
-                key={index}
-                className="bg-black p-4 rounded-lg shadow-lg flex flex-row  space-y-2"
+            <Link key={index}  href={`workoutPlan/${plan.id}`}>
+              <div className="bg-black p-4 rounded-lg shadow-lg flex flex-row  space-y-2"
               >
                 <div className="flex flex-col justify-between">
                   <div>

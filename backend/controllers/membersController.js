@@ -70,6 +70,7 @@ const addUser = [
             lastWorkoutDate,
             currentStreak,
             highestStreak,
+            notification,
         } = req.body;
 
         if (
@@ -164,6 +165,11 @@ const addUser = [
                 lastWorkoutDate : new Date(lastWorkoutDate),
                 currentStreak,
                 highestStreak,
+                notifications: {
+                    create: notification?.map((notification) => ({
+                        id: notification.id,
+                    })),
+                },
             },
         });
 
@@ -241,6 +247,7 @@ const editUser = [
             profileImageUrl = `/uploads/users/${req.file.filename}`;
         }
 
+
         const updatedUser = await prisma.user.update({
             where: {id},
             data: {
@@ -280,8 +287,47 @@ const editUser = [
         });
     }),
 ];
+const updateNotification = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { add, remove } = req.body;
+    const user = await prisma.user.findUnique({ where: { id } });
+    if (!user) {
+        return res.status(404).json({ success: false, message: "User not found." });
+    }
+    let updatedNotifications = user.notification || [];
+    if (add && Array.isArray(add)) {
+        add.forEach((newNotification) => {
+            if (!newNotification.id || !newNotification.message) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Each notification must include an id and a message.",
+                });
+            }
+            const exists = updatedNotifications.some(
+                (notification) => notification.id === newNotification.id
+            );
+            if (!exists) {
+                updatedNotifications.push(newNotification);
+            }
+        });
+    }
+    if (remove && Array.isArray(remove)) {
+        updatedNotifications = updatedNotifications.filter(
+            (notification) => !remove.includes(notification.id)
+        );
+    }
+    const updatedUser = await prisma.user.update({
+        where: { id },
+        data: { notification: updatedNotifications },
+    });
+    res.status(200).json({
+        success: true,
+        message: "Notifications updated successfully.",
+        data: updatedUser.notification,
+    });
+});
 
-// Delete a user by ID
+
 const deleteUser = asyncHandler(async (req, res) => {
     const {id} = req.params;
     const user = await prisma.user.findUnique({where: {id}});
@@ -301,4 +347,4 @@ const deleteUser = asyncHandler(async (req, res) => {
         .json({success: true, message: "User deleted successfully."});
 });
 
-module.exports = {getUsers, addUser, editUser, deleteUser};
+module.exports = {getUsers, addUser, editUser, deleteUser, updateNotification};

@@ -14,7 +14,7 @@ const markAsCompleted = asyncHandler(async (req, res) => {
             where: {
                 id: userId
             }
-        })
+        });
         const lastWorkoutDate = user.lastWorkoutDate;
         const today = new Date().toISOString().split('T')[0];
         const isNewStreak = lastWorkoutDate && lastWorkoutDate.toISOString().split('T')[0] === today;

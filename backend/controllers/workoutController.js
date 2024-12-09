@@ -27,6 +27,7 @@ const getWorkout = asyncHandler(async (req, res) => {
 const createWorkout = asyncHandler(async (req, res) => {
     const {
         name,
+        slug,
         difficulty,
         mainGoal,
         workoutType,
@@ -56,6 +57,7 @@ const createWorkout = asyncHandler(async (req, res) => {
             const newWorkout = await prisma.workout.create({
                 data: {
                     name,
+                    slug,
                     difficulty,
                     mainGoal,
                     workoutType,
@@ -98,6 +100,7 @@ const updateWorkout = asyncHandler(async (req, res) => {
     console.log(id.workoutPlanId)
     const {
         name,
+        slug,
         difficulty,
         mainGoal,
         workoutType,
@@ -123,6 +126,7 @@ const updateWorkout = asyncHandler(async (req, res) => {
         const updateData = {};
 
         if (name) updateData.name = name;
+        if (slug) updateData.slug = slug;
         if (difficulty) updateData.difficulty = difficulty;
         if (mainGoal) updateData.mainGoal = mainGoal;
         if (workoutType) updateData.workoutType = workoutType;

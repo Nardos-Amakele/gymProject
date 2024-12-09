@@ -5,7 +5,7 @@ const {
   getUsers,
   addUser,
   editUser,
-  deleteUser,
+  deleteUser, updateNotification,
 } = require("../controllers/membersController");
 
 router.get("/", getUsers);
@@ -13,6 +13,8 @@ router.get("/", getUsers);
 router.post("/", addUser);
 
 router.patch("/:id", editUser);
+
+router.put("/:id/notification", updateNotification)
 
 router.delete("/:id", deleteUser);
 

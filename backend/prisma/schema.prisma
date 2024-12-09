@@ -108,7 +108,7 @@ model User {
   countDown          Int?
   height             Float?
   weight             Float?
-  bmi                Float?
+  bmi                bmi[]
   healthConditions   Json?
   level              String?
   goal               String?
@@ -125,6 +125,33 @@ model User {
   lastWorkoutDate    DateTime?
   currentStreak      Int                  @default(0)
   highestStreak      Int                  @default(0)
+  notifications      Notification[]
+}
+
+model Advertisement {
+  id          String @id @default(uuid())
+  name        String
+  description String
+  slug        String @unique
+}
+
+model Broadcast {
+  id          String @id @default(uuid())
+  name        String
+  description String
+}
+
+model Notification {
+  id          String @id @default(uuid())
+  description String
+  userId      String
+  user        User   @relation(fields: [userId], references: [id])
+}
+
+model bmi {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
 }
 
 model Workout {
@@ -145,7 +172,7 @@ model Workout {
 }
 
 model Exercise {
-  id                  String               @id @default(cuid())
+  id                  String               @id @default(uuid())
   slug                String               @unique
   name                String               @unique
   description         String
@@ -195,14 +222,14 @@ enum FocusArea {
 }
 
 model Equipment {
-  id         String   @id @default(cuid())
+  id         String   @id @default(uuid())
   name       String
   exerciseId String
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
 }
 
 model MealPlan {
-  id          String   @id @default(cuid())
+  id          String   @id @default(uuid())
   name        String
   slug        String
   description String
@@ -213,7 +240,7 @@ model MealPlan {
 }
 
 model Meal {
-  id              String       @id @default(cuid())
+  id              String       @id @default(uuid())
   name            String
   slug            String
   description     String
@@ -232,7 +259,7 @@ model Meal {
 }
 
 model Ingredient {
-  id       String  @id @default(cuid())
+  id       String  @id @default(uuid())
   name     String
   quantity String?
   mealId   String
