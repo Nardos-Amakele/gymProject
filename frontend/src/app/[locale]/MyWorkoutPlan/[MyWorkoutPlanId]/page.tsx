@@ -24,7 +24,8 @@ interface WorkoutPlanType {
   exercises: Exercise[];
 }
 
-export default function WorkoutPlan({params}: { params: { locale: string; workoutPlanId: string } }) {
+export default function MyWorkoutPlan({params}: { params: { locale: string; MyWorkoutPlanId: string } }) {
+  console.log(params)
   const [exercise, setExercise] = useState<Exercise | null>(null);
   const [plan, setPlan] = useState<WorkoutPlanType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -33,25 +34,26 @@ export default function WorkoutPlan({params}: { params: { locale: string; workou
   const videoRef = useRef<HTMLDivElement | null>(null);
   const [isYouTubeLoaderReady, setYouTubeLoaderReady] = useState(false);
 
-  const selectPlan = async (workoutId: string) => {
-    const res = await fetch(`http://localhost:5000/api/members/addUserWorkout`, {
+
+  const markAsCompleted = async (exerciseId: string) => {
+    const res = await fetch(`http://localhost:5000/api/markAsCompleted`, {
       cache: "no-store", method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
         userId: "8a9b5e1f-3522-45a1-b65b-b15b29ffaf75",
-        workoutId: workoutId
+        exerciseId: exerciseId
       })
-    })
+    });
     if (!res.ok) {
-      throw new Error(`Failed to select plan ${res.statusText}`)
+      throw new Error(`Failed to update Exercise ${res.statusText}`)
     }
     const data = await res.json()
     console.log(data)
   }
 
-  const getWorkoutPlan = async (id: string) => {
+  const getMyWorkoutPlan = async (id: string) => {
     try {
       setIsLoading(true);
       const res = await fetch(`http://localhost:5000/api/workouts/${id}`, {cache: "no-store"});
@@ -84,8 +86,8 @@ export default function WorkoutPlan({params}: { params: { locale: string; workou
   }, []);
 
   useEffect(() => {
-    getWorkoutPlan(params.workoutPlanId);
-  }, [params.workoutPlanId]);
+    getMyWorkoutPlan(params.MyWorkoutPlanId).then(r => {} );
+  }, [params.MyWorkoutPlanId]);
 
   const handlePlayVideo = () => {
     // @ts-ignore
@@ -118,7 +120,7 @@ export default function WorkoutPlan({params}: { params: { locale: string; workou
         <div className="mt-5">
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-            onClick={() => getWorkoutPlan(params.workoutPlanId)}
+            onClick={() => getMyWorkoutPlan(params.MyWorkoutPlanId)}
           >
             Retry
           </button>
@@ -139,9 +141,6 @@ export default function WorkoutPlan({params}: { params: { locale: string; workou
     <div className="text-white bg-zinc-900 p-10 rounded-lg m-20">
       <div className="flex justify-around">
         <div className="text-4xl font-bold">{plan.name}</div>
-        <button onClick={() => selectPlan(plan.id)
-        } className="bg-blue-500 px-3 rounded-lg">select Plan
-        </button>
       </div>
       <div className="text-md">{plan.difficulty}</div>
       <div className="text-md">{plan.mainGoal}</div>
@@ -150,42 +149,48 @@ export default function WorkoutPlan({params}: { params: { locale: string; workou
         <div className="text-md font mt-10">{plan.duration} weeks</div>
         <div className="text-md font mt-10">{plan.daysPerWeek} days per week</div>
       </div>
-      <div className="flex">
-        <div>
+      <div className="flex py-10">
+        <div className="overflow-y-auto max-h-96">
           {Array.from({length: Math.ceil(plan.duration / 4)}).map((_, monthIndex) => (
-            <div className="py-5 text-lg" key={monthIndex}>
+            <div className="py-5 text-lg " key={monthIndex}>
               Month {monthIndex + 1}
-              {Array.from({length: 4}).map((_, weekIndex) => (
-                <div className="px-10 py-3 text-md" key={weekIndex}>
-                  Week {weekIndex + 1}
-                  {Array.from({length: plan.daysPerWeek}).map((_, dayIndex) => {
-                    const currentExercise =
-                      plan.exercises[
-                      (monthIndex * 4 * plan.daysPerWeek + weekIndex * plan.daysPerWeek + dayIndex) %
-                      plan.exercises.length
-                        ];
-                    return (
-                      <div className="px-10 py-0.5 flex gap-x-5 text-sm" key={dayIndex}>
-                        <div>Day {dayIndex + 1}:</div>
-                        <button
-                          onClick={() => {
-                            setSelectedExerciseId(currentExercise.id);
-                            setExercise(currentExercise);
-                          }}
-                        >
-                          <div className={selectedExerciseId === currentExercise.id ? "text-green-500" : ""}>
-                            {currentExercise.name}
-                          </div>
-                        </button>
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
+              <div className="px-5 py-3 text-md ">
+                {Array.from({length: 4}).map((_, weekIndex) => (
+                  <div className="px-5 py-3 text-md" key={weekIndex}>
+                    Week {weekIndex + 1}
+                    {Array.from({length: plan.daysPerWeek}).map((_, dayIndex) => {
+                      const currentExercise =
+                        plan.exercises[
+                        (monthIndex * 4 * plan.daysPerWeek + weekIndex * plan.daysPerWeek + dayIndex) %
+                        plan.exercises.length
+                          ];
+                      return (
+                        <div className="px-5 py-0.5 flex gap-x-5 text-sm" key={dayIndex}>
+                          <div>Day {dayIndex + 1}:</div>
+                          <button
+                            onClick={() => {
+                              setSelectedExerciseId(currentExercise.id);
+                              setExercise(currentExercise);
+                            }}
+                          >
+                            <div
+                              className={
+                                selectedExerciseId === currentExercise.id ? "text-green-500" : ""
+                              }
+                            >
+                              {currentExercise.name}
+                            </div>
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
-        <div>
+        <div className="px-10">
           <div className="text-3xl font-bold">Selected Exercise</div>
           {exercise ? (
             <>
@@ -198,12 +203,22 @@ export default function WorkoutPlan({params}: { params: { locale: string; workou
                 Play Video
               </button>
               <div ref={videoRef} style={{marginTop: "20px"}}/>
+              <button
+                onClick={() => markAsCompleted(exercise.id)}
+                className="bg-blue-500 px-3 rounded-lg"
+              >
+                Mark as Completed
+              </button>
+              <button>
+                Next
+              </button>
             </>
           ) : (
             <div className="text-md">No exercise selected</div>
           )}
         </div>
       </div>
+
     </div>
   );
 }

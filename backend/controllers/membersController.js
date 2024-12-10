@@ -38,8 +38,19 @@ const isValidDate = (dateStr) => {
 
 // Get all users
 const getUsers = asyncHandler(async (req, res) => {
-    const users = await prisma.user.findMany();
-    res.status(200).json({success: true, data: {users}});
+    const users = await prisma.user.findMany({
+            include: {
+                exercisesCompleted: true,
+                attendance: true,
+                workouts: true,
+                bmis: true,
+                notifications: true
+            }
+        }
+    );
+    res.status(200).json({
+        success: true, data: {users},
+    });
 });
 
 // Add a new user
@@ -58,7 +69,7 @@ const addUser = [
             countDown,
             height,
             weight,
-            bmi,
+            bmis,
             healthConditions,
             level,
             goal,
@@ -70,7 +81,7 @@ const addUser = [
             lastWorkoutDate,
             currentStreak,
             highestStreak,
-            notification,
+            notifications,
         } = req.body;
 
         if (
@@ -140,17 +151,17 @@ const addUser = [
                 countDown,
                 height,
                 weight,
-                bmi,
-                healthConditions: healthConditions
-                    ? JSON.parse(healthConditions)
-                    : undefined,
+                bmis: {
+                    create: bmis?.map((bmi) => ({
+                        value: bmi.value,
+                    })) || [],
+                },
+                healthConditions: healthConditions,
                 level,
                 goal,
                 status,
                 freezeDate: freezeDate ? new Date(freezeDate) : undefined,
-                service:{
-                    connect: {id: serviceId},
-                },
+                serviceId: serviceId,
                 profileImageUrl,
                 workouts: {
                     connect: workouts.map((workoutId) => ({
@@ -162,13 +173,13 @@ const addUser = [
                         id: exerciseCompletedId,
                     })),
                 },
-                lastWorkoutDate : new Date(lastWorkoutDate),
+                lastWorkoutDate: lastWorkoutDate ? new Date(lastWorkoutDate) : null,
                 currentStreak,
                 highestStreak,
                 notifications: {
-                    create: notification?.map((notification) => ({
+                    connect: notifications.map((notification) => ({
                         id: notification.id,
-                    })),
+                    }))
                 },
             },
         });
@@ -181,7 +192,6 @@ const addUser = [
     }),
 ];
 
-// Edit a user by ID
 const editUser = [
     upload.single("profileImage"),
     asyncHandler(async (req, res) => {
@@ -212,7 +222,15 @@ const editUser = [
             highestStreak,
         } = req.body;
 
-        const user = await prisma.user.findUnique({where: {id}});
+        const user = await prisma.user.findUnique({
+            where: {id}, include: {
+                exercisesCompleted: true,
+                attendance: true,
+                workouts: true,
+                bmis: true,
+                notifications: true
+            }
+        });
         if (!user) {
             return res
                 .status(404)
@@ -246,39 +264,116 @@ const editUser = [
             }
             profileImageUrl = `/uploads/users/${req.file.filename}`;
         }
+        const {addWorkouts, removeWorkouts} = workouts;
+        if (addWorkouts && Array.isArray(addWorkouts)) {
+            const newWorkouts = await prisma.workout.findMany({
+                where: {id: {in: addWorkouts}},
+            });
+            if (newWorkouts.length !== addWorkouts.length) {
+                return res.status(400).json({
+                    success: false,
+                    message: "One or more workouts not found.",
+                });
+            }
+            await prisma.user.update({
+                where: {id},
+                data: {
+                    workouts: {
+                        connect: addWorkouts.map((workoutId) => ({id: workoutId})),
+                    },
+                },
+            });
+        }
 
+        if (removeWorkouts && Array.isArray(removeWorkouts)) {
+            const existingWorkouts = await prisma.workout.findMany({
+                where: {id: {in: removeWorkouts}},
+            });
+            if (existingWorkouts.length !== removeWorkouts.length) {
+                return res.status(400).json({
+                    success: false,
+                    message: "One or more workouts to remove not found.",
+                });
+            }
+
+            await prisma.user.update({
+                where: {id},
+                data: {
+                    workouts: {
+                        disconnect: removeWorkouts.map((workoutId) => ({id: workoutId})),
+                    },
+                },
+            });
+        }
+        let updatedBmi = user.bmis;
+        console.log(updatedBmi)
+        if (bmi) {
+            if (isNaN(bmi)) {
+                return res.status(400).json({
+                    success: false,
+                    message: "BMI must be a valid number.",
+                });
+            }
+            updatedBmi = [...user.bmis, {"value": parseFloat(bmi)}]; // Append new BMI value
+        }
+
+        // {
+        //     "addWorkouts": ["workout-uuid-1", "workout-uuid-2"],   // List of workout IDs to add
+        //     "removeWorkouts": ["workout-uuid-3"]                     // List of workout IDs to remove
+        // }
 
         const updatedUser = await prisma.user.update({
-            where: {id},
-            data: {
-                fullName: fullName || user.fullName,
-                gender: gender || user.gender,
-                phoneNumber: phoneNumber || user.phoneNumber,
-                email: email || user.email,
-                address: address || user.address,
-                dob: dob ? new Date(dob) : user.dob,
-                emergencyContact: emergencyContact || user.emergencyContact,
-                startDate: startDate ? new Date(startDate) : user.startDate,
-                countDown: countDown ?? user.countDown,
-                height: height ?? user.height,
-                weight: weight ?? user.weight,
-                bmi: bmi ?? user.bmi,
-                healthConditions: healthConditions
-                    ? JSON.parse(healthConditions)
-                    : user.healthConditions,
-                level: level || user.level,
-                goal: goal || user.goal,
-                status: status || user.status,
-                freezeDate: freezeDate ? new Date(freezeDate) : user.freezeDate,
-                serviceId: serviceId || user.serviceId,
-                profileImageUrl,
-                workouts: workouts || user.workouts,
-                exercisesCompleted : exercisesCompleted || user.exercisesCompleted,
-                lastWorkoutDate: lastWorkoutDate ? new Date(lastWorkoutDate) : user.lastWorkoutDate,
-                currentStreak: currentStreak || user.currentStreak,
-                highestStreak: highestStreak || user.highestStreak,
-            },
-        });
+                where: {id},
+                data: {
+                    fullName: fullName || user.fullName,
+                    gender: gender || user.gender,
+                    phoneNumber: phoneNumber || user.phoneNumber,
+                    email: email || user.email,
+                    address: address || user.address,
+                    dob: dob ? new Date(dob) : user.dob,
+                    emergencyContact: emergencyContact || user.emergencyContact,
+                    startDate: startDate ? new Date(startDate) : user.startDate,
+                    countDown: countDown ?? user.countDown,
+                    height: height ?? user.height,
+                    weight: weight ?? user.weight,
+                    bmis: {
+                        create: updatedBmi?.map((bmi) => ({
+                            value: bmi.value,
+                        })) || [],
+                    },
+                    healthConditions: healthConditions
+                        ? JSON.parse(healthConditions)
+                        : user.healthConditions,
+                    level: level || user.level,
+                    goal: goal || user.goal,
+                    status: status || user.status,
+                    freezeDate: freezeDate ? new Date(freezeDate) : user.freezeDate,
+                    serviceId: serviceId || user.serviceId,
+                    profileImageUrl,
+                    workouts: addWorkouts ? {
+                        create: addWorkouts.map((workoutId) => ({
+                            id: workoutId,
+                        })),
+                    } : {
+                        connect: user.workouts.map((workoutId) => ({
+                            id: workoutId,
+                        })),
+                    },
+                    exercisesCompleted: exercisesCompleted ? {
+                        create: exercisesCompleted.map((exerciseCompletedId) => ({
+                            id: exerciseCompletedId,
+                        })),
+                    } : {
+                        create: user.exercisesCompleted.map((exerciseCompletedId) => ({
+                            id: exerciseCompletedId,
+                        })),
+                    },
+                    lastWorkoutDate: lastWorkoutDate ? new Date(lastWorkoutDate) : user.lastWorkoutDate,
+                    currentStreak: currentStreak || user.currentStreak,
+                    highestStreak: highestStreak || user.highestStreak,
+                },
+            })
+        ;
 
         res.status(200).json({
             success: true,
@@ -286,13 +381,14 @@ const editUser = [
             data: updatedUser,
         });
     }),
-];
+]
+
 const updateNotification = asyncHandler(async (req, res) => {
-    const { id } = req.params;
-    const { add, remove } = req.body;
-    const user = await prisma.user.findUnique({ where: { id } });
+    const {id} = req.params;
+    const {add, remove} = req.body;
+    const user = await prisma.user.findUnique({where: {id}});
     if (!user) {
-        return res.status(404).json({ success: false, message: "User not found." });
+        return res.status(404).json({success: false, message: "User not found."});
     }
     let updatedNotifications = user.notification || [];
     if (add && Array.isArray(add)) {
@@ -317,8 +413,8 @@ const updateNotification = asyncHandler(async (req, res) => {
         );
     }
     const updatedUser = await prisma.user.update({
-        where: { id },
-        data: { notification: updatedNotifications },
+        where: {id},
+        data: {notification: updatedNotifications},
     });
     res.status(200).json({
         success: true,
@@ -347,4 +443,85 @@ const deleteUser = asyncHandler(async (req, res) => {
         .json({success: true, message: "User deleted successfully."});
 });
 
-module.exports = {getUsers, addUser, editUser, deleteUser, updateNotification};
+const addUserWorkout = asyncHandler(async (req, res) => {
+    const {userId, workoutId, startedAt, progress, finishedAt} = req.body;
+
+    const user = await prisma.user.findUnique({
+        where: {id: userId},
+    });
+    if (!user) {
+        return res.status(404).json({success: false, message: "User not found."});
+    }
+
+    const workout = await prisma.workout.findUnique({
+        where: {id: workoutId},
+    });
+    if (!workout) {
+        return res.status(404).json({success: false, message: "Workout not found."});
+    }
+
+    const existingUserWorkout = await prisma.userWorkout.findFirst({
+        where: {
+            userId,
+            workoutId,
+        },
+    });
+    if (existingUserWorkout) {
+        return res.status(400).json({
+            success: false,
+            message: "Workout is already added to the user.",
+        });
+    }
+
+    const userWorkout = await prisma.userWorkout.create({
+        data: {
+            userId,
+            workoutId,
+            startedAt: startedAt ? new Date(startedAt) : undefined,
+            progress: progress !== undefined ? parseInt(progress) : null,
+            finishedAt: finishedAt ? new Date(finishedAt) : null,
+        },
+    });
+
+    return res.status(201).json({
+        success: true,
+        message: "Workout added to user successfully.",
+        data: userWorkout,
+    });
+});
+
+const getMyWorkouts = asyncHandler(async (req, res) => {
+    const { id } = req.params; // userId
+    try {
+        // Verify if the user exists
+        const user = await prisma.user.findUnique({ where: { id } });
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found." });
+        }
+
+        // Fetch userWorkout records and include the associated workout details
+        const userWorkouts = await prisma.userWorkout.findMany({
+            where: { userId: id },
+            include: {
+                workout: true, // Include the workout details
+            },
+        });
+
+        // Extract the list of workouts from the userWorkout records
+        const workouts = userWorkouts.map((userWorkout) => userWorkout.workout);
+
+        res.status(200).json({
+            success: true,
+            data: workouts, // Return only the workouts
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: "Server error",
+            error: error.message,
+        });
+    }
+});
+
+module.exports = {getUsers, addUser, editUser, deleteUser, updateNotification, addUserWorkout, getMyWorkouts};

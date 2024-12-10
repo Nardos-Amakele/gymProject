@@ -88,12 +88,11 @@ model Service {
   preferred   Boolean  @default(false)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-
-  users User[]
+  users       User[]
 }
 
 model User {
-  id                 String               @id @default(uuid())
+  id                 String               @id @unique @default(uuid())
   fullName           String
   gender             String
   phoneNumber        String               @unique
@@ -108,7 +107,7 @@ model User {
   countDown          Int?
   height             Float?
   weight             Float?
-  bmi                bmi[]
+  bmis               bmi[]
   healthConditions   Json?
   level              String?
   goal               String?
@@ -116,8 +115,8 @@ model User {
   freezeDate         DateTime?
   createdAt          DateTime             @default(now())
   updatedAt          DateTime             @updatedAt
-  serviceId          String?
-  service            Service?             @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+  serviceId          String
+  service            Service?             @relation(fields: [serviceId], references: [id])
   attendance         Attendance[]
   profileImageUrl    String?
   workouts           UserWorkout[]
@@ -151,11 +150,12 @@ model Notification {
 model bmi {
   id     String @id @default(uuid())
   userId String
+  value  Float
   user   User   @relation(fields: [userId], references: [id])
 }
 
 model Workout {
-  id             String        @id @default(uuid())
+  id             String        @id @unique @default(uuid())
   name           String        @unique
   slug           String
   difficulty     String
@@ -187,7 +187,7 @@ model Exercise {
 }
 
 model UserWorkout {
-  id         String    @id @default(uuid())
+  id         String    @id @unique @default(uuid())
   userId     String
   workoutId  String
   startedAt  DateTime  @default(now()) // When the workout was started
