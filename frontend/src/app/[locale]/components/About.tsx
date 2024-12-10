@@ -8,15 +8,13 @@ import NeonLine from "./NeonLine";
 import { useTranslations } from "next-intl";
 import { Link } from "../../../i18n/routing";
 
-
-
 const About = () => {
   const t = useTranslations("home_Page");
   // Initialize the translation function
 
   return (
     <div>
-      <section className="text-white mb-8 lg:mb-24 px-4 sm:px-6 lg:px-[7rem]">
+      <section className="text-white mb-8 lg:mb-24 px-4 sm:px-6 lg:px-[7rem] font-jost">
         <div className="container mx-auto max-w-6xl">
           {/* Set max-width here */}
           <div className="flex flex-col lg:flex-row items-stretch">
@@ -41,7 +39,8 @@ const About = () => {
               <div>
                 <Link href="/about">
                   <h2 className="text-6xl font-bold py-5 text-customBlue block">
-                    {t("aboutSection.title")} {/* Use the correct translation key */}
+                    {t("aboutSection.title")}{" "}
+                    {/* Use the correct translation key */}
                   </h2>
                 </Link>
                 <p className="mb-6 leading-relaxed text-sm text-gray-300 max-w-full">

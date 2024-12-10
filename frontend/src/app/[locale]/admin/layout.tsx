@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React, { useState } from "react";
 import AdminSidebar from "./components/AdminSideBar";
 import AdminHeader from "./components/AdminHeader";
@@ -11,32 +11,31 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-
-    const [sidebarOpen, setSidebarOpen] = useState(false);
-    const [activeNav, setActiveNav] = useState('Dashboard');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeNav, setActiveNav] = useState("Dashboard");
   return (
-    <div className="flex h-screen">
-     {/* Burger Icon for Mobile */}
-     <button
+    <div className="flex h-screen font-jost">
+      {/* Burger Icon for Mobile */}
+      <button
         className="lg:hidden p-4  z-10"
         onClick={() => setSidebarOpen(!sidebarOpen)}
       >
         <FontAwesomeIcon icon={faBars} className="text-white text-2xl" />
-    </button>
+      </button>
 
       {/* Sidebar */}
       <div
         className={`${
-          sidebarOpen ? 'fixed' : 'hidden'
+          sidebarOpen ? "fixed" : "hidden"
         } fixed top-0 left-0 h-full bg-black lg:relative lg:flex lg:h-auto z-20`}
       >
-        <AdminSidebar setActiveNav={setActiveNav}  />
+        <AdminSidebar setActiveNav={setActiveNav} />
       </div>
 
       {/* Overlay Background for Sidebar (when open) */}
       {sidebarOpen && (
         <div
-          className="fixed inset-0 bg-black opacity-50 z-10 lg:hidden"
+          className="fixed inset-0 bg-black opacity-50 z-10 lg:hidden font-jost"
           onClick={() => setSidebarOpen(false)}
         ></div>
       )}

@@ -40,26 +40,30 @@ const BMIComponent = () => {
   };
 
   const calculateBMI = () => {
-  if (validateInputs()) {
-    const bmiValue = parseFloat(weight) / (parseFloat(height) * parseFloat(height));
-    setBmi(bmiValue);
+    if (validateInputs()) {
+      const bmiValue =
+        parseFloat(weight) / (parseFloat(height) * parseFloat(height));
+      setBmi(bmiValue);
 
-    if (bmiValue < 18.5) {
-      setMessage(t("messages.underweight"));
-    } else if (bmiValue >= 18.5 && bmiValue <= 24.9) {
-      setMessage(t("messages.goodHealth"));
-    } else if (bmiValue >= 25 && bmiValue < 30) {
-      setMessage(t("messages.overweight"));
+      if (bmiValue < 18.5) {
+        setMessage(t("messages.underweight"));
+      } else if (bmiValue >= 18.5 && bmiValue <= 24.9) {
+        setMessage(t("messages.goodHealth"));
+      } else if (bmiValue >= 25 && bmiValue < 30) {
+        setMessage(t("messages.overweight"));
+      } else {
+        setMessage(t("messages.obese"));
+      }
     } else {
-      setMessage(t("messages.obese"));
+      setBmi(null);
     }
-  } else {
-    setBmi(null);
-  }
-};
+  };
 
   return (
-    <div id="bmi" className="bg-black text-white p-2 lg:p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-10">
+    <div
+      id="bmi"
+      className="bg-black text-white p-2 lg:p-8 rounded-lg shadow-lg max-w-lg mx-auto mt-10 font-jost"
+    >
       <h1 className="text-2xl font-bold text-customBlue mb-6">{t("title")}</h1>
 
       {bmi === null ? (
@@ -109,7 +113,8 @@ const BMIComponent = () => {
           <div className="flex items-center justify-between h-full">
             <div className="flex flex-col justify-center">
               <p className="text-xl font-bold mb-2">
-                {t("bmiLabel")}: <span className="text-customBlue">{bmi.toFixed(1)}</span>
+                {t("bmiLabel")}:{" "}
+                <span className="text-customBlue">{bmi.toFixed(1)}</span>
               </p>
               <p className="text-lg">{message}</p>
             </div>

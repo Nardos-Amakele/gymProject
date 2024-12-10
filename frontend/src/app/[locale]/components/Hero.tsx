@@ -37,7 +37,7 @@ const Hero = () => {
 
   const t = useTranslations("home_Page");
   return (
-    <div className="pb-8 lg:pb-28">
+    <div className="pb-8 lg:pb-28 font-jost">
       <section
         className="bg-cover justify-center bg-center h-screen items-center lg:justify-between flex"
         style={{
@@ -63,7 +63,6 @@ const Hero = () => {
               {t("heroSection.title")}
               <br />
               {t("heroSection.titleTwo")}
-
             </motion.h1>
 
             <motion.p
