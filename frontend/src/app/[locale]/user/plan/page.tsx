@@ -70,7 +70,7 @@ const Page = () => {
       </nav>
 
       {/* Content */}
-      <div className="p-4 md:p-8 max-w-6xl mx-auto">
+      <div className="p-4 md:p-8 mx-auto">
         {renderContent()}
       </div>
     </div>
