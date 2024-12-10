@@ -8,7 +8,7 @@ import {
   faTableCells,
   faPersonRunning,
   faCalendarCheck,
-  faFlag,
+  faUser,
   IconDefinition,
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -20,7 +20,7 @@ const iconMapping: { [key: string]: IconDefinition } = {
   faTableCells: faTableCells,
   faPersonRunning: faPersonRunning,
   faCalendarCheck: faCalendarCheck,
-  faFlag: faFlag,
+  faUser: faUser,
 };
 
 const UserSidebar: React.FC<UserSidebarProps> = ({ setActiveNav }) => {
@@ -31,7 +31,7 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ setActiveNav }) => {
     { name: "Dashboard", icon: "faTableCells", path: "/en/user" },
     { name: "Plan", icon: "faPersonRunning", path: "/en/user/plan" },
     { name: "My plans", icon: "faCalendarCheck", path: "/en/user/my-plans" },
-    { name: "Progress", icon: "faFlag", path: "/en/user/progress" },
+    { name: "Progress", icon: "faUser", path: "/en/user/profile" },
   ];
 
   return (
@@ -66,12 +66,12 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ setActiveNav }) => {
               className={`text-white relative w-full flex items-center px-4 font-extralight py-2 transition-all duration-200 ${
                 activeNav === item.name
                   ? "text-customBlue"
-                  : "hover:text-customBlue"
+                  : "hover:text-customBlue "
               }`}
               onClick={() => {
                 setActiveNav(item.name);
                 setActive(item.name);
-                setSidebarOpen(false); // Close sidebar on selection
+                setSidebarOpen(false);
               }}
             >
               {/* Right Blue Box */}
@@ -90,7 +90,7 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ setActiveNav }) => {
                 }`}
               />
               {/* Name */}
-              <span className="ml-3">{item.name}</span>
+              <span className={`${activeNav === item.name?"text-customBlue":"text-white"}`}>{item.name}</span>
             </Link>
           ))}
         </nav>

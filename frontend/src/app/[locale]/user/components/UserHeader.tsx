@@ -16,10 +16,7 @@ interface UserHeaderProps {
               icon={faBell}
               className="bg-customBlue text-black font-light px-2 py-1 rounded-lg text-sm sm:text-base"
             />
-            <FontAwesomeIcon
-              icon={faUser}
-              className="bg-customBlue text-black font-light px-2 py-1 rounded-lg text-sm sm:text-base"
-            />
+            
             <p className="hidden sm:block font-extralight text-sm truncate">
               abebebkebde@gmail.com
             </p>
