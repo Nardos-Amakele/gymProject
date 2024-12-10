@@ -62,13 +62,19 @@ const recordAttendance = asyncHandler(async (req, res) => {
   if (user.status == "frozen") {
     return res.status(400).json({
       success: false,
-      message: "User is on Freeze",
+      message: "User is on Freeze!",
     });
   }
-  if (user.status !== "active") {
+  if (user.status == "inactive") {
     return res.status(400).json({
       success: false,
-      message: "User is not active",
+      message: "User is not active!",
+    });
+  }
+  if (user.status == "pending") {
+    return res.status(400).json({
+      success: false,
+      message: "User is not approved!",
     });
   }
   const { startDate, service, preFreezeAttendance } = user;
@@ -83,8 +89,9 @@ const recordAttendance = asyncHandler(async (req, res) => {
     service.maxDays - attendanceCountSinceStart - preFreezeAttendance;
   const daysLeft = calculateCountdown(expirationDate, remainingDays);
 
-  // Check if remainingDays is above zero
-  if (daysLeft <= 0) {
+  // Check if remainingDays is above - three
+
+  if (daysLeft <= -3) {
     await prisma.user.update({
       where: { id: user.id },
       data: { status: "inactive" },
@@ -92,9 +99,18 @@ const recordAttendance = asyncHandler(async (req, res) => {
 
     return res.status(400).json({
       success: false,
-      message: "User's membership has expired.",
+      message: "User is inactive!",
     });
   }
+
+  // Check if remainingDays is above zero
+  else if (daysLeft <= 0) {
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { status: "expired" },
+    });
+  }
+
   // Record attendance and decrement remainingDays
   await prisma.attendance.create({ data: { memberId: id, date: today } });
 
